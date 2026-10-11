@@ -1,0 +1,9 @@
+services:
+  web:
+    build: .
+    ports: ['127.0.0.1:3000:3000']
+    env_file: env/production.env
+    volumes: ['shipping-data:/app/data']
+    restart: unless-stopped
+volumes:
+  shipping-data:

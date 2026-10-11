@@ -1,0 +1,40 @@
+services:
+  web:
+    build:
+      context: .
+      target: development
+    ports: ['127.0.0.1:3000:3000']
+    env_file: env/local.env
+    environment:
+      DATABASE_PROVIDER: postgresql
+      DATABASE_URL: postgresql://shipping:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in env/local.env}@postgres:5432/shipping
+    depends_on:
+      postgres:
+        condition: service_healthy
+    volumes:
+      - .:/app
+      - node-modules:/app/node_modules
+      - next-cache:/app/.next
+    healthcheck:
+      test: ['CMD', 'node', '-e', "fetch('http://127.0.0.1:3000/api/v1/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 15s
+      timeout: 5s
+      start_period: 60s
+      retries: 5
+  postgres:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_DB: shipping
+      POSTGRES_USER: shipping
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD in env/local.env}
+    volumes:
+      - sandbox-postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U shipping -d shipping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  node-modules:
+  next-cache:
+  sandbox-postgres-data:

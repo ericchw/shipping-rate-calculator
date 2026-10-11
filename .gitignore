@@ -1,0 +1,37 @@
+node_modules/
+.tools/
+.npm-cache/
+.pnpm-store/
+.verify*
+scripts/local-verification/
+# Carrier-provided reference material may contain credentials/proprietary content.
+# Preserve locally; do not publish without carrier permission and sanitization.
+doc/loomis/
+doc/fedex/
+.next/
+.env*
+env/*.env
+data/
+*.db
+*.db-*
+*.sqlite*
+*.dump
+*.backup
+coverage/
+test-results/
+playwright-report/
+*.tsbuildinfo
+.DS_Store
+
+# Private exports, credentials and diagnostic output
+*.db
+*.db-*
+*.sqlite*
+*.dump
+*.backup
+*.pem
+*.key
+*.p12
+*.pfx
+*.log
+coverage/

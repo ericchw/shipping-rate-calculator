@@ -1,0 +1,23 @@
+# docker compose --env-file env/production.env -f compose.yml -f compose.postgres.yml up --build
+services:
+  web:
+    environment:
+      DATABASE_PROVIDER: postgresql
+      DATABASE_URL: postgresql://shipping:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@postgres:5432/shipping
+    depends_on:
+      postgres:
+        condition: service_healthy
+  postgres:
+    image: postgres:17.6-bookworm
+    environment:
+      POSTGRES_DB: shipping
+      POSTGRES_USER: shipping
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes: ['postgres-data:/var/lib/postgresql/data']
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U shipping -d shipping']
+      interval: 5s
+      timeout: 5s
+      retries: 10
+volumes:
+  postgres-data:

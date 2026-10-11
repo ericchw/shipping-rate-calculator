@@ -1,0 +1,576 @@
+[
+  {
+    "carrier": "canada_post",
+    "serviceCode": "DOM.RP",
+    "serviceName": "Regular Parcel",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "22.50",
+    "covered": "26.50",
+    "taxIncluded": true,
+    "days": 5,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "DOM.EP",
+    "serviceName": "Expedited Parcel",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "27.50",
+    "covered": "31.50",
+    "taxIncluded": true,
+    "days": 3,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "DOM.XP",
+    "serviceName": "Xpresspost",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "35.00",
+    "covered": "39.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "DOM.PC",
+    "serviceName": "Priority",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "49.00",
+    "covered": "53.00",
+    "taxIncluded": true,
+    "days": 1,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_GROUND",
+    "serviceName": "Loomis Ground",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "19.90",
+    "covered": "24.90",
+    "taxIncluded": true,
+    "days": 4,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_1800",
+    "serviceName": "Loomis Express 18:00",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "32.00",
+    "covered": "37.00",
+    "taxIncluded": true,
+    "days": 1,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_1200",
+    "serviceName": "Loomis Express 12:00",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "41.00",
+    "covered": "46.00",
+    "taxIncluded": true,
+    "days": 1,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_0900",
+    "serviceName": "Loomis Express 9:00",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "52.00",
+    "covered": "57.00",
+    "taxIncluded": true,
+    "days": 1,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "FEDEX_GROUND",
+    "serviceName": "FedEx Ground",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "24.00",
+    "covered": "29.00",
+    "taxIncluded": true,
+    "days": 4,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "FEDEX_ECONOMY",
+    "serviceName": "FedEx Economy",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "33.00",
+    "covered": "38.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "PRIORITY_OVERNIGHT",
+    "serviceName": "FedEx Priority Overnight",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "42.75",
+    "covered": "47.75",
+    "taxIncluded": true,
+    "days": 1,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "FIRST_OVERNIGHT",
+    "serviceName": "FedEx First Overnight",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "59.00",
+    "covered": "64.00",
+    "taxIncluded": true,
+    "days": 1,
+    "destinations": [
+      "domestic"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "USA.EP",
+    "serviceName": "Expedited Parcel – USA",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "29.00",
+    "covered": "33.00",
+    "taxIncluded": true,
+    "days": 5,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "USA.XP",
+    "serviceName": "Xpresspost – USA",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "48.00",
+    "covered": "52.00",
+    "taxIncluded": true,
+    "days": 3,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "USA.TP",
+    "serviceName": "Tracked Packet – USA",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "24.00",
+    "covered": "28.00",
+    "taxIncluded": true,
+    "days": 6,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "USA.SP.AIR",
+    "serviceName": "Small Packet USA – Air",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "18.00",
+    "covered": "22.00",
+    "taxIncluded": true,
+    "days": 8,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "INT.XP",
+    "serviceName": "Xpresspost – International",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "72.00",
+    "covered": "76.00",
+    "taxIncluded": true,
+    "days": 5,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "INT.TP",
+    "serviceName": "Tracked Packet – International",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "43.00",
+    "covered": "47.00",
+    "taxIncluded": true,
+    "days": 8,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "INT.SP.AIR",
+    "serviceName": "Small Packet International – Air",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "34.00",
+    "covered": "38.00",
+    "taxIncluded": true,
+    "days": 12,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "INT.SP.SURF",
+    "serviceName": "Small Packet International – Surface",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "25.00",
+    "covered": "29.00",
+    "taxIncluded": true,
+    "days": 45,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "INT.IP.AIR",
+    "serviceName": "International Parcel – Air",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "59.00",
+    "covered": "63.00",
+    "taxIncluded": true,
+    "days": 12,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "canada_post",
+    "serviceCode": "INT.IP.SURF",
+    "serviceName": "International Parcel – Surface",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "42.00",
+    "covered": "46.00",
+    "taxIncluded": true,
+    "days": 45,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_INT_0900",
+    "serviceName": "Loomis Express 9:00",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "94.00",
+    "covered": "99.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_INT_1030",
+    "serviceName": "Loomis Express 10:30",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "83.00",
+    "covered": "88.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_INT_1200",
+    "serviceName": "Loomis Express 12:00",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "75.00",
+    "covered": "80.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_WORLDWIDE",
+    "serviceName": "Worldwide Express",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "64.00",
+    "covered": "69.00",
+    "taxIncluded": true,
+    "days": 3,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_ECONOMY",
+    "serviceName": "Loomis Economy Express",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "48.00",
+    "covered": "53.00",
+    "taxIncluded": true,
+    "days": 5,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "INTERNATIONAL_FIRST",
+    "serviceName": "FedEx International First",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "106.00",
+    "covered": "111.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "FEDEX_INTERNATIONAL_PRIORITY_EXPRESS",
+    "serviceName": "FedEx International Priority Express",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "91.00",
+    "covered": "96.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "INTERNATIONAL_PRIORITY",
+    "serviceName": "FedEx International Priority",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "76.00",
+    "covered": "81.00",
+    "taxIncluded": true,
+    "days": 3,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "INTERNATIONAL_ECONOMY",
+    "serviceName": "FedEx International Economy",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "54.00",
+    "covered": "59.00",
+    "taxIncluded": true,
+    "days": 5,
+    "destinations": [
+      "us"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_INT_0900",
+    "serviceName": "Loomis Express 9:00",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "94.00",
+    "covered": "99.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_INT_1030",
+    "serviceName": "Loomis Express 10:30",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "83.00",
+    "covered": "88.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_INT_1200",
+    "serviceName": "Loomis Express 12:00",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "75.00",
+    "covered": "80.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_WORLDWIDE",
+    "serviceName": "Worldwide Express",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "64.00",
+    "covered": "69.00",
+    "taxIncluded": true,
+    "days": 3,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "loomis",
+    "serviceCode": "FIXTURE_LOOMIS_ECONOMY",
+    "serviceName": "Loomis Economy Express",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "48.00",
+    "covered": "53.00",
+    "taxIncluded": true,
+    "days": 5,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "INTERNATIONAL_FIRST",
+    "serviceName": "FedEx International First",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "106.00",
+    "covered": "111.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "FEDEX_INTERNATIONAL_PRIORITY_EXPRESS",
+    "serviceName": "FedEx International Priority Express",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "91.00",
+    "covered": "96.00",
+    "taxIncluded": true,
+    "days": 2,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "INTERNATIONAL_PRIORITY",
+    "serviceName": "FedEx International Priority",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "76.00",
+    "covered": "81.00",
+    "taxIncluded": true,
+    "days": 3,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "INTERNATIONAL_ECONOMY",
+    "serviceName": "FedEx International Economy",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "54.00",
+    "covered": "59.00",
+    "taxIncluded": true,
+    "days": 5,
+    "destinations": [
+      "international"
+    ]
+  },
+  {
+    "carrier": "fedex",
+    "serviceCode": "FEDEX_GROUND",
+    "serviceName": "FedEx International Ground",
+    "variant": "fixture",
+    "currency": "CAD",
+    "total": "31.00",
+    "covered": "36.00",
+    "taxIncluded": true,
+    "days": 6,
+    "destinations": [
+      "us"
+    ]
+  }
+]

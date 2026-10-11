@@ -1,0 +1,27 @@
+node_modules
+.tools
+.npm-cache
+.pnpm-store
+.verify*
+scripts/local-verification/
+.next
+.git
+.env*
+env/*.env
+data
+doc
+test-results
+playwright-report
+
+# Private exports, credentials and diagnostic output
+*.db
+*.db-*
+*.sqlite*
+*.dump
+*.backup
+*.pem
+*.key
+*.p12
+*.pfx
+*.log
+coverage/

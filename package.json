@@ -1,0 +1,65 @@
+{
+  "name": "shipping-rate-calculator",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.18.3",
+  "scripts": {
+    "dev": "docker compose --env-file env/local.env -f compose.dev.yml up --build",
+    "dev:app": "node scripts/run-env.cjs local next dev",
+    "dev:stop": "docker compose --env-file env/local.env -f compose.dev.yml down",
+    "docker:production": "docker compose -p shipping-production --env-file env/production.env -f compose.yml -f compose.postgres.yml up -d --build",
+    "docker:production:stop": "docker compose -p shipping-production --env-file env/production.env -f compose.yml -f compose.postgres.yml down",
+    "docker:production:logs": "docker compose -p shipping-production --env-file env/production.env -f compose.yml -f compose.postgres.yml logs -f web",
+    "build": "next build",
+    "start": "node scripts/run-env.cjs local next start",
+    "start:production": "node scripts/run-env.cjs production next start",
+    "env:check": "node scripts/run-env.cjs local check",
+    "env:check:production": "node scripts/run-env.cjs production check",
+    "lint": "eslint .",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "db:migrate": "node scripts/run-env.cjs local node scripts/runtime-migrate.cjs",
+    "db:migrate:production": "node scripts/run-env.cjs production node scripts/runtime-migrate.cjs",
+    "db:transfer": "node scripts/run-env.cjs local tsx scripts/transfer.ts",
+    "db:transfer:production": "node scripts/run-env.cjs production tsx scripts/transfer.ts",
+    "user:create": "node scripts/run-env.cjs local tsx scripts/create-user.ts",
+    "user:create:production": "node scripts/run-env.cjs production tsx scripts/create-user.ts",
+    "test:postgres": "vitest run tests/postgres.test.ts",
+    "test:live:sandbox": "node scripts/run-env.cjs local tsx scripts/smoke.ts",
+    "test:env": "node tests/environment.test.cjs"
+  },
+  "dependencies": {
+    "next": "15.5.18",
+    "react": "19.2.6",
+    "react-dom": "19.2.6",
+    "zod": "3.25.76",
+    "decimal.js": "10.6.0",
+    "fast-xml-parser": "5.11.2",
+    "pg": "8.20.0",
+    "server-only": "0.0.1"
+  },
+  "devDependencies": {
+    "typescript": "5.9.3",
+    "tsx": "4.21.0",
+    "@types/node": "22.18.10",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@types/pg": "8.20.0",
+    "vitest": "3.2.4",
+    "@playwright/test": "1.56.1",
+    "eslint": "9.38.0",
+    "eslint-config-next": "15.5.18",
+    "@eslint/eslintrc": "3.3.5",
+    "@next/env": "15.5.18",
+    "tailwindcss": "4.1.16",
+    "@tailwindcss/postcss": "4.1.16"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "sharp"
+    ]
+  }
+}
