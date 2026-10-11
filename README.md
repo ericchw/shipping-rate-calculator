@@ -1,5 +1,7 @@
 # Shipping Rate Calculator
 
+See the [user guide with screenshots and an animated walkthrough](docs/USER_GUIDE.md) for sign-in, carrier setup, saved origins and rate comparison.
+
 A shipping calculator with account-owned carrier credentials, saved origin addresses, and actual API rates from Canada Post, FedEx and Loomis Express.
 
 ## Run locally with Docker
