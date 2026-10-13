@@ -1,5 +1,5 @@
 import { describe, it, expect, afterEach, vi } from "vitest";
-import { convert, nextBusinessDay } from "../src/lib/units";
+import { convert, nextBusinessDay, todayInVancouver } from "../src/lib/units";
 import { addressSchema, shipmentSchema } from "../src/lib/schemas";
 import { difference, compare } from "../src/lib/quote-service";
 import {
@@ -247,4 +247,11 @@ describe("carrier contracts", () => {
     expect(q[0].taxIncluded).toBe(true);
 
   });
+});
+
+
+it("defaults the ship date to today in Vancouver across UTC midnight and weekends", () => {
+  expect(todayInVancouver(new Date("2026-10-14T02:00:00Z"))).toBe("2026-10-13");
+  expect(todayInVancouver(new Date("2026-10-14T08:00:00Z"))).toBe("2026-10-14");
+  expect(todayInVancouver(new Date("2026-10-10T19:00:00Z"))).toBe("2026-10-10");
 });

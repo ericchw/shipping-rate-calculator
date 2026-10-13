@@ -12,7 +12,7 @@ export function convert(value: number, from: string, to: string): number {
     [from === "in" || from === "lb" ? "mul" : "div"](factor)
     .toNumber();
 }
-export function nextBusinessDay(now = new Date()): string {
+export function todayInVancouver(now = new Date()): string {
   const parts = new Intl.DateTimeFormat("en-CA", {
     timeZone: "America/Vancouver",
     year: "numeric",
@@ -20,7 +20,10 @@ export function nextBusinessDay(now = new Date()): string {
     day: "2-digit",
   }).formatToParts(now);
   const get = (t: string) => parts.find((p) => p.type === t)!.value;
-  const d = new Date(`${get("year")}-${get("month")}-${get("day")}T12:00:00Z`);
+  return `${get("year")}-${get("month")}-${get("day")}`;
+}
+export function nextBusinessDay(now = new Date()): string {
+  const d = new Date(`${todayInVancouver(now)}T12:00:00Z`);
   do {
     d.setUTCDate(d.getUTCDate() + 1);
   } while (d.getUTCDay() === 0 || d.getUTCDay() === 6);

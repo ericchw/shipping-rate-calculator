@@ -15,7 +15,7 @@ import {
   type Profile,
   type Shipment,
 } from "@/lib/schemas";
-import { convert, nextBusinessDay, roundMeasurementUp, measurementValue } from "@/lib/units";
+import { convert, todayInVancouver, roundMeasurementUp, measurementValue } from "@/lib/units";
 import type { Comparison } from "@/lib/carriers/types";
 import { carrierNames } from "@/lib/rate-table";
 type Session = {
@@ -89,7 +89,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
       .map((setting: { carrier: Shipment["carriers"][number] }) => setting.carrier));
   }, [api]);
   useEffect(() => {
-    setShipDate(nextBusinessDay());
+    setShipDate(todayInVancouver());
     api("auth/session")
       .then((s) => {
         s = { ...s, user: browserUser(s.user) };
@@ -210,7 +210,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
     setParcel({ ...initialPackage });
     setSignature(true);
     setCoverage("");
-    setShipDate(nextBusinessDay());
+    setShipDate(todayInVancouver());
     setError("");
     setMessage("");
     setToOpen(true);
@@ -549,7 +549,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                       />
                     </label>
                     <p className="inline-note">
-                      Default: next weekday in Vancouver. Check carrier holiday
+                      Default: today in Vancouver. Check carrier holiday
                       availability.
                     </p>
                     </div>

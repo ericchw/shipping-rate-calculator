@@ -15,7 +15,8 @@ export function formatEta(row: RateRow) {
   const days = row.eta.businessDays !== null
     ? `${row.eta.businessDays} business ${row.eta.businessDays === 1 ? "day" : "days"}`
     : null;
-  return [days, row.eta.date].filter(Boolean).join(" · ") || "ETA unavailable";
+  const parts = row.carrier === "canada_post" ? [row.eta.date, days] : [days, row.eta.date];
+  return parts.filter(Boolean).join(" · ") || "ETA unavailable";
 }
 export const serviceKey = (row: Pick<RateRow, "carrier" | "serviceCode">) =>
   `${row.carrier}:${row.serviceCode}`;
@@ -23,7 +24,7 @@ const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (character) =>
   ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[character]!);
 
 function alignedTextTable(headers: string[], rows: string[][]) {
-  const normalize = (value: string) => value.replace(/[\t\r]/g, " ").replaceAll("✓", "[x]").replaceAll("—", "-").replaceAll("…", "...");
+  const normalize = (value: string) => value.replace(/[\t\r]/g, " ").replaceAll("—", "-").replaceAll("…", "...");
   const widths = headers.map((header, i) => Math.min(i === 0 ? 18 : i === 1 ? 34 : 30,
     Math.max(header.length, ...rows.map((row) => Math.max(...normalize(row[i]).split("\n").map((line) => line.length))))));
   const border = "+" + widths.map((width) => "-".repeat(width + 2)).join("+") + "+";

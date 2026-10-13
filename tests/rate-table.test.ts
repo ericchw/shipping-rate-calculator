@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildRateTable, buildApiResult } from "../src/lib/rate-table";
+import { buildRateTable, buildApiResult, formatEta } from "../src/lib/rate-table";
 import type { RateRow } from "../src/lib/carriers/types";
 
 const row: RateRow = {
@@ -80,4 +80,22 @@ it("aligns raw text columns with borders instead of depending on tab stops", () 
   expect(new Set(lines.map((line) => line.length)).size).toBe(1);
   expect(table.html).toContain("text-align:right");
   expect(table.html).toContain("text-align:center");
+});
+
+
+it("shows Canada Post delivery date before business days in the web and copied tables", () => {
+  const canadaPost: RateRow = { ...row, carrier: "canada_post", eta: { kind: "estimated_date", date: "2026-10-16", businessDays: 3 } };
+  expect(formatEta(canadaPost)).toBe("2026-10-16 · 3 business days");
+  const table = buildRateTable([canadaPost], false);
+  expect(table.html).toContain("2026-10-16 · 3 business days");
+  expect(table.text).toContain("2026-10-16 · 3 business days");
+  expect(formatEta({ ...canadaPost, eta: { ...canadaPost.eta, businessDays: null } })).toBe("2026-10-16");
+  expect(formatEta({ ...canadaPost, eta: { ...canadaPost.eta, date: null, businessDays: 1 } })).toBe("1 business day");
+});
+
+it("preserves the signature checkmark in plain text and HTML copies", () => {
+  const table = buildRateTable([row], false);
+  expect(table.text).toContain("✓");
+  expect(table.html).toContain("✓");
+  expect(table.text).not.toContain("[x]");
 });
