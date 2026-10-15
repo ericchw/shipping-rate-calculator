@@ -1,21 +1,23 @@
 "use client";
 import { useCallback, useEffect, useRef, useState } from "react";
+import QuoteLogModal from "./QuoteLogModal";
+import { useToast } from "./ToastProvider";
 import AddressFields, { blankAddress, profileAddress } from "./AddressFields";
+import SettingsWorkspace from "./SettingsWorkspace";
+import { useSitePreferences } from "./SitePreferences";
+import LabelPages from "./LabelPages";
 import RateResults from "./RateResults";
-import CarrierSettings from "./CarrierSettings";
-import AdminAccounts from "./AdminAccounts";
 import ApiDocs from "./ApiDocs";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { browserUser, pagePath, safeReturnPath, type AppMode, type AppPage } from "@/lib/app-routes";
 import { clientApi, redirectToLogin } from "@/lib/client-api";
 import {
-  carrierIds,
   type Address,
   type Profile,
   type Shipment,
 } from "@/lib/schemas";
-import { convert, todayInVancouver, roundMeasurementUp, measurementValue } from "@/lib/units";
+import { convert, todayInTimeZone, roundMeasurementUp, measurementValue, dimensionValue } from "@/lib/units";
 import type { Comparison } from "@/lib/carriers/types";
 import { carrierNames } from "@/lib/rate-table";
 type Session = {
@@ -23,6 +25,8 @@ type Session = {
   modes: ("sandbox" | "production")[];
   mode: "sandbox" | "production";
   source: string;
+  generationEnabled: boolean;
+  group: { id: string; name: string } | null;
 };
 type EditablePackage = Omit<Shipment["packages"][number], "weight" | "length" | "width" | "height"> & Record<"weight" | "length" | "width" | "height", number | string>;
 const initialPackage: EditablePackage = {
@@ -30,11 +34,15 @@ const initialPackage: EditablePackage = {
   width: 0,
   height: 0,
   dimensionUnit: "in",
-  weight: 0,
+  weight: 1,
   weightUnit: "lb",
 };
-export default function ShippingApp({ initialMode = "production", page = "rate" }: { initialMode?: AppMode; page?: AppPage }) {
+export default function ShippingApp({ initialMode = "production", page = "rate", labelId }: { initialMode?: AppMode; page?: AppPage; labelId?: string }) {
   const router = useRouter();
+  const notify = useToast();
+  const [logsOpen, setLogsOpen] = useState(false);
+  const { preferences, ready: preferencesReady } = useSitePreferences();
+  const previousTimeZone = useRef<string | null>(null);
   const api = useCallback((path: string, method = "GET", value?: unknown) => clientApi(initialMode, path, method, value), [initialMode]);
   const [session, setSession] = useState<Session | null>(null);
   const [booting, setBooting] = useState(true);
@@ -43,6 +51,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
   const [message, setMessage] = useState("");
   const [busy, setBusy] = useState(false);
   const [profileBusy, setProfileBusy] = useState(false);
+  const [profileError, setProfileError] = useState("");
   const [profiles, setProfiles] = useState<Profile[]>([]);
   const [selected, setSelected] = useState("");
   const [manage, setManage] = useState(false);
@@ -57,13 +66,20 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
   const [mode, setMode] = useState<"sandbox" | "production">(initialMode);
   const [signature, setSignature] = useState(true);
   const [coverage, setCoverage] = useState("");
+  const [labelShipment, setLabelShipment] = useState<Shipment | null>(null);
+  const [quotesStale, setQuotesStale] = useState(false);
   const [result, setResult] = useState<Comparison | null>(null);
-  const [quoteCarriers, setQuoteCarriers] = useState<Shipment["carriers"]>([...carrierIds]);
+  const [enabledCarriers, setEnabledCarriers] = useState<Shipment["carriers"]>([]);
+  const [quoteCarriers, setQuoteCarriers] = useState<Shipment["carriers"]>([]);
+  const [carriersLoading, setCarriersLoading] = useState(true);
   const generation = useRef(0);
   const clear = () => {
     generation.current++;
     setResult(null);
+    setLabelShipment(null);
+    setQuotesStale(false);
   };
+  const markEdited = () => setQuotesStale(true);
   const loadProfiles = useCallback(async (useDefault = false) => {
     setProfileBusy(true);
     try {
@@ -82,27 +98,31 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
       setProfileBusy(false);
     }
   }, [api]);
-  const loadCarrierSelection = useCallback(async (environment: "sandbox" | "production", source?: string) => {
-    if (source === "mock") { setQuoteCarriers([...carrierIds]); return; }
-    const data = await api(`carrier-settings?mode=${environment}`);
-    setQuoteCarriers(data.settings.filter((setting: { enabled: boolean }) => setting.enabled)
-      .map((setting: { carrier: Shipment["carriers"][number] }) => setting.carrier));
+  const loadCarrierSelection = useCallback(async (environment: "sandbox" | "production") => {
+    setCarriersLoading(true);
+    try {
+      const data = await api(`carrier-settings?mode=${environment}`);
+      const enabled = data.settings.filter((setting: { enabled: boolean }) => setting.enabled)
+        .map((setting: { carrier: Shipment["carriers"][number] }) => setting.carrier);
+      setEnabledCarriers(enabled);
+      setQuoteCarriers(enabled);
+    } finally { setCarriersLoading(false); }
   }, [api]);
   useEffect(() => {
-    setShipDate(todayInVancouver());
     api("auth/session")
       .then((s) => {
         s = { ...s, user: browserUser(s.user) };
         setSession(s);
         setMode(s.mode);
         if (!s.user && page !== "login") { redirectToLogin(initialMode); return; }
+        if (s.user && !s.modes.includes(initialMode)) { router.replace(pagePath(s.modes[0], "home")); return; }
         if (s.user && page === "login") {
-          router.replace(safeReturnPath(initialMode, new URLSearchParams(window.location.search).get("next")));
+          router.replace(s.modes.includes(initialMode) ? safeReturnPath(initialMode, new URLSearchParams(window.location.search).get("next")) : pagePath(s.modes[0], "home"));
           return;
         }
         if (s.user && page === "rate") {
           void loadProfiles(true).catch((e) => setError(e.message));
-          void loadCarrierSelection(s.mode, s.source).catch((e) => setError(e.message));
+          void loadCarrierSelection(s.mode).catch((e) => setError(e.message));
         }
       })
       .catch((e) =>
@@ -118,13 +138,24 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
     if (!session?.user || page === "login") return;
     let stopped = false;
     const check = async () => {
-      try { const current = await api("auth/session"); if (!stopped && !browserUser(current.user)) redirectToLogin(initialMode); } catch { /* The next check retries temporary network failures. */ }
+      try { const current = await api("auth/session"); if (!stopped) { if (!browserUser(current.user)) redirectToLogin(initialMode); else if (!current.modes.includes(initialMode)) window.location.assign(pagePath(current.modes[0], "home")); else setSession(current); } } catch { /* The next check retries temporary network failures. */ }
     };
     const timer = setInterval(() => void check(), 30000);
     const visible = () => { if (document.visibilityState === "visible") void check(); };
     document.addEventListener("visibilitychange", visible);
     return () => { stopped = true; clearInterval(timer); document.removeEventListener("visibilitychange", visible); };
   }, [api, initialMode, page, session?.user]);
+  useEffect(() => {
+    if (!preferencesReady) return;
+    const previous = previousTimeZone.current;
+    if (previous === preferences.timeZone) return;
+    const today = todayInTimeZone(preferences.timeZone);
+    if ((!shipDate || (previous && shipDate === todayInTimeZone(previous))) && shipDate !== today) {
+      setShipDate(today);
+      setQuotesStale(true);
+    }
+    previousTimeZone.current = preferences.timeZone;
+  }, [preferences.timeZone, preferencesReady, shipDate]);
   async function signIn(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setError("");
@@ -139,7 +170,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
       const s = await api("auth/session");
       setSession(s);
       setMode(s.mode);
-      router.replace(safeReturnPath(initialMode, new URLSearchParams(window.location.search).get("next")));
+      router.replace(s.modes.includes(initialMode) ? safeReturnPath(initialMode, new URLSearchParams(window.location.search).get("next")) : pagePath(s.modes[0], "home"));
     } catch (e) {
       setError((e as Error).message);
     } finally {
@@ -147,7 +178,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
     }
   }
   async function profileAction(fn: () => Promise<unknown>) {
-    setError("");
+    setProfileError("");
     setMessage("");
     setProfileBusy(true);
     try {
@@ -155,7 +186,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
       await loadProfiles();
       setMessage("Profile changes saved.");
     } catch (e) {
-      setError((e as Error).message);
+      setProfileError((e as Error).message);
     } finally {
       setProfileBusy(false);
     }
@@ -167,15 +198,26 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
       setError("Select at least one carrier. You can enable carriers in Carrier settings.");
       return;
     }
+    const sizes = [parcel.length, parcel.width, parcel.height].map(Number);
+    if (sizes.some((value) => value > 0) && sizes.some((value) => value === 0)) {
+      setError("Enter all three dimensions, or leave all three at 0 for a quote without dimensions.");
+      setPackageOpen(true);
+      return;
+    }
+    const bytes = crypto.getRandomValues(new Uint8Array(16));
+    bytes[6] = (bytes[6] & 15) | 64; bytes[8] = (bytes[8] & 63) | 128;
+    const hex = Array.from(bytes, byte => byte.toString(16).padStart(2, "0")).join("");
+    const comparisonId = `${hex.slice(0,8)}-${hex.slice(8,12)}-${hex.slice(12,16)}-${hex.slice(16,20)}-${hex.slice(20)}`;
     setBusy(true);
     clear();
     const id = generation.current;
     const payload = {
       ship_from: origin, ship_to: destination,
       ...(selected ? { ship_from_profile_id: selected } : {}),
-      shipDate, packages: [{ ...parcel, weight: measurementValue(parcel.weight), length: measurementValue(parcel.length), width: measurementValue(parcel.width), height: measurementValue(parcel.height) }], signatureRequired: signature,
+      shipDate, packages: [{ ...parcel, weight: measurementValue(parcel.weight), length: dimensionValue(parcel.length), width: dimensionValue(parcel.width), height: dimensionValue(parcel.height) }], signatureRequired: signature,
       coverageAmount: Number(coverage || 0), coverageCurrency: "CAD", carrierMode: mode,
     };
+    setLabelShipment({ ...payload, coverageCurrency: "CAD", carriers: [...quoteCarriers] });
     setParcel({ ...payload.packages[0] });
     setResult({ requestId: `pending-${id}`, quotedAt: new Date().toISOString(), mode,
       appEnvironment: mode === "sandbox" ? "development" : "production", results: [],
@@ -185,7 +227,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
     try {
       await Promise.all(quoteCarriers.map(async (carrier) => {
         try {
-          const response: Comparison = await api("rates", "POST", { ...payload, carriers: [carrier] });
+          const response: Comparison = await api("rates", "POST", { ...payload, carriers: [carrier], comparisonId, comparisonCarriers: [...quoteCarriers] });
           if (generation.current !== id) return;
           setResult((previous) => previous ? { ...previous, quotedAt: response.quotedAt,
             results: [...previous.results.filter((row) => row.carrier !== carrier), ...response.results],
@@ -204,19 +246,32 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
     } finally { setBusy(false); }
   }
 
+  function restoreLog(shipment: Shipment) {
+    markEdited();
+    setOrigin(shipment.ship_from); setDestination(shipment.ship_to); setParcel({ ...shipment.packages[0] });
+    setSelected(""); setProfileName(""); setSignature(shipment.signatureRequired); setCoverage(shipment.coverageAmount ? String(shipment.coverageAmount) : "");
+    const today = todayInTimeZone(preferences.timeZone);
+    setShipDate(shipment.shipDate < today ? today : shipment.shipDate);
+    const active = shipment.carriers.filter(carrier => enabledCarriers.includes(carrier));
+    setQuoteCarriers(active.length ? active : [...enabledCarriers]);
+    setFromOpen(true); setToOpen(true); setPackageOpen(true);
+    notify(shipment.shipDate < today ? "Shipping details loaded. Past ship date updated to today. Compare rates for current prices." : "Shipping details loaded. Compare rates for current prices.");
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  }
   function reset() {
-    clear();
+    markEdited();
     setDestination({ ...blankAddress });
     setParcel({ ...initialPackage });
     setSignature(true);
     setCoverage("");
-    setShipDate(todayInVancouver());
+    setShipDate(todayInTimeZone(preferences.timeZone));
     setError("");
     setMessage("");
     setToOpen(true);
     setPackageOpen(true);
     setManage(false);
-    void loadCarrierSelection(mode, session?.source).catch((e) => setError(e.message));
+    setProfileError("");
+    void loadCarrierSelection(mode).catch((e) => setError(e.message));
     const p = profiles.find((p) => p.is_default);
     setFromOpen(!p);
     setSelected(p?.id ?? "");
@@ -224,24 +279,24 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
     setOrigin(p ? profileAddress(p) : { ...blankAddress });
   }
   const changeOrigin = (a: Address) => {
-    clear();
+    markEdited();
     setOrigin(a);
   };
   const changeDestination = (a: Address) => {
-    clear();
+    markEdited();
     setDestination(a);
   };
   return (
-    <>
+    <div data-page-capture>
+      {initialMode === "sandbox" && <div className="sandbox-environment-banner">SANDBOX Environment</div>}
       <header>
         <div className="brand">
           Shipping Rate Calculator
         </div>
         <div className="header-right">
           {session?.user && <nav className="app-nav" aria-label="Main navigation">
-            {(["home", "rate", "setting", "docs"] as const).map((item) => <Link key={item} href={pagePath(mode, item)} aria-current={page === item ? "page" : undefined}>{item === "home" ? "Home" : item === "rate" ? "Rates" : item === "docs" ? "API docs" : "Settings"}</Link>)}
-            {session.user.role === "admin" && <Link href={pagePath(mode, "admin")} aria-current={page === "admin" ? "page" : undefined}>Admin</Link>}
-            <Link className="environment-link" href={pagePath(mode === "sandbox" ? "production" : "sandbox", "home")}>{mode === "sandbox" ? "Production" : "Sandbox / UAT"}</Link>
+            {(["home", "rate", "labels", "setting", "docs"] as const).map((item) => <Link key={item} href={pagePath(mode, item)} aria-current={page === item || item === "setting" && page === "admin" ? "page" : undefined}>{item === "home" ? "Home" : item === "rate" ? "Rates" : item === "labels" ? "Labels" : item === "docs" ? "API Docs" : "Settings"}</Link>)}
+            {session?.modes.includes(mode === "sandbox" ? "production" : "sandbox") && <Link className="environment-link" href={pagePath(mode === "sandbox" ? "production" : "sandbox", "home")}>{mode === "sandbox" ? "Production" : "Sandbox / UAT"}</Link>}
           </nav>}
           {session?.user && (
             <button
@@ -269,9 +324,9 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
       </header>
       <main className={!booting && !session?.user ? "login-page" : undefined}>
         {session?.user && <>
-        <h1>{page === "admin" ? "Account administration" : page === "docs" ? "API documentation" : page === "setting" ? "Settings" : page === "home" ? "Shipping calculator" : "Compare shipping rates"}</h1>
+        <h1>{page === "labels" ? labelId ? "Label details" : "Generated labels" : page === "admin" ? "Settings" : page === "docs" ? "API documentation" : page === "setting" ? "Settings" : page === "home" ? "Shipping calculator" : "Compare shipping rates"}</h1>
         <p className="subtitle">
-          {page === "admin" ? "Manage accounts, roles and access permissions." : page === "docs" ? "Call the shipping calculator from your own application." : page === "setting" ? "Manage your carrier connections and credentials." : page === "home" ? "Choose an action below to get started." : "Enter the addresses, package size, and weight to compare Canada Post, Loomis Express, and FedEx."}
+          {page === "labels" ? "View saved labels and shipment details, or download a label again." : page === "admin" ? "Manage company groups, carrier connections, accounts and access permissions." : page === "docs" ? "Call the shipping calculator from your own application." : page === "setting" ? "Your preferences, company workspace and access — in one place." : page === "home" ? "Choose an action below to get started." : "Enter the addresses, package size, and weight to compare Canada Post, Loomis Express, and FedEx."}
         </p>
         </>}
         {booting ? (
@@ -339,12 +394,12 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
             )}
             {page === "home" && <div className="home-actions">
               <Link className="panel home-action" href={pagePath(mode, "rate")}><h2>Compare rates <span aria-hidden="true">→</span></h2><p>Enter shipment details and compare carrier services.</p></Link>
-              <Link className="panel home-action" href={pagePath(mode, "setting")}><h2>Carrier settings <span aria-hidden="true">→</span></h2><p>Save API credentials, enable carriers, and test connections.</p></Link>
+              <Link className="panel home-action" href={`${pagePath(mode, "setting")}${session.user.role === "admin" ? "?section=companies" : ""}`}><h2>{session.user.role === "admin" ? "Company administration" : "Your settings"} <span aria-hidden="true">→</span></h2><p>{session.user.role === "admin" ? "Manage groups, API connections and accounts." : "Manage your locations and time preferences."}</p></Link>
             </div>}
-            {page === "admin" && <AdminAccounts mode={mode} />}
+            {page === "labels" && <LabelPages mode={mode} labelId={labelId} generationEnabled={session.generationEnabled} admin={session.user.role === "admin"} ownGroup={session.group} />}
             {page === "docs" && <ApiDocs mode={mode} />}
-            {page === "setting" && <CarrierSettings initialMode={mode} onSaved={clear} />}
-            {page === "rate" && <div className="workspace">
+            {(page === "setting" || page === "admin") && <SettingsWorkspace mode={mode} user={session.user} group={session.group} generationEnabled={session.generationEnabled} adminPage={page === "admin"} onSaved={() => { void api("auth/session").then(setSession).catch((e: Error) => setError(e.message)); }} />}
+            {page === "rate" && <><div className="rate-log-toolbar"><div className="rate-workspace-context"><span className="workspace-dot" aria-hidden="true" /><span>{session.group?.name || "Company group required"}</span></div><button type="button" className="rate-history-button" aria-label="Rate logs" disabled={busy} onClick={() => setLogsOpen(true)}><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" aria-hidden="true"><path d="M3 11a9 9 0 1 1 2.5 7M3 4v7h7"/><path d="M12 7v5l3 2"/></svg><span>Rate logs<small>View saved comparisons</small></span><b aria-hidden="true">↗</b></button></div><QuoteLogModal open={logsOpen} mode={mode} company={session.group?.name} onClose={() => setLogsOpen(false)} onRestore={restoreLog} /><div className="workspace">
               <form className="panel" onSubmit={quote}
                 onInvalidCapture={(event) => {
                   let parent = (event.target as HTMLElement).parentElement;
@@ -372,11 +427,11 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                   <div className="section quote-carriers">
                     <h3>Carriers to quote</h3>
                     <div className="filters">
-                      {carrierIds.map((carrier) => (
+                      {enabledCarriers.map((carrier) => (
                         <label key={carrier} className="check">
                           <input type="checkbox" checked={quoteCarriers.includes(carrier)}
                             onChange={(event) => {
-                              clear();
+                              markEdited();
                               setQuoteCarriers(event.target.checked
                                 ? [...quoteCarriers, carrier]
                                 : quoteCarriers.filter((selectedCarrier) => selectedCarrier !== carrier));
@@ -385,12 +440,12 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                         </label>
                       ))}
                     </div>
-                    {!quoteCarriers.length && <p className="inline-note">Select at least one carrier.</p>}
+                    {carriersLoading ? <p className="inline-note" role="status">Loading carriers…</p> : !enabledCarriers.length ? <p className="inline-note">No carriers enabled for your company group. {session.user.role === "admin" ? <Link href={`${pagePath(mode, "setting")}?section=companies`}>Configure carriers in Settings</Link> : <span>Ask your administrator to enable a carrier.</span>}</p> : !quoteCarriers.length && <p className="inline-note">Select at least one carrier.</p>}
                   </div>
                   <details className="shipment-section" open={fromOpen} onToggle={(e) => setFromOpen(e.currentTarget.open)}>
                     <summary className="section-heading">
                       <span><span className="step">1</span>Ship From</span>
-                      <span className="section-summary">{profiles.find((p) => p.id === selected)?.profile_name || origin.city || "Origin address"}{origin.postal_code ? ` · ${origin.postal_code}` : ""}</span>
+                      <span className="section-summary">{[origin.region, origin.city, origin.postal_code].filter(Boolean).join(" · ") || "Origin address"}</span>
                     </summary>
                     <div className="section-body">
                     <label>
@@ -400,12 +455,9 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                         value={selected}
                         disabled={profileBusy}
                         onChange={(e) => {
-                          if (e.target.value === "manage") {
-                            setManage(true);
-                            setFromOpen(true);
-                            return;
-                          }
-                          clear();
+                          setProfileError("");
+                          setMessage("");
+                          markEdited();
                           const p = profiles.find(
                             (p) => p.id === e.target.value,
                           );
@@ -425,11 +477,10 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                             {p.is_default ? " (default)" : ""}
                           </option>
                         ))}
-                        <option value="manage">Manage profiles</option>
                       </select>
                     </label>
                     <div style={{ marginTop: 16 }}>
-                      <AddressFields sandbox={mode === "sandbox"}
+                      <AddressFields sandbox={mode === "sandbox"} mode={mode}
                         prefix="from"
                         value={origin}
                         onChange={changeOrigin}
@@ -439,7 +490,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                       open={manage}
                       onToggle={(e) => setManage(e.currentTarget.open)}
                     >
-                      <summary>Save or manage origin profiles</summary>
+                      <summary>Save profile</summary>
                       <label style={{ marginTop: 14 }}>
                         Profile name
                         <input
@@ -456,42 +507,18 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                           onClick={() =>
                             profileAction(async () => {
                               const p = await api(
-                                "ship-from-profiles",
-                                "POST",
+                                selected ? `ship-from-profiles/${selected}` : "ship-from-profiles",
+                                selected ? "PATCH" : "POST",
                                 { profile_name: profileName, address: origin },
                               );
                               setSelected(p.id);
+                              setProfileName(p.profile_name);
+                              setOrigin(profileAddress(p));
                             })
                           }
                         >
-                          Save as profile
+                          {profileBusy ? "Saving…" : "Save profile"}
                         </button>
-                        {selected && (
-                          <button
-                            type="button"
-                            className="secondary"
-                            disabled={profileBusy}
-                            onClick={() => {
-                              if (
-                                window.confirm(
-                                  "Overwrite this saved profile with the displayed origin and profile name?",
-                                )
-                              )
-                                void profileAction(() =>
-                                  api(
-                                    `ship-from-profiles/${selected}`,
-                                    "PATCH",
-                                    {
-                                      profile_name: profileName,
-                                      address: origin,
-                                    },
-                                  ),
-                                );
-                            }}
-                          >
-                            Update profile
-                          </button>
-                        )}
                         {selected && (
                           <>
                             <button type="button" className="secondary"
@@ -504,12 +531,13 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                                 if (window.confirm("Delete this saved profile? This removes its stored address."))
                                   void profileAction(async () => {
                                     await api(`ship-from-profiles/${selected}`, "DELETE");
-                                    setSelected(""); setProfileName(""); clear();
+                                    setSelected(""); setProfileName(""); markEdited();
                                   });
                               }}>Delete profile</button>
                           </>
                         )}
                       </div>
+                      {profileError && <p role="alert" className="error">{profileError}</p>}
                       {profileBusy && (
                         <p role="status">Saving / loading profiles…</p>
                       )}
@@ -528,10 +556,10 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                   <details className="shipment-section" open={toOpen} onToggle={(e) => setToOpen(e.currentTarget.open)}>
                     <summary className="section-heading">
                       <span><span className="step">2</span>Ship To</span>
-                      <span className="section-summary">{destination.city || "Destination address"}{destination.postal_code ? ` · ${destination.postal_code}` : ""}</span>
+                      <span className="section-summary">{[destination.region, destination.city, destination.postal_code].filter(Boolean).join(" · ") || "Destination address"}</span>
                     </summary>
                     <div className="section-body">
-                    <AddressFields sandbox={mode === "sandbox"}
+                    <AddressFields sandbox={mode === "sandbox"} mode={mode}
                       prefix="to"
                       value={destination}
                       onChange={changeDestination}
@@ -543,14 +571,13 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                         value={shipDate}
                         required
                         onChange={(e) => {
-                          clear();
+                          markEdited();
                           setShipDate(e.target.value);
                         }}
                       />
                     </label>
                     <p className="inline-note">
-                      Default: today in Vancouver. Check carrier holiday
-                      availability.
+                      Time zone: <Link href={`${pagePath(mode, "setting")}#location-time-heading`} title={preferences.timeZone}>{preferences.timeZone.split("/").at(-1)?.replaceAll("_", " ")}</Link>
                     </p>
                     </div>
                   </details>
@@ -562,7 +589,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                     <div className="section-body">
                       <div className="package-unit-switch" role="group" aria-label="Package measurement system">
                         {(["imperial", "metric"] as const).map((system) => <button key={system} type="button" aria-pressed={(parcel.weightUnit === "lb" ? "imperial" : "metric") === system} onClick={() => {
-                          clear();
+                          markEdited();
                           const weightUnit = system === "metric" ? "kg" : "lb";
                           const dimensionUnit = system === "metric" ? "cm" : "in";
                           setParcel((previous) => ({ ...previous, weightUnit, dimensionUnit,
@@ -573,15 +600,15 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                           }));
                         }}>{system === "imperial" ? "Imperial · lb / in" : "Metric · kg / cm"}</button>)}
                       </div>
-                      <p className="inline-note">Blank or zero measurements use 1 in the selected units when requesting rates.</p>
                       <div className="package-measurements">
                         {(["weight", "length", "width", "height"] as const).map((field) => <label key={field} htmlFor={field}>
                           {field[0].toUpperCase() + field.slice(1)} ({field === "weight" ? parcel.weightUnit : parcel.dimensionUnit})
                           <input id={field} type="number" min="0" max="1000" step="any" placeholder="0" value={parcel[field]}
-                            onChange={(event) => { clear(); setParcel({ ...parcel, [field]: event.target.value }); }}
+                            onChange={(event) => { markEdited(); setParcel({ ...parcel, [field]: event.target.value }); }}
                             onBlur={() => { if (parcel[field] !== "" && Number(parcel[field]) > 0) setParcel(previous => ({ ...previous, [field]: measurementValue(previous[field]) })); }} />
                         </label>)}
                       </div>
+                      <p className="inline-note">All three dimensions at 0 means no dimensions provided. Actual measurements may change final charges.</p>
                     </div>
                   </details>
                   <div className="section">
@@ -593,7 +620,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                         type="checkbox"
                         checked={signature}
                         onChange={(e) => {
-                          clear();
+                          markEdited();
                           setSignature(e.target.checked);
                         }}
                       />
@@ -609,7 +636,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                         step="0.01"
                         value={coverage}
                         onChange={(e) => {
-                          clear();
+                          markEdited();
                           setCoverage(e.target.value);
                         }}
                       />
@@ -628,7 +655,7 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
                   )}
                   <button
                     className="primary"
-                    disabled={busy || session.modes.length === 0 || quoteCarriers.length === 0}
+                    disabled={busy || carriersLoading || session.modes.length === 0 || quoteCarriers.length === 0}
                   >
                     <span>{busy ? "Comparing rates…" : "Compare rates"}</span>
                     <span aria-hidden="true">→</span>
@@ -637,11 +664,18 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
               </form>
               <RateResults
                 preferencesKey={`${mode}:${session.user?.id ?? ""}`}
+                generationEnabled={session.generationEnabled}
+                labelShipment={labelShipment}
                 result={result}
                 busy={busy}
-                coverage={Number(coverage) > 0}
+                shipmentEdited={quotesStale}
+                coverageAmount={labelShipment?.coverageAmount ?? (Number(coverage) || 0)}
+                shipment={labelShipment ? { origin: labelShipment.ship_from, destination: labelShipment.ship_to, shipDate: labelShipment.shipDate, signatureRequired: labelShipment.signatureRequired, parcel: labelShipment.packages[0] } : { origin, destination, shipDate, signatureRequired: signature, parcel: {
+                  ...parcel, weight: measurementValue(parcel.weight),
+                  length: dimensionValue(parcel.length), width: dimensionValue(parcel.width), height: dimensionValue(parcel.height),
+                } }}
               />
-            </div>}
+            </div></>}
           </>
         )}
         <footer>
@@ -649,6 +683,6 @@ export default function ShippingApp({ initialMode = "production", page = "rate" 
           <span className="footer-carriers"><span>Supported carriers:</span> Canada Post · Loomis Express · FedEx</span>
         </footer>
       </main>
-    </>
+    </div>
   );
 }

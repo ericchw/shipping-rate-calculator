@@ -1,9 +1,9 @@
 import { describe, it, expect } from "vitest";
-import { convert, measurementValue, roundMeasurementUp } from "../src/lib/units";
+import { convert, measurementValue, dimensionValue, roundMeasurementUp } from "../src/lib/units";
 import { shipmentSchema } from "../src/lib/schemas";
 
 describe("package measurement defaults and rounding", () => {
-  it("uses 1 for empty or zero inputs and rounds upward without floating-point over-rounding", () => {
+  it("uses 1 for empty or zero weight inputs and rounds upward without floating-point over-rounding", () => {
     expect(measurementValue("")).toBe(1);
     expect(measurementValue(" ")).toBe(1);
     expect(measurementValue(0)).toBe(1);
@@ -18,9 +18,12 @@ describe("package measurement defaults and rounding", () => {
       ship_from: { city: "Vancouver", region: "BC", postal_code: "V6B1A1" },
       ship_to: { city: "Toronto", region: "ON", postal_code: "M5V2T6" },
       shipDate: "2026-10-13",
-      packages: [{ weight: measurementValue(""), length: measurementValue(""), width: measurementValue(""), height: measurementValue(""), weightUnit: "lb", dimensionUnit: "in" }],
+      packages: [{ weight: measurementValue(""), length: dimensionValue(""), width: dimensionValue(""), height: dimensionValue(""), weightUnit: "lb", dimensionUnit: "in" }],
     };
     expect(shipmentSchema.safeParse(input).success).toBe(true);
+    expect(input.packages[0]).toMatchObject({ weight: 1, length: 0, width: 0, height: 0 });
+    expect(shipmentSchema.safeParse({ ...input, packages: [{ ...input.packages[0], length: 1 }] }).success).toBe(false);
+    expect(shipmentSchema.safeParse({ ...input, packages: [{ ...input.packages[0], width: -1 }] }).success).toBe(false);
     expect(shipmentSchema.safeParse({ ...input, packages: [{ ...input.packages[0], weight: measurementValue(-1) }] }).success).toBe(false);
   });
 });

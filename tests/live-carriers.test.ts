@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { parseLoomis, loomisRequest, loomis } from "../src/lib/carriers/loomis";
-import { parseFedex } from "../src/lib/carriers/fedex";
+import { fedexRequest, parseFedex } from "../src/lib/carriers/fedex";
 import { parseCanadaPost, canadaPostRequest } from "../src/lib/carriers/canada-post";
 import { request } from "../src/lib/carriers/transport";
 import { compare } from "../src/lib/quote-service";
@@ -124,3 +124,13 @@ it("preserves FedEx returned pre-tax and tax-inclusive totals", () => {
     expect(body).toContain("1 Test St"); expect(body).not.toContain("Sandbox Sender");
     expect(rows[0].notices.join(" ")).not.toContain("sandbox test defaults");
  });
+
+it("omits zero dimensions from all three carrier payloads while keeping weight", () => {
+  const s = shipment(); s.packages[0] = { ...s.packages[0], length: 0, width: 0, height: 0 };
+  const cp = canadaPostRequest(s, false);
+  expect(cp).not.toContain("<dimensions>"); expect(cp).toContain("<weight>");
+  const fx = fedexRequest(s, false, "test-account").requestedShipment.requestedPackageLineItems[0];
+  expect(fx).not.toHaveProperty("dimensions"); expect(fx.weight.value).toBeGreaterThan(0);
+  const lm = loomisRequest(s, false, "user", "password", "account");
+  expect(lm).not.toContain("package_info_num"); expect(lm).toContain("<dto:reported_weight>");
+});

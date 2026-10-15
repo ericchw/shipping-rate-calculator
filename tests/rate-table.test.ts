@@ -20,7 +20,7 @@ describe("formatted shipping table", () => {
     expect(table.text).toContain("FedEx Priority Overnight");
     expect(table.text).toContain("1 business day");
     expect(table.text).toContain("$42.75 CAD");
-    expect(table.text).toContain("Tax included");
+    expect(table.text).toContain("Tax: included");
     expect(table.text).not.toContain("MOCK");
     expect(table.text).not.toContain("Status");
     expect(table.text).not.toContain("YOUR_PACKAGING");
@@ -47,7 +47,7 @@ describe("formatted shipping table", () => {
 it("exports the selected tax basis", () => {
   const table = buildRateTable([{ ...row, withoutCoverage: { ...row.withoutCoverage, preTaxTotal: "40.00" } }], false, false);
   expect(table.text).toContain("$40.00");
-  expect(table.text).toContain("Tax excluded");
+  expect(table.text).toContain("Tax: excluded");
   expect(table.text).not.toContain("$42.75");
 });
 
@@ -79,7 +79,6 @@ it("aligns raw text columns with borders instead of depending on tab stops", () 
   const lines = table.text.split("\n").filter((line) => line.startsWith("| ") || line.startsWith("+"));
   expect(new Set(lines.map((line) => line.length)).size).toBe(1);
   expect(table.html).toContain("text-align:right");
-  expect(table.html).toContain("text-align:center");
 });
 
 
@@ -93,9 +92,33 @@ it("shows Canada Post delivery date before business days in the web and copied t
   expect(formatEta({ ...canadaPost, eta: { ...canadaPost.eta, date: null, businessDays: 1 } })).toBe("1 business day");
 });
 
-it("preserves the signature checkmark in plain text and HTML copies", () => {
+it("puts requested signature in the heading without a signature column", () => {
   const table = buildRateTable([row], false);
-  expect(table.text).toContain("✓");
-  expect(table.html).toContain("✓");
-  expect(table.text).not.toContain("[x]");
+  expect(table.text).toContain("Signature: Required");
+  expect(table.html).toContain("Signature: Required");
+  expect(table.text).not.toContain("✓");
+  expect(table.html).not.toMatch(/<th[^>]*>Signature<\/th>/);
+  expect(buildRateTable([{ ...row, signature: { ...row.signature, requested: false } }], false).text).toContain("Signature: Not required");
+});
+
+it("copies shipment details, selected tax basis and coverage as separate heading lines", () => {
+  const table = buildRateTable([row], true, false, 2100, {
+    signatureRequired: true,
+    shipDate: "2026-10-14",
+    origin: { region: "BC", city: "Richmond", postal_code: "V6V2K9" },
+    destination: { region: "ON", city: "Barrie", postal_code: "L4N9R3" },
+    parcel: { weight: 3.1, weightUnit: "lb", length: 6, width: 4, height: 2, dimensionUnit: "in" },
+  });
+  const heading = ["Ship From: BC · Richmond · V6V2K9", "Ship To: ON · Barrie · L4N9R3", "Ship Date: 2026-10-14", "Package: 3.1 lb · 6 × 4 × 2 in", "Signature: Required", "Tax: excluded", "Coverage $2,100.00 CAD"];
+  expect(table.text.split("\n").slice(0, 7)).toEqual(heading);
+  expect(table.html).toContain(`<p>${heading.join("<br>")}</p>`);
+  expect(buildRateTable([row], false, true, 0).text).toMatch(/^Signature: Required\nTax: included\nCoverage \$0.00 CAD/);
+});
+
+it.each(["loomis", "fedex", "canada_post"] as const)("shows %s delivery date before transit days everywhere", carrier => {
+  const quote: RateRow = { ...row, carrier, eta: { kind: "estimated_date", date: "2026-10-16", businessDays: 2 } };
+  expect(formatEta(quote)).toBe("2026-10-16 · 2 business days");
+  const table = buildRateTable([quote], false);
+  expect(table.html).toContain("2026-10-16 · 2 business days");
+  expect(table.text).toContain("2026-10-16 · 2 business days");
 });

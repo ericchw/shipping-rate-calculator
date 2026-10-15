@@ -1,6 +1,6 @@
 # PostgreSQL and SQLite
 
-PostgreSQL is the primary setup in the environment templates. SQLite remains an equivalent option for a local installation. Both store users, Web/API access grants, hashed sessions and their channels, encrypted carrier settings, and private saved origin profiles; quote requests and results are not stored. The server reads the provider at startup. Changing databases requires a restart and cannot be done by an untrusted browser request.
+PostgreSQL is the primary setup in the environment templates. SQLite remains an equivalent option for a local installation. Both store users, Web/API access grants, hashed sessions and their channels, company groups, memberships, encrypted group carrier settings, saved company labels, and private saved origin profiles; normalized quote comparisons and shipment details are saved as company rate logs; raw carrier response blobs are not stored. The server reads the provider at startup. Changing databases requires a restart and cannot be done by an untrusted browser request.
 
 ## Local Docker startup
 
@@ -18,7 +18,7 @@ pnpm user:create
 pnpm dev:app
 ```
 
-Set `USER_EMAIL`, `USER_PASSWORD` (at least 6 characters), and optional `CREATE_USER_ROLE=user|operator|admin` locally before creating the user. Remove the provisioning password afterwards. There is no shared default account or password.
+Set `USER_EMAIL`, `USER_PASSWORD` (at least 6 characters), and `CREATE_USER_ROLE=admin` locally to provision the initial administrator. Then create users and assign company groups through Admin. Remove the provisioning password afterwards. There is no shared default account or password.
 
 ```dotenv
 DATABASE_PROVIDER=postgresql
@@ -63,9 +63,9 @@ For a managed remote PostgreSQL database, use compose.yml alone with its provide
 
 ## Moving existing data
 
-Changing settings connects to a different database. It does not copy profiles, users, or sessions. For a fresh database, apply migrations and provision users. For preserving existing users and profiles, stop writes, back up the source, then use `pnpm db:transfer` as documented below. Sessions and encrypted carrier settings are intentionally not transferred; users sign in again and reconfigure carriers. Apply current migrations to the source before transfer.
+Changing settings connects to a different database. It does not copy profiles, users, or sessions. For a fresh database, apply migrations and provision users. For preserving existing users and profiles, stop writes, back up the source, then use `pnpm db:transfer` as documented below. Sessions, label history and encrypted carrier settings are intentionally not transferred; users sign in again and reconfigure carriers. Apply current migrations to the source before transfer.
 
-Configure `SOURCE_DATABASE_PROVIDER`, `SOURCE_DATABASE_URL`, `TARGET_DATABASE_PROVIDER`, and `TARGET_DATABASE_URL` in the ignored local environment. Run `pnpm db:transfer`. The target must be empty; the tool preserves user/profile IDs and password hashes, runs target migrations, validates record ownership and defaults, and writes users, account access grants, and profiles in one transaction. Afterwards point the app at the target and restart. Keep the source backup until you have verified profile names, counts, defaults, and a login. Never commit database exports or backups.
+Configure `SOURCE_DATABASE_PROVIDER`, `SOURCE_DATABASE_URL`, `TARGET_DATABASE_PROVIDER`, and `TARGET_DATABASE_URL` in the ignored local environment. Run `pnpm db:transfer`. The target must be empty; the tool preserves user/profile IDs and password hashes, runs target migrations, validates record ownership and defaults, and writes users, account access grants, company groups, memberships and profiles in one transaction. Afterwards point the app at the target and restart. Keep the source backup until you have verified profile names, counts, defaults, and a login. Never commit database exports or backups.
 
 ## Migrations, ownership, and retention
 
@@ -77,4 +77,6 @@ Deleting a profile removes it from active storage. Deleting a user through an ad
 
 `pnpm test` covers SQLite ownership and defaults. Set `TEST_POSTGRES_URL` to a dedicated disposable PostgreSQL test database and run `pnpm test:postgres` to exercise the equivalent contract. It uses synthetic randomly identified users and removes them after a successful run. Never point it at a live customer database.
 
-Carrier settings use migration 002 and are encrypted per account/environment. Back up data/carrier-settings.key securely with the database. Current account/profile transfers omit carrier settings; re-enter them in the target deployment.
+Migration 006 moves carrier settings and labels into company groups and binds new credentials to group/carrier/environment. Existing accounts receive separate groups with their original owner ID, preserving encryption context and label history. The migration runs this conversion only once; later membership changes are preserved. User deletion retains company settings and labels. Back up data/carrier-settings.key securely with the database. Current account/profile transfers omit carrier settings; re-enter them in the target deployment.
+
+Migration 007 adds quote_logs, scoped by company group and carrier environment. Related carrier replies merge into one comparison under a row lock/serialized SQLite transaction. Creator deletion retains the log. Account/profile transfers omit rate logs; back up the complete database to retain history.

@@ -2,7 +2,7 @@
 
 See the [user guide with screenshots and an animated walkthrough](docs/USER_GUIDE.md) for sign-in, carrier setup, saved origins and rate comparison.
 
-A shipping calculator with account-owned carrier credentials, saved origin addresses, and actual API rates from Canada Post, FedEx and Loomis Express.
+A shipping calculator with company group carrier credentials, saved origin addresses, and actual API rates from Canada Post, FedEx and Loomis Express.
 
 ## Run locally with Docker
 
@@ -12,7 +12,7 @@ Run these commands from the repository folder with Docker Engine and Docker Comp
 docker compose --env-file env/local.env -f compose.dev.yml up -d --build
 ```
 
-This starts the app in the background. Open http://localhost:3000 for production carrier APIs or http://localhost:3000/sandbox for sandbox / UAT. Sign in using the provisioned account and save carrier credentials separately in each area's **Settings** page.
+This starts the app in the background. Open http://localhost:3000 for production carrier APIs or http://localhost:3000/sandbox for sandbox / UAT. Sign in using the provisioned account and use **Admin** to manage company groups and save each group's carrier credentials separately for each environment.
 
 Check container status and follow the web startup logs:
 
@@ -27,7 +27,7 @@ Press Ctrl+C to stop following logs; the containers keep running. Stop the app a
 docker compose --env-file env/local.env -f compose.dev.yml down
 ```
 
-Docker runs Node 22 and PostgreSQL, applies migrations, and creates the configured account only if it is missing. Existing passwords, roles, profiles and carrier settings are preserved. The local stack retains its existing sandbox-postgres-data volume name to preserve previously saved data. `npm run dev` runs the same local stack in the foreground; `npm run dev:stop` stops it. Use the separate hosted deployment instructions below for an optimized production build with HTTPS.
+Docker runs Node 22 and PostgreSQL, applies migrations, and creates the configured account only if it is missing. Provision an initial admin, then create users and assign their company group through **Admin**. Existing passwords, roles, profiles and carrier settings are preserved. The local stack retains its existing sandbox-postgres-data volume name to preserve previously saved data. `npm run dev` runs the same local stack in the foreground; `npm run dev:stop` stops it. Use the separate hosted deployment instructions below for an optimized production build with HTTPS.
 
 | Page | Production | Sandbox / UAT |
 | --- | --- | --- |
@@ -41,7 +41,7 @@ Docker runs Node 22 and PostgreSQL, applies migrations, and creates the configur
 
 The root entry redirects to Home. Protected pages redirect signed-out or expired sessions to the corresponding Login page. Login returns you to the requested protected page. Expiry is also detected on API requests, when the tab becomes active, and with a 30-second session check.
 
-**Both carrier environments run in the same app.** The default area uses production carrier APIs; `/sandbox` uses sandbox carrier APIs. API routes enforce this boundary and reject mismatched credential modes or quote requests. Accounts, login sessions and origin profiles are shared within one deployment; credentials and service visibility preferences stay separate by carrier environment. Production quotes require production credentials saved and enabled by that account; no sandbox credentials are reused.
+**Both carrier environments run in the same app.** The default area uses production carrier APIs; `/sandbox` uses sandbox carrier APIs. API routes enforce this boundary and reject mismatched credential modes or quote requests. Accounts, login sessions and origin profiles are shared within one deployment; credentials and service visibility preferences stay separate by carrier environment. Production quotes require production credentials saved and enabled by an admin for that company group; no sandbox credentials are reused.
 
 ## Carrier settings
 
@@ -51,7 +51,7 @@ Saved secrets are masked. Blank secret fields preserve the existing value; new i
 
 Carrier responses are used directly. API errors never fall back to synthetic prices. Canada Post sandbox defaults to counter/retail rates; choose commercial only with an authorized customer/contract. Loomis Canadian domestic rating supports sandbox and account-configured production SOAP 1.1 endpoints; international rating remains unsupported. FedEx sandbox can return 503/timeouts even with successful authentication. See [carrier mapping](docs/CARRIER_MAPPING.md).
 
-Credentials are encrypted using AES-256-GCM. The server creates `data/carrier-settings.key` with owner-only permissions. Back up this key securely together with the database. Local Docker persists it in the mounted data directory; the deployment image persists it in shipping-data. Multiple replicas need the same protected key. Account/profile transfers currently omit carrier settings; re-enter those settings after transfer.
+Credentials are encrypted using AES-256-GCM. The server creates `data/carrier-settings.key` with owner-only permissions. Back up this key securely together with the database. Local Docker persists it in the mounted data directory; the deployment image persists it in shipping-data. Multiple replicas need the same protected key. Account/profile transfers preserve company groups and memberships, but omit carrier settings and label history; re-enter connections after transfer.
 
 ## Package measurements and copying results
 
@@ -112,3 +112,9 @@ Settings connection checks show progress, status, response time and last-check t
 ## Security and privacy review
 
 Read [security guidance](SECURITY.md), [data and privacy](docs/PRIVACY.md), and the [repository review](docs/AUDIT.md) before publishing or deploying.
+
+Company groups share carrier connections and label history. Only admin web sessions can create accounts, assign groups, or edit/test API settings. Users and operators require a group; admins may remain unassigned for management only. Saved origin addresses remain personal. Tracking/label generation is disabled by default per group and carrier environment; current generation supports Loomis sandbox only. Deleting a user preserves their company's labels and connections. Changing group assignment revokes the user's sessions and leaves past labels with the original company.
+
+Migration 006 preserves each existing account in its own group, initially named with its email, retaining encrypted credentials, labels and the previous generation permission. Administrators can rename these groups and assign accounts to a shared company. Assignment uses the destination company's existing connections; it does not merge or move another group's labels or credentials.
+
+Every valid rate comparison is saved in company **Rate logs**, available in a dialog on the Rates page. View historical prices and carrier statuses, then load shipment details to compare current rates. Past ship dates are changed to today; disabled carriers and personal profile ownership are respected. Raw carrier response blobs are not saved. Company rate logs survive creator deletion and are omitted from account/profile transfers.

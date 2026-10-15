@@ -6,7 +6,7 @@ export const addressSchema = z
     company: z.string().trim().max(100).default(""),
     address_line1: z.string().trim().max(200).default(""),
     address_line2: z.string().trim().max(200).default(""),
-    city: z.string().trim().min(1).max(100),
+    city: z.string().trim().min(1).max(100).regex(/\p{L}/u, "Enter a city name, not a phone number"),
     region: z.string().trim().min(1).max(100),
     postal_code: z.string().trim().min(1).max(20),
     country_code: z
@@ -69,14 +69,15 @@ export const shipmentSchema = z
       .array(
         z
           .object({
-            length: z.number().positive().max(1000),
-            width: z.number().positive().max(1000),
-            height: z.number().positive().max(1000),
+            length: z.number().nonnegative().max(1000),
+            width: z.number().nonnegative().max(1000),
+            height: z.number().nonnegative().max(1000),
             dimensionUnit: z.enum(["cm", "in"]),
             weight: z.number().positive().max(1000),
             weightUnit: z.enum(["kg", "lb"]),
           })
-          .strict(),
+          .strict()
+          .refine((p) => [p.length, p.width, p.height].every((value) => value === 0) || [p.length, p.width, p.height].every((value) => value > 0), "Enter all three dimensions, or leave all three at 0"),
       )
       .length(1),
     signatureRequired: z.boolean().default(false),

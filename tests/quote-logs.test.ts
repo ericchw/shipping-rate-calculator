@@ -1,0 +1,62 @@
+import { afterEach, beforeEach, expect, it } from "vitest";
+import { randomUUID } from "node:crypto";
+import { Store } from "../src/lib/db";
+import { QuoteLogs } from "../src/lib/quote-logs";
+import { shipmentSchema } from "../src/lib/schemas";
+import type { Comparison } from "../src/lib/carriers/types";
+let store: Store;
+const group = randomUUID(), other = randomUUID(), owner = randomUUID();
+const shipment = shipmentSchema.parse({ ship_from: { city: "Richmond", region: "BC", postal_code: "V6V2K9" }, ship_to: { city: "Toronto", region: "ON", postal_code: "M5V2T6" }, shipDate: "2026-01-01", packages: [{ weight: 5, weightUnit: "lb", length: 0, width: 0, height: 0, dimensionUnit: "in" }], carriers: ["loomis", "fedex"], carrierMode: "sandbox" });
+const initial: Comparison = { requestId: randomUUID(), quotedAt: new Date().toISOString(), mode: "sandbox", appEnvironment: "development", results: [], carrierStatuses: shipment.carriers.map(carrier => ({ carrier, mode: "sandbox", source: "live_carrier", status: "quoting", message: null })) };
+beforeEach(async () => {
+ store = new Store("sqlite", "file::memory:"); await store.migrate(); await store.migrate();
+ for (const id of [group,other]) await store.query("INSERT INTO company_groups VALUES (?,?,?)", [id,id,new Date().toISOString()]);
+ await store.query("INSERT INTO users VALUES (?,?,?,?,?)", [owner,"owner@example.test","unused","user",new Date().toISOString()]);
+});
+afterEach(async () => { await store.close(); });
+it("merges concurrent carrier replies into one record and retains failed comparison details", async () => {
+ const logs = new QuoteLogs(group,store), id = randomUUID();
+ await Promise.all([logs.start(owner,shipment,initial,id),logs.start(owner,shipment,initial,id)]);
+ await Promise.all(shipment.carriers.map(carrier => logs.complete(id,owner,{ ...initial, carrierStatuses:[{ carrier, mode:"sandbox",source:"live_carrier",status:carrier==="loomis"?"success":"error",message:carrier==="fedex"?"Carrier failed":null }] })));
+ expect((await logs.list("sandbox")).total).toBe(1);
+ const saved = await logs.get("sandbox",id);
+ expect(saved.shipment).toEqual(shipment);
+ expect(saved.comparison.carrierStatuses.map(status=>status.status)).toEqual(["success","error"]);
+ expect(saved.status).toBe("no_rates");
+ expect((await logs.list("sandbox")).logs[0]).not.toHaveProperty("shipment");
+ await expect(new QuoteLogs(other,store).get("sandbox",id)).rejects.toMatchObject({status:404});
+ await expect(logs.get("production",id)).rejects.toMatchObject({status:404});
+ await expect(logs.start(owner,{...shipment,shipDate:"2026-01-02"},initial,id)).rejects.toMatchObject({code:"COMPARISON_CONFLICT"});
+ await expect(new QuoteLogs(other,store).start(owner,shipment,initial,id)).rejects.toMatchObject({code:"COMPARISON_CONFLICT"});
+ await store.query("DELETE FROM users WHERE id=?",[owner]);
+ expect((await logs.get("sandbox",id)).shipment.ship_from.city).toBe("Richmond");
+});
+it("paginates summaries and excludes raw carrier payloads from saved comparisons", async () => {
+ const logs = new QuoteLogs(group,store);
+ for(let i=0;i<12;i++) await logs.start(owner,shipment,initial);
+ expect(await logs.list("sandbox",99,10)).toMatchObject({page:2,total:12,totalPages:2});
+ expect((await logs.list("sandbox",2,10)).logs).toHaveLength(2);
+ const id = (await logs.list("sandbox")).logs[0].id;
+ const row = { carrier:"loomis" as const, mode:"sandbox" as const,source:"live_carrier" as const,serviceCode:"DD",serviceName:"Domestic",variant:"default",currency:"CAD",eta:{kind:"unavailable" as const,date:null,businessDays:null},notices:[],apiResult:{SECRET:"private"},signature:{requested:false,available:true,includedInQuote:false},withoutCoverage:{available:true as const,total:"12.00",taxIncluded:false,breakdown:[]},withCoverage:{apiResult:{ACCOUNT_NUMBER:"private"},available:false,total:null,taxIncluded:null,breakdown:[],declaredValue:null,status:"not_quoted"},coverageDifference:null };
+ await logs.complete(id,owner,{...initial,results:[row],carrierStatuses:initial.carrierStatuses.map(status=>({...status,status:"success"}))});
+ const saved=await logs.get("sandbox",id);
+ expect(saved.rateCount).toBe(1); expect(saved.status).toBe("completed");
+ expect(JSON.stringify(saved)).not.toContain("private");
+ expect(saved.comparison.results[0].withoutCoverage.total).toBe("12.00");
+});
+it("deletes a single completed log within its company and environment", async()=>{
+ const logs=new QuoteLogs(group,store),first=await logs.start(owner,shipment,initial),second=await logs.start(owner,shipment,initial);
+ await logs.complete(first,owner,{...initial,carrierStatuses:initial.carrierStatuses.map(status=>({...status,status:"success"}))});
+ await expect(new QuoteLogs(other,store).delete("sandbox",first)).rejects.toMatchObject({status:404});
+ await expect(logs.delete("production",first)).rejects.toMatchObject({status:404});
+ await logs.delete("sandbox",first);
+ await expect(logs.get("sandbox",first)).rejects.toMatchObject({status:404});
+ expect((await logs.list("sandbox")).logs.map(log=>log.id)).toEqual([second]);
+ await expect(logs.delete("sandbox",first)).rejects.toMatchObject({status:404});
+});
+it("blocks deletion during a comparison and allows old interrupted logs to be removed",async()=>{
+ const logs=new QuoteLogs(group,store),id=await logs.start(owner,shipment,initial);
+ await expect(logs.delete("sandbox",id)).rejects.toMatchObject({code:"COMPARISON_IN_PROGRESS"});
+ await store.query("UPDATE quote_logs SET created_at=? WHERE id=?",["2000-01-01T00:00:00.000Z",id]);
+ await logs.delete("sandbox",id);expect((await logs.list("sandbox")).total).toBe(0);
+});

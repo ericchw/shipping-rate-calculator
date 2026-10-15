@@ -1,7 +1,7 @@
 import "server-only";
 import Decimal from "decimal.js";
 import { carrierConfig, credentialsConfigured, type CarrierConfig, type Mode } from "../config";
-import { convert } from "../units";
+import { convert, hasPackageDimensions } from "../units";
 import type { Shipment } from "../schemas";
 import { array, escapeXml as e, request, xml, CarrierResponseError } from "./transport";
 import { unavailableEta, type CarrierAdapter, type Quote } from "./types";
@@ -29,7 +29,7 @@ export function canadaPostRequest(
       ? `<option><option-code>COV</option-code><option-amount>${new Decimal(s.coverageAmount).toFixed(2)}</option-amount></option>`
       : "",
   ].join("");
-  return `<?xml version="1.0" encoding="UTF-8"?><mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">${quoteType === "counter" ? "" : customer ? `<customer-number>${e(customer)}</customer-number>` : ""}${quoteType === "counter" ? "" : contract ? `<contract-id>${e(contract)}</contract-id>` : ""}<quote-type>${quoteType}</quote-type><expected-mailing-date>${e(s.shipDate)}</expected-mailing-date>${options ? `<options>${options}</options>` : ""}<parcel-characteristics><weight>${new Decimal(convert(p.weight, p.weightUnit, "kg")).toFixed(3)}</weight><dimensions>${dimensions.map((v, i) => `<${["length", "width", "height"][i]}>${new Decimal(v).toFixed(1)}</${["length", "width", "height"][i]}>`).join("")}</dimensions></parcel-characteristics><origin-postal-code>${e(s.ship_from.postal_code)}</origin-postal-code><destination>${destination}</destination></mailing-scenario>`;
+  return `<?xml version="1.0" encoding="UTF-8"?><mailing-scenario xmlns="http://www.canadapost.ca/ws/ship/rate-v4">${quoteType === "counter" ? "" : customer ? `<customer-number>${e(customer)}</customer-number>` : ""}${quoteType === "counter" ? "" : contract ? `<contract-id>${e(contract)}</contract-id>` : ""}<quote-type>${quoteType}</quote-type><expected-mailing-date>${e(s.shipDate)}</expected-mailing-date>${options ? `<options>${options}</options>` : ""}<parcel-characteristics><weight>${new Decimal(convert(p.weight, p.weightUnit, "kg")).toFixed(3)}</weight>${hasPackageDimensions(p) ? `<dimensions>${dimensions.map((v, i) => `<${["length", "width", "height"][i]}>${new Decimal(v).toFixed(1)}</${["length", "width", "height"][i]}>`).join("")}</dimensions>` : ""}</parcel-characteristics><origin-postal-code>${e(s.ship_from.postal_code)}</origin-postal-code><destination>${destination}</destination></mailing-scenario>`;
 }
 type CPQuote = {
   "service-code": string;

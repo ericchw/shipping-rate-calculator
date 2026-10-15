@@ -2,7 +2,7 @@ import "server-only";
 import Decimal from "decimal.js";
 import { carrierConfig, credentialsConfigured, type CarrierConfig, type Mode } from "../config";
 import type { Address, Shipment } from "../schemas";
-import { convert } from "../units";
+import { convert, hasPackageDimensions } from "../units";
 import { request } from "./transport";
 import { unavailableEta, type CarrierAdapter, type Quote } from "./types";
 const tokens = new Map<string, { value: string; expires: number }>();
@@ -30,12 +30,12 @@ export function fedexRequest(s: Shipment, coverage: boolean, account: string) {
         {
           groupPackageCount: 1,
           weight: { units: "KG", value: convert(p.weight, p.weightUnit, "kg") },
-          dimensions: {
+          ...(hasPackageDimensions(p) ? { dimensions: {
             units: "CM",
             length: Math.ceil(convert(p.length, p.dimensionUnit, "cm")),
             width: Math.ceil(convert(p.width, p.dimensionUnit, "cm")),
             height: Math.ceil(convert(p.height, p.dimensionUnit, "cm")),
-          },
+          } } : {}),
           ...(coverage
             ? {
                 declaredValue: {

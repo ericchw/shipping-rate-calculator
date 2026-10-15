@@ -8,9 +8,9 @@ All responses use `Cache-Control: no-store`. JSON request bodies are limited to 
 
 The application API currently uses account session cookies, not OAuth or JWT bearer tokens. Sessions last eight hours and logout revokes them. FedEx OAuth is used only for upstream carrier requests and cannot authenticate callers of this API.
 
-POST `/api/v1/auth/login`: `{email,password,channel?}`. Returns a safe user object and an HttpOnly SameSite=Strict session cookie (Secure in an HTTPS hosted deployment). Requires an exact Origin header. POST `/api/v1/auth/logout` revokes the session and clears the cookie. GET `/api/v1/auth/session` returns `{user,modes,mode,source}`. Accounts are provisioned with `pnpm user:create`, not public registration.
+POST `/api/v1/auth/login`: `{email,password,channel?}`. Returns a safe user object and an HttpOnly SameSite=Strict session cookie (Secure in an HTTPS hosted deployment). Requires an exact Origin header. POST `/api/v1/auth/logout` revokes the session and clears the cookie. GET `/api/v1/auth/session` returns `{user,group,generationEnabled,modes,mode,source}`. Provision an initial admin with the administrative command `pnpm user:create`; admins create user accounts and assign company groups in the Admin page. There is no public registration.
 
-Rates require an end-user session to resolve the account’s saved carrier credentials (browser calls require Origin). A deployment-wide APP_API_KEY alone cannot quote because it does not identify an account. Profile and carrier-settings routes require a session. There is no permissive CORS response.
+Rates require an end-user session to resolve the company group’s saved carrier credentials (browser calls require Origin). A deployment-wide APP_API_KEY alone cannot quote because it does not identify an account. Profile and carrier-settings routes require a session. There is no permissive CORS response.
 
 ## Rates
 
@@ -77,7 +77,7 @@ The response is `{requestId,quotedAt,mode,appEnvironment,results,carrierStatuses
 
 These numbers are synthetic fixtures. Money is a decimal string. Coverage status is `quoted`, `not_quoted`, `not_supported`, or `carrier_error`; missing covered amounts/differences are null. ETA kinds are estimated_date, guaranteed_date, transit_days, or unavailable; dates are never fabricated from transit days. Each carrier status includes carrier, mode, source, status and safe message; status can be success, unconfigured, disabled, unavailable, timeout or error. Partial/all carrier failures remain a valid comparison response with explicit statuses and possibly no rows.
 
-GET `/api/v1/carriers?mode=sandbox` exposes only configured/disabled/unconfigured statuses. Both modes require a signed-in account and use that account’s enabled credentials. GET `/api/v1/health` returns `{status:"ok"}` without secrets (liveness only).
+GET `/api/v1/carriers?mode=sandbox` exposes only configured/disabled/unconfigured statuses. Both modes require a signed-in account and use that company group’s enabled credentials. GET `/api/v1/health` returns `{status:"ok"}` without secrets (liveness only).
 
 ## Saved origins
 
@@ -85,26 +85,28 @@ GET `/api/v1/ship-from-profiles` returns `{profiles:[...]}` for the current user
 
 Profile records contain id, user_id, profile_name, the flat address fields, is_default, created_at, and updated_at. IDs are UUIDs; timestamps are UTC ISO strings. Names are unique per user ignoring case; defaults are unique per user. No global address book or client-controlled ownership is exposed.
 
-## Account carrier settings
+## Company carrier settings
 
-GET `/api/v1/carrier-settings?mode=sandbox` (or production) returns the signed-in account’s settings for each carrier, with public fields and savedSecrets booleans. Secret values are never returned. PUT `/api/v1/carrier-settings/{mode}/{carrier}` accepts `{enabled, baseUrl, fields, quoteType?, clearCredentials?}`; only the selected carrier's documented credential fields and official URL are accepted. Blank secret fields retain saved values. Set clearCredentials to true to discard previously saved credentials before applying fields. The web UI’s Clear settings action edits only the draft; Save settings persists the clearing. DELETE on that path clears credentials and disables the carrier. Ownership comes exclusively from the session; clients cannot specify another account. Secret payloads must not be logged. Settings changes apply to the next quote, with no environment-file fallback.
+GET `/api/v1/carrier-settings?mode=production` returns statuses for the current company group. Users receive only `carrier`, `mode`, `enabled`, and `configured`. Admin web sessions receive public fields and `savedSecrets` flags; secret values are never returned.
+
+Only admin web sessions may PUT/DELETE `/api/v1/carrier-settings/{mode}/{carrier}` or POST its `/test` endpoint. Admins can add `?groupId=GROUP_UUID` to manage a chosen company's connections; other users cannot override their group. PUT accepts `{enabled,baseUrl,fields,quoteType?,clearCredentials?}`. Blank secret fields retain saved values; `clearCredentials: true` replaces them. DELETE clears and disables the connection. Credentials remain encrypted and bound to the group, carrier and mode. No environment-file fallback is used for company quotes.
 
 ## Area routing and connection checks
 
-The production API is `/api/v1/*`; sandbox / UAT uses `/sandbox/api/v1/*`. Both require the same authenticated session. Session responses report the area's mode. Carrier settings and rates must match the API area's mode; mismatches return 400 ENVIRONMENT_MISMATCH before any carrier request. If carrierMode is omitted from a rate request, the API area's mode is used. Roles and environment flags do not select carrier traffic; the account's saved credentials and enabled switch do.
+The production API is `/api/v1/*`; sandbox / UAT uses `/sandbox/api/v1/*`. Both require the same authenticated session. Session responses report the area's mode. Carrier settings and rates must match the API area's mode; mismatches return 400 ENVIRONMENT_MISMATCH before any carrier request. If carrierMode is omitted from a rate request, the API area's mode is used. Roles and environment flags do not select carrier traffic; the company group's saved credentials and enabled switch do.
 
 POST `/api/v1/carrier-settings/production/{carrier}/test` or `/sandbox/api/v1/carrier-settings/sandbox/{carrier}/test` checks saved credentials without saving, enabling or booking anything. It sends a small domestic rate request, with a 30-second server timeout and per-account/carrier throttling. Success/error/timeout/unconfigured status and a safe message are returned, including HTTP/code details where available. Credentials are never returned.
 
-Each real rate row includes apiResult containing its original per-service carrier response object; withCoverage.apiResult contains the matching covered response when present. These fields expose carrier rate results for the signed-in account, not authentication responses or request credentials. XML carrier results are represented as parsed objects. Rates remain transient and are not stored.
+Each real rate row includes apiResult containing its original per-service carrier response object; withCoverage.apiResult contains the matching covered response when present. These fields expose carrier rate results for the signed-in account, not authentication responses or request credentials. XML carrier results are represented as parsed objects. Shipment details, normalized rates and carrier statuses are saved in company rate logs. Raw carrier apiResult blobs are not persisted.
 
 ## Administrator accounts and access
 
 Admin web sessions may manage accounts at `/admin` or `/sandbox/admin`. The account list is shared across both areas.
 
-- GET `/api/v1/admin/accounts`: `{accounts:[{id,email,role,webAccess,apiAccess,created_at}]}`; passwords are never returned.
-- POST `/api/v1/admin/accounts`: `{email,password,role,webAccess,apiAccess}`; creates an account with HTTP 201. Roles: user, operator, admin. Passwords require at least 6 characters.
+- GET `/api/v1/admin/accounts`: `{accounts:[{id,email,role,webAccess,apiAccess,groupId,groupName,created_at}]}`; passwords are never returned.
+- POST `/api/v1/admin/accounts`: `{email,password,role,webAccess,apiAccess,groupId}`; creates an account with HTTP 201. Roles: user, operator, admin. Passwords require at least 6 characters.
 - PATCH `/api/v1/admin/accounts/{id}`: any subset of these fields; omit password to preserve it. Changes revoke all sessions for that account.
-- DELETE `/api/v1/admin/accounts/{id}`: HTTP 204; cascades sessions, profiles and carrier settings. Self deletion is blocked.
+- DELETE `/api/v1/admin/accounts/{id}`: HTTP 204; deletes sessions and personal profiles; company credentials and labels remain. Self deletion is blocked.
 
 Sandbox uses the same paths under `/sandbox/api/v1`. All writes require Origin. Nonadmins and integration API sessions receive HTTP 403 ADMIN_REQUIRED. Removing or disabling the last admin with web access returns HTTP 409 LAST_ADMIN. Duplicate email returns 409 EMAIL_CONFLICT; self deletion returns 409 SELF_DELETE.
 
@@ -113,3 +115,29 @@ Login accepts optional `channel: "api" | "web"` (default `api`). Integration log
 ### Loomis production URL
 
 Production Loomis accepts an account-entered HTTPS SOAP 1.1 rating endpoint on an official `loomis-express.com` or `loomisexpress.com` domain, with USERNAME, PASSWORD and ACCOUNT_NUMBER. Supply the carrier-provided operation endpoint, not a `?wsdl` URL. Sandbox/test hosts, non-HTTPS URLs, user-info, custom ports, query strings and fragments are rejected. No production URL or credentials are copied from sandbox. Save settings, then use the connection-test endpoint to verify the integration with the carrier. Production shipments require street addresses, contact names or companies, and phone numbers at both ends. International customs requests remain unsupported.
+
+## Company administration and labels
+
+GET `/api/v1/admin/groups` returns `{groups:[{id,name,created_at,memberCount}]}`. POST with `{name}` creates a group (201). PATCH `/api/v1/admin/groups/{id}` renames it. Names are unique ignoring case. These operations require an admin web session. Users and operators require an existing `groupId` when created; management-only admins may use null. Account edits revoke existing sessions. Reassignment changes future access; previous labels remain with the original group.
+
+GET/PUT `/api/v1/admin/generation-settings?groupId=GROUP_UUID` reads/writes `{enabled}` for that group and API area. It defaults to false. Only admin web sessions can change it. GET `/api/v1/auth/session` reports the user's `{group:{id,name}|null,generationEnabled}`. POST `/sandbox/api/v1/loomis/labels` requires the group permission and enabled Loomis credentials, takes `{shipment,serviceCode}` (DD/DE/DN/D9), and saves original PNGs with shipment details. Production generation remains unsupported.
+
+GET `/api/v1/labels?page=1&pageSize=20` lists labels shared by the current group. Sizes: 10/20/50/100. GET `/api/v1/labels/{id}` returns its original PNGs and shipment details; other groups' IDs return 404. Admin web sessions may use `?groupId=GROUP_UUID` to inspect a selected company. Read/download access remains available when generation is disabled. Deleting the creator preserves company label history.
+
+## Rate logs
+
+Valid POST `/api/v1/rates` requests automatically save the shipment and normalized comparison, including failed/no-rate carrier statuses. The response includes `quoteLogId`. Raw upstream `apiResult` blobs and credentials are not stored in rate logs.
+
+For parallel carrier requests belonging to one comparison, send the same optional `comparisonId` (UUID) and `comparisonCarriers` (unique full carrier list) with every request. Each request's `carriers` must be a subset of this list. The server verifies that the normalized shipment, selected carriers, group, user and environment match before calling the carrier, then merges replies transactionally. Without these fields, each rates request creates its own log.
+
+GET `/api/v1/rate-logs?page=1&pageSize=20` returns `{logs,total,page,pageSize,totalPages}`. Page sizes: 10/20/50/100. GET `/api/v1/rate-logs/{id}` returns the saved shipment and comparison. Reads use the current company group and API environment; another group's or environment's ID returns 404. Admin web sessions may pass `?groupId=GROUP_UUID`. Log history survives deletion of its creator.
+
+On the Rates page, **Rate logs** opens a dialog with saved comparisons and shipment details. **Load shipping details** fills the form for a fresh comparison; past shipping dates become today's date in the selected time zone. Current enabled carriers are respected, and personal saved-profile IDs are not reused. Loading a record does not book a shipment or generate a label.
+
+DELETE `/api/v1/admin/groups/{id}` requires an admin web session. It removes an empty company's carrier credentials and generation permissions in both environments. Existing members return 409 GROUP_HAS_MEMBERS; saved labels or rate logs return 409 GROUP_HAS_HISTORY. Move members first; companies with shipment history are retained. The Settings → Company groups → Overview page requires explicit confirmation before deletion.
+
+DELETE `/api/v1/rate-logs/{id}` removes one comparison in the current company and environment (204). Other companies/environments return 404. Admin web sessions may specify `?groupId=GROUP_UUID`. Deletion leaves shipping labels intact. Active comparisons return 409 COMPARISON_IN_PROGRESS; old interrupted logs may be deleted. The Rate logs dialog confirms deletion before removing a record shared with company members.
+
+### User environment access
+
+Administrators manage `productionAccess` and `uatAccess` separately from `webAccess` and `apiAccess` in account create/update requests. New accounts default to Production disabled and UAT enabled. Existing accounts retain both environments on migration. Both browser and integration sessions are subject to these grants; unauthorized environment requests return HTTP 403 `MODE_NOT_ALLOWED`. `auth/session` reports the permitted `modes` so clients can select an authorized area. Account edits revoke existing sessions. Carrier credentials remain company scoped, and label generation still requires the separate administrator setting.

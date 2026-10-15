@@ -19,15 +19,19 @@ beforeEach(async () => {
   directory = mkdtempSync(path.join(tmpdir(), "carrier-settings-"));
   settings = new CarrierSettings(store, path.join(directory, "key"));
   for (const id of [owner, other]) await store.query("INSERT INTO users (id,email,password_hash,role,created_at) VALUES (?,?,?,?,?)", [id, `${id}@example.test`, "test-hash", "user", new Date().toISOString()]);
+  for (const id of [owner, other]) {
+    await store.query("INSERT INTO company_groups(id,name,created_at) VALUES (?,?,?)", [id, id, new Date().toISOString()]);
+    await store.query("INSERT INTO group_memberships(user_id,group_id) VALUES (?,?)", [id, id]);
+  }
 });
 afterEach(async () => { vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); await store.close(); rmSync(directory, { recursive: true, force: true }); });
-describe("account carrier settings", () => {
+describe("company carrier settings", () => {
   it("encrypts credentials, masks secret responses and isolates accounts and modes", async () => {
     const saved = await settings.save(owner, "fedex", "sandbox", credentials);
     expect(saved.savedSecrets).toEqual({ CLIENT_ID: true, CLIENT_SECRET: true });
     expect(saved.fields).toEqual({ ACCOUNT_NUMBER: "account-a" });
     expect(JSON.stringify(saved)).not.toContain("private-");
-    const rows = await store.query<{ encrypted_settings: string }>("SELECT encrypted_settings FROM carrier_settings");
+    const rows = await store.query<{ encrypted_settings: string }>("SELECT encrypted_settings FROM group_carrier_settings");
     expect(rows[0].encrypted_settings).not.toContain("private-");
     expect(Buffer.from(rows[0].encrypted_settings, "base64").toString()).not.toContain("private-");
     expect((await settings.config(owner, "fedex", "sandbox")).get("CLIENT_SECRET")).toBe("private-secret");
@@ -53,12 +57,12 @@ describe("account carrier settings", () => {
       await expect(settings.save(owner, "fedex", "sandbox", { ...credentials, baseUrl })).rejects.toThrow("official");
     await expect(settings.save(owner, "fedex", "sandbox", { ...credentials, fields: { CLIENT_ID: "only-key" } })).rejects.toMatchObject({ code: "CREDENTIALS_REQUIRED" });
     await expect(settings.save(owner, "fedex", "sandbox", { ...credentials, fields: { ...credentials.fields, PASSWORD: "bad-field" } })).rejects.toThrow("Unexpected");
-    expect(await store.query("SELECT * FROM carrier_settings")).toHaveLength(0);
+    expect(await store.query("SELECT * FROM group_carrier_settings")).toHaveLength(0);
   });
   it("binds ciphertext to its account and mode", async () => {
     await settings.save(owner, "fedex", "sandbox", credentials);
-    const row = (await store.query<{ encrypted_settings: string }>("SELECT encrypted_settings FROM carrier_settings"))[0];
-    await store.query("INSERT INTO carrier_settings (user_id,carrier,mode,enabled,encrypted_settings,updated_at) VALUES (?,?,?,?,?,?)", [other, "fedex", "sandbox", 1, row.encrypted_settings, new Date().toISOString()]);
+    const row = (await store.query<{ encrypted_settings: string }>("SELECT encrypted_settings FROM group_carrier_settings"))[0];
+    await store.query("INSERT INTO group_carrier_settings (group_id,carrier,mode,enabled,encrypted_settings,updated_at) VALUES (?,?,?,?,?,?)", [other, "fedex", "sandbox", 1, row.encrypted_settings, new Date().toISOString()]);
     await expect(settings.config(other, "fedex", "sandbox")).rejects.toThrow();
   });
   it("uses saved credentials for quoting and never falls back to environment credentials when disabled", async () => {
@@ -80,6 +84,15 @@ describe("account carrier settings", () => {
     expect(fetchMock.mock.calls[0][1].body).toContain("private-secret");
     expect(fetchMock.mock.calls[0][1].body).not.toContain("wrong-env-secret");
     expect(quoted.results[0].withoutCoverage.total).toBe("25.00");
+    vi.stubEnv("MOCK_CARRIERS", "true");
+    const mockDisabled = await compare(shipment, other);
+    expect(mockDisabled.results).toEqual([]);
+    expect(mockDisabled.carrierStatuses[0].status).toBe("disabled");
+    const noDimensions = { ...shipment, packages: [{ ...shipment.packages[0], length: 0, width: 0, height: 0 }] };
+    const mockEnabled = await compare(noDimensions, owner);
+    expect(mockEnabled.carrierStatuses[0].status).toBe("success");
+    expect(mockEnabled.results[0].notices).toContain("Package dimensions were not provided. Actual measurements may change final charges.");
+    expect(fetchMock).toHaveBeenCalledTimes(2);
   });
 });
 
@@ -100,7 +113,7 @@ describe("account carrier settings", () => {
     for (const baseUrl of [defaultCarrierUrl("loomis", "sandbox"), "https://evil.test/rate", "https://loomis-express.com.evil.test/rate", "http://www.loomis-express.com/rate", "https://127.0.0.1/rate", endpoint + "?wsdl", "https://user:pass@www.loomis-express.com/rate", endpoint + "#fragment", "https://www.loomis-express.com:8443/rate"])
       await expect(settings.save(owner, "loomis", "production", { enabled: true, baseUrl, fields })).rejects.toMatchObject({ code: "INVALID_CARRIER_URL" });
     await expect(settings.save(owner, "loomis", "production", { enabled: true, baseUrl: endpoint, fields: { USERNAME: "user" } })).rejects.toMatchObject({ code: "CREDENTIALS_REQUIRED" });
-    expect(await store.query("SELECT * FROM carrier_settings")).toHaveLength(0);
+    expect(await store.query("SELECT * FROM group_carrier_settings")).toHaveLength(0);
   });
  });
 

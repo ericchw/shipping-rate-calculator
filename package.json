@@ -38,7 +38,8 @@
     "decimal.js": "10.6.0",
     "fast-xml-parser": "5.11.2",
     "pg": "8.20.0",
-    "server-only": "0.0.1"
+    "server-only": "0.0.1",
+    "html-to-image": "1.11.13"
   },
   "devDependencies": {
     "typescript": "5.9.3",

@@ -10,6 +10,8 @@ export type User = {
   role: "user" | "operator" | "admin";
   webAccess?: boolean;
   apiAccess?: boolean;
+  productionAccess?: boolean;
+  uatAccess?: boolean;
   channel?: "web" | "api";
 };
 export async function passwordHash(password: string) {
@@ -39,12 +41,12 @@ function token(req: Request) {
 export async function currentUser(req: Request): Promise<User | null> {
   const t = token(req);
   if (!t || !/^[a-f0-9]{64}$/.test(t)) return null;
-  const row = (await db().query<User & { web_access: number; api_access: number }>(
-    "SELECT u.id,u.email,u.role,COALESCE(a.web_access,1) AS web_access,COALESCE(a.api_access,1) AS api_access,COALESCE(c.channel,'web') AS channel FROM users u JOIN sessions s ON s.user_id=u.id LEFT JOIN account_access a ON a.user_id=u.id LEFT JOIN session_channels c ON c.token_hash=s.token_hash WHERE s.token_hash=? AND s.expires_at>?",
+  const row = (await db().query<User & { web_access: number; api_access: number; production_access: number; uat_access: number }>(
+    "SELECT u.id,u.email,u.role,COALESCE(a.web_access,1) AS web_access,COALESCE(a.api_access,1) AS api_access,COALESCE(e.production_access,1) AS production_access,COALESCE(e.uat_access,1) AS uat_access,COALESCE(c.channel,'web') AS channel FROM users u JOIN sessions s ON s.user_id=u.id LEFT JOIN account_access a ON a.user_id=u.id LEFT JOIN account_environment_access e ON e.user_id=u.id LEFT JOIN session_channels c ON c.token_hash=s.token_hash WHERE s.token_hash=? AND s.expires_at>?",
     [digest(t), new Date().toISOString()],
   ))[0];
-  if (!row || !(row.channel === "api" ? row.api_access : row.web_access)) return null;
-  return { id: row.id, email: row.email, role: row.role, webAccess: !!row.web_access, apiAccess: !!row.api_access, channel: row.channel };
+  if (!row || (!row.production_access && !row.uat_access) || !(row.channel === "api" ? row.api_access : row.web_access)) return null;
+  return { id: row.id, email: row.email, role: row.role, webAccess: !!row.web_access, apiAccess: !!row.api_access, productionAccess: !!row.production_access, uatAccess: !!row.uat_access, channel: row.channel };
 }
 export async function requireUser(req: Request) {
   const user = await currentUser(req);
@@ -53,8 +55,8 @@ export async function requireUser(req: Request) {
 }
 export async function login(email: string, password: string, channel: "web" | "api" = "api") {
   const user = (
-    await db().query<User & { password_hash: string; web_access: number; api_access: number }>(
-      "SELECT u.*,COALESCE(a.web_access,1) AS web_access,COALESCE(a.api_access,1) AS api_access FROM users u LEFT JOIN account_access a ON a.user_id=u.id WHERE u.email=?",
+    await db().query<User & { password_hash: string; web_access: number; api_access: number; production_access: number; uat_access: number }>(
+      "SELECT u.*,COALESCE(a.web_access,1) AS web_access,COALESCE(a.api_access,1) AS api_access,COALESCE(e.production_access,1) AS production_access,COALESCE(e.uat_access,1) AS uat_access FROM users u LEFT JOIN account_access a ON a.user_id=u.id LEFT JOIN account_environment_access e ON e.user_id=u.id WHERE u.email=?",
       [email.toLowerCase()],
     )
   )[0];
@@ -67,17 +69,18 @@ export async function login(email: string, password: string, channel: "web" | "a
   return db().transaction(async (tx) => {
     // Serialize with account edits; verification happened before taking the lock.
     await tx.query("UPDATE users SET id=id WHERE id=?", [user.id]);
-    const fresh = (await tx.query<User & { password_hash: string; web_access: number; api_access: number }>(
-      "SELECT u.*,COALESCE(a.web_access,1) AS web_access,COALESCE(a.api_access,1) AS api_access FROM users u LEFT JOIN account_access a ON a.user_id=u.id WHERE u.id=?", [user.id],
+    const fresh = (await tx.query<User & { password_hash: string; web_access: number; api_access: number; production_access: number; uat_access: number }>(
+      "SELECT u.*,COALESCE(a.web_access,1) AS web_access,COALESCE(a.api_access,1) AS api_access,COALESCE(e.production_access,1) AS production_access,COALESCE(e.uat_access,1) AS uat_access FROM users u LEFT JOIN account_access a ON a.user_id=u.id LEFT JOIN account_environment_access e ON e.user_id=u.id WHERE u.id=?", [user.id],
     ))[0];
     if (!fresh || fresh.password_hash !== user.password_hash)
       throw new AppError(401, "INVALID_LOGIN", "Invalid email or password");
     if (!(channel === "web" ? fresh.web_access : fresh.api_access))
       throw new AppError(403, "ACCESS_DENIED", `${channel === "web" ? "Web" : "API"} access is disabled for this account`);
+    if (!fresh.production_access && !fresh.uat_access) throw new AppError(403, "ACCESS_DENIED", "No environment access is enabled for this account");
     const t = randomBytes(32).toString("hex");
     await tx.query("INSERT INTO sessions (token_hash,user_id,expires_at) VALUES (?,?,?)", [digest(t), fresh.id, new Date(Date.now() + 28800000).toISOString()]);
     await tx.query("INSERT INTO session_channels (token_hash,channel) VALUES (?,?)", [digest(t), channel]);
-    return { token: t, user: { id: fresh.id, email: fresh.email, role: fresh.role, webAccess: !!fresh.web_access, apiAccess: !!fresh.api_access, channel } };
+    return { token: t, user: { id: fresh.id, email: fresh.email, role: fresh.role, webAccess: !!fresh.web_access, apiAccess: !!fresh.api_access, productionAccess: !!fresh.production_access, uatAccess: !!fresh.uat_access, channel } };
   });
 }
 export async function logout(req: Request) {

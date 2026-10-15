@@ -4,10 +4,11 @@ export function redirectToLogin(mode: AppMode) {
     window.location.assign(`${pagePath(mode, "login")}?next=${encodeURIComponent(window.location.pathname)}`);
 }
 export async function clientApi(mode: AppMode, path: string, method = "GET", value?: unknown) {
+  const route = path.split("?")[0];
   const response = await fetch(apiPath(mode, path), {
     method, headers: value === undefined ? {} : { "Content-Type": "application/json" },
     body: value === undefined ? undefined : JSON.stringify(value),
-    signal: AbortSignal.timeout(path === "rates" || path.endsWith("/test") ? 45000 : 15000),
+    signal: AbortSignal.timeout(route === "loomis/labels" || route === "rates" || route.endsWith("/test") ? 45000 : 15000),
   });
   if (response.status === 401 && path !== "auth/login") redirectToLogin(mode);
   if (response.status === 204) return null;

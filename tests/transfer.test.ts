@@ -19,7 +19,10 @@ it("preserves users/profiles and refuses a populated target without copying sess
         new Date().toISOString(),
       ],
     );
+    await a.query("INSERT INTO company_groups(id,name,created_at) VALUES (?,?,?)", [id, "Transferred company", new Date().toISOString()]);
+    await a.query("INSERT INTO group_memberships(user_id,group_id) VALUES (?,?)", [id, id]);
     await a.query("INSERT INTO account_access VALUES (?,?,?)", [id, 0, 0]);
+    await a.query("INSERT INTO account_environment_access VALUES (?,?,?)", [id, 0, 1]);
     const p = await new Profiles(a).save(id, {
       profile_name: "Warehouse",
       address: {
@@ -38,6 +41,8 @@ it("preserves users/profiles and refuses a populated target without copying sess
     expect(await transfer(a, b)).toEqual({ users: 1, profiles: 1 });
     expect(await new Profiles(b).get(id, p.id)).toEqual(p);
     expect(await b.query("SELECT * FROM account_access")).toEqual([{ user_id: id, web_access: 0, api_access: 0 }]);
+    expect(await b.query("SELECT * FROM group_memberships")).toEqual([{ user_id: id, group_id: id }]);
+    expect(await b.query("SELECT * FROM account_environment_access")).toEqual([{ user_id: id, production_access: 0, uat_access: 1 }]);
     expect(await b.query("SELECT * FROM sessions")).toEqual([]);
     await expect(transfer(a, b)).rejects.toThrow("empty");
     expect(await new Profiles(a).list(id)).toHaveLength(1);

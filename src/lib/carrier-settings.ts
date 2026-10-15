@@ -1,4 +1,6 @@
 import "server-only";
+import { userGroup, authorizeAdmin } from "./groups";
+import type { User } from "./auth";
 import { createCipheriv, createDecipheriv, randomBytes } from "node:crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
@@ -10,7 +12,7 @@ import type { CarrierConfig } from "./config";
 type StoredSettings = { baseUrl: string; fields: Record<string, string>; quoteType: "counter" | "commercial" };
 type SettingsRow = { enabled: number; encrypted_settings: string };
 export class CarrierSettings {
-  constructor(private store: Store = db(), private keyFile = path.resolve("data/carrier-settings.key")) {}
+  constructor(private store: Store = db(), private keyFile = path.resolve("data/carrier-settings.key"), private groupId?: string) {}
   private key() {
     mkdirSync(path.dirname(this.keyFile), { recursive: true });
     try { writeFileSync(this.keyFile, randomBytes(32), { flag: "wx", mode: 0o600 }); }
@@ -38,8 +40,9 @@ export class CarrierSettings {
     return { baseUrl: defaultCarrierUrl(carrier, mode), fields: {}, quoteType: mode === "sandbox" ? "counter" : "commercial" };
   }
   private async read(owner: string, carrier: SettingsCarrier, mode: SettingsMode, connection: Connection = this.store) {
-    const row = (await connection.query<SettingsRow>("SELECT enabled,encrypted_settings FROM carrier_settings WHERE user_id=? AND carrier=? AND mode=?", [owner, carrier, mode]))[0];
-    return { enabled: !!row?.enabled, value: row ? this.decrypt(row.encrypted_settings, owner, carrier, mode) : this.defaults(carrier, mode) };
+    const groupId = this.groupId ?? (await userGroup(owner, connection))?.id;
+    const row = groupId ? (await connection.query<SettingsRow>("SELECT enabled,encrypted_settings FROM group_carrier_settings WHERE group_id=? AND carrier=? AND mode=?", [groupId, carrier, mode]))[0] : undefined;
+    return { groupId, enabled: !!row?.enabled, value: row ? this.decrypt(row.encrypted_settings, groupId!, carrier, mode) : this.defaults(carrier, mode) };
   }
   private ready(carrier: SettingsCarrier, mode: SettingsMode, value: StoredSettings) {
     const required = carrier === "canada_post" ? ["API_KEY", "API_SECRET"] : carrier === "fedex" ? ["CLIENT_ID", "CLIENT_SECRET", "ACCOUNT_NUMBER"] : ["USERNAME", "PASSWORD", "ACCOUNT_NUMBER"];
@@ -54,7 +57,7 @@ export class CarrierSettings {
     }
     return { carrier, mode, enabled, baseUrl: value.baseUrl, fields, savedSecrets, quoteType: value.quoteType, configured: this.ready(carrier, mode, value) };
   }
-  async save(owner: string, carrier: SettingsCarrier, mode: SettingsMode, input: unknown) {
+  async save(owner: string, carrier: SettingsCarrier, mode: SettingsMode, input: unknown, actor?: User) {
     const parsed = carrierSettingsInput.parse(input);
     const allowed = new Set<string>(carrierDefinitions[carrier].fields.map((field) => field.key));
     if (Object.keys(parsed.fields).some((field) => !allowed.has(field))) throw new AppError(400, "INVALID_FIELD", "Unexpected credential field");
@@ -65,21 +68,26 @@ export class CarrierSettings {
         ? "Enter the official Loomis production HTTPS SOAP rating endpoint, without ?wsdl. Sandbox URLs cannot be used in production."
         : `Use the official ${mode} URL: ${expected}`);
     await this.store.transaction(async (tx) => {
-      await tx.query("UPDATE users SET id=id WHERE id=?", [owner]);
+      if (actor) await authorizeAdmin(tx, actor);
       const current = await this.read(owner, carrier, mode, tx);
+      if (!current.groupId) throw new AppError(403, "GROUP_REQUIRED", "Assign a company group before saving API settings.");
       const fields: Record<string, string> = parsed.clearCredentials ? {} : { ...current.value.fields };
       for (const field of carrierDefinitions[carrier].fields) {
         if (parsed.fields[field.key] !== undefined && (!field.secret || parsed.fields[field.key] !== "")) fields[field.key] = parsed.fields[field.key];
       }
       const value = { baseUrl: parsed.baseUrl, fields, quoteType: parsed.quoteType ?? current.value.quoteType };
       if (parsed.enabled && !this.ready(carrier, mode, value)) throw new AppError(400, "CREDENTIALS_REQUIRED", "Fill in the required API URL and credentials before enabling this carrier.");
-      await tx.query("INSERT INTO carrier_settings (user_id,carrier,mode,enabled,encrypted_settings,updated_at) VALUES (?,?,?,?,?,?) ON CONFLICT (user_id,carrier,mode) DO UPDATE SET enabled=excluded.enabled,encrypted_settings=excluded.encrypted_settings,updated_at=excluded.updated_at",
-        [owner, carrier, mode, Number(parsed.enabled), this.encrypt(value, owner, carrier, mode), new Date().toISOString()]);
+      await tx.query("INSERT INTO group_carrier_settings (group_id,carrier,mode,enabled,encrypted_settings,updated_at) VALUES (?,?,?,?,?,?) ON CONFLICT (group_id,carrier,mode) DO UPDATE SET enabled=excluded.enabled,encrypted_settings=excluded.encrypted_settings,updated_at=excluded.updated_at",
+        [current.groupId, carrier, mode, Number(parsed.enabled), this.encrypt(value, current.groupId, carrier, mode), new Date().toISOString()]);
     });
     return this.get(owner, carrier, mode);
   }
-  async delete(owner: string, carrier: SettingsCarrier, mode: SettingsMode) {
-    await this.store.query("DELETE FROM carrier_settings WHERE user_id=? AND carrier=? AND mode=?", [owner, carrier, mode]);
+  async delete(owner: string, carrier: SettingsCarrier, mode: SettingsMode, actor?: User) {
+    await this.store.transaction(async (tx) => {
+      if (actor) await authorizeAdmin(tx, actor);
+      const groupId = this.groupId ?? (await userGroup(owner, tx))?.id;
+      if (groupId) await tx.query("DELETE FROM group_carrier_settings WHERE group_id=? AND carrier=? AND mode=?", [groupId, carrier, mode]);
+    });
   }
   async config(owner: string, carrier: SettingsCarrier, mode: SettingsMode): Promise<CarrierConfig & { enabled: boolean }> {
     const { enabled, value } = await this.read(owner, carrier, mode);

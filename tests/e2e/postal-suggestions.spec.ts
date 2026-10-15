@@ -1,0 +1,35 @@
+import { test, expect } from "@playwright/test";
+test("postal suggestions fill city/province, preserve postal code, and update Ship To summary", async ({ page }) => {
+  test.setTimeout(60000);
+  await page.route("**/sandbox/api/v1/postal-suggestions?*", (route) => {
+    const code = new URL(route.request().url()).searchParams.get("postalCode")!;
+    return route.fulfill({ json: { country: "CA", lookupCode: code.slice(0, 3), precision: "area", suggestions: [{ city: code.startsWith("V6B") ? "Vancouver" : "Toronto", region: code.startsWith("V6B") ? "BC" : "ON" }], message: null } });
+  });
+  const login = await page.request.post("/sandbox/api/v1/auth/login", { headers: { Origin: new URL(test.info().project.use.baseURL!).origin }, data: { email: "e2e@example.invalid", password: "fixture-password-only", channel: "web" } });
+  expect(login.ok()).toBeTruthy();
+  await page.goto("/sandbox/rate");
+  const fromSection = page.locator("details.shipment-section").first();
+  await expect(fromSection).toBeVisible({ timeout: 20000 });
+  if ((await fromSection.getAttribute("open")) === null) await fromSection.locator(":scope > summary").click();
+  await page.locator("#from-postal_code").fill("v6b 1a1");
+  await expect(page.locator("#from-city")).toHaveValue("Vancouver");
+  await expect(page.locator("#from-region")).toHaveValue("BC");
+  await expect(page.getByText(/City \/ province suggestions for/)).toHaveCount(0);
+  await expect(page.getByText(/Suggestions do not verify the full delivery address/)).toHaveCount(0);
+  await expect(page.locator("#from-postal_code")).toHaveValue("v6b 1a1");
+  await expect(fromSection.locator(":scope > summary")).toContainText("BC · Vancouver · v6b 1a1");
+  await page.locator("#from-city").fill("Manual city");
+  await expect(page.locator("#from-city")).toHaveValue("Manual city");
+  const toSection = page.locator("details.shipment-section").nth(1);
+  if ((await toSection.getAttribute("open")) === null) await toSection.locator(":scope > summary").click();
+  await page.locator("#to-city").fill("Wrong city");
+  await page.locator("#to-region").fill("BC");
+  await page.locator("#to-postal_code").fill("M5V2T6");
+  await expect(page.locator("#to-city")).toHaveValue("Toronto");
+  await expect(page.locator("#to-region")).toHaveValue("ON");
+  await expect(page.locator("#to-postal_code")).toHaveValue("M5V2T6");
+  await expect(toSection.locator(":scope > summary")).toContainText("ON · Toronto · M5V2T6");
+  await page.locator("#to-postal_code").fill("invalid");
+  await expect(page.getByRole("button", { name: "Use Toronto, ON", exact: true })).toHaveCount(0);
+  await expect(page.locator("#to-city")).toBeEditable();
+});

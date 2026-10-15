@@ -7,9 +7,9 @@ import { pagePath } from "@/lib/app-routes";
 import { clientApi } from "@/lib/client-api";
 import { carrierDefinitions, defaultCarrierUrl, type PublicCarrierSettings, type SettingsMode } from "@/lib/carrier-settings-schema";
 
-export default function CarrierSettings({ initialMode, onSaved }: { initialMode: SettingsMode; onSaved(): void }) {
+export default function CarrierSettings({ initialMode, onSaved, groupId }: { initialMode: SettingsMode; onSaved(): void; groupId?: string }) {
   const mode = initialMode;
-  const request = useCallback((path: string, method = "GET", value?: unknown) => clientApi(mode, `carrier-settings${path}`, method, value), [mode]);
+  const request = useCallback((path: string, method = "GET", value?: unknown) => clientApi(mode, `carrier-settings${path}${groupId ? `${path.includes("?") ? "&" : "?"}groupId=${encodeURIComponent(groupId)}` : ""}`, method, value), [mode, groupId]);
   const [dirty, setDirty] = useState<Record<string, boolean>>({});
   const [clearCredentials, setClearCredentials] = useState<Record<string, boolean>>({});
   const [feedback, setFeedback] = useState<Record<string, { error: boolean; message: string }>>({});
@@ -51,7 +51,7 @@ export default function CarrierSettings({ initialMode, onSaved }: { initialMode:
       });
       update(setting.carrier, saved, false);
       setClearCredentials(old => ({ ...old, [setting.carrier]: false }));
-      setFeedback(old => ({ ...old, [setting.carrier]: { error: false, message: "Settings saved to your account." } }));
+      setFeedback(old => ({ ...old, [setting.carrier]: { error: false, message: "Settings saved to this company group." } }));
       onSaved();
     } catch (error) { setFeedback(old => ({ ...old, [setting.carrier]: { error: true, message: (error as Error).message } })); }
     finally { setSaving(""); }
@@ -67,8 +67,8 @@ export default function CarrierSettings({ initialMode, onSaved }: { initialMode:
   }
   return <section className="panel carrier-settings" aria-labelledby="carrier-settings-title">
     <div className="section settings-heading">
-      <div><h2 id="carrier-settings-title">Carrier API settings</h2><p className="inline-note">Saved privately to your account. Blank secret fields keep the saved value.</p></div>
-      <p className="inline-note">{mode === "sandbox" ? "Sandbox / UAT credentials" : "Production credentials"}. <Link href={pagePath(mode === "sandbox" ? "production" : "sandbox", "setting")}>Open {mode === "sandbox" ? "production" : "sandbox"} settings</Link></p>
+      <div><h2 id="carrier-settings-title">Carrier API settings</h2><p className="inline-note">Shared by users in this company group. Blank secret fields keep the saved value.</p></div>
+      <p className="inline-note">{mode === "sandbox" ? "Sandbox / UAT credentials" : "Production credentials"}. <Link href={`${pagePath(mode === "sandbox" ? "production" : "sandbox", "setting")}${groupId ? `?company=${encodeURIComponent(groupId)}` : ""}`}>Open {mode === "sandbox" ? "production" : "sandbox"} settings</Link></p>
       <p className="inline-note">Save your credentials, then test the carrier connection. Available services depend on your shipment and account.</p>
     </div>
     {error && <div className="error" role="alert">{error}</div>}

@@ -7,8 +7,8 @@ import { loomis } from "./carriers/loomis";
 import { CarrierApiError, CarrierResponseError } from "./carriers/transport";
 import { shipmentSchema } from "./schemas";
 import { nextBusinessDay } from "./units";
-export async function testCarrierConnection(owner: string, carrier: Carrier, mode: Mode) {
-  const config = await new CarrierSettings().config(owner, carrier, mode);
+export async function testCarrierConnection(owner: string, carrier: Carrier, mode: Mode, groupId?: string) {
+  const config = await new CarrierSettings(undefined, undefined, groupId).config(owner, carrier, mode);
   if (!credentialsConfigured(carrier, mode, config)) return {
     status: "unconfigured", message: "Save the required API URL and credentials before testing.",
   };

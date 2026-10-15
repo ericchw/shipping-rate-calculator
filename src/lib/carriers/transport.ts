@@ -60,8 +60,9 @@ export async function request(
   url: string,
   init: RequestInit,
   signal: AbortSignal,
+  attempts = 3,
 ) {
-  for (let attempt = 0; attempt < 3; attempt++) {
+  for (let attempt = 0; attempt < attempts; attempt++) {
     signal.throwIfAborted();
     const response = await fetch(url, {
       ...init,
@@ -69,7 +70,7 @@ export async function request(
       redirect: "error",
       cache: "no-store",
     });
-    if ((response.status === 429 || response.status >= 500) && attempt < 2) {
+    if ((response.status === 429 || response.status >= 500) && attempt < attempts - 1) {
       await response.body?.cancel();
       await new Promise<void>((resolve, reject) => {
         const timer = setTimeout(

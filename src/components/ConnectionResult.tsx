@@ -1,9 +1,13 @@
+"use client";
+import { useSitePreferences } from "./SitePreferences";
+import { formatSiteTime } from "@/lib/site-preferences";
 export type ConnectionCheck = { status: string; message: string; milliseconds?: number; checkedAt?: string };
 const titles: Record<string, string> = {
   checking: "Checking connection", success: "Connected", error: "Connection failed",
   timeout: "Request timed out", unavailable: "Connected · no rates returned", unconfigured: "Credentials needed",
 };
 export default function ConnectionResult({ result }: { result: ConnectionCheck }) {
+  const { preferences } = useSitePreferences();
   const checking = result.status === "checking";
   const success = result.status === "success";
   const warning = result.status === "unavailable" || result.status === "unconfigured";
@@ -12,7 +16,7 @@ export default function ConnectionResult({ result }: { result: ConnectionCheck }
     <div className="connection-result-content"><strong>{titles[result.status] ?? "Connection result"}</strong><p>{success ? result.message.replace(/^Connected\s*·\s*/i, "") : result.message}</p>
       {!checking && <div className="connection-result-meta">
         {result.milliseconds !== undefined && <span>Response {(result.milliseconds / 1000).toFixed(2)}s</span>}
-        {result.checkedAt && <time dateTime={result.checkedAt}>Checked {new Date(result.checkedAt).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}</time>}
+        {result.checkedAt && <time dateTime={result.checkedAt}>Checked {formatSiteTime(result.checkedAt, preferences)}</time>}
       </div>}
     </div>
   </div>;

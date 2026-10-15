@@ -1,7 +1,7 @@
 import "server-only";
 import Decimal from "decimal.js";
 import { carrierConfig, credentialsConfigured, type CarrierConfig, type Mode } from "../config";
-import { convert } from "../units";
+import { convert, hasPackageDimensions } from "../units";
 import type { Shipment } from "../schemas";
 import { array, escapeXml, request, xml, CarrierResponseError } from "./transport";
 import { unavailableEta, type CarrierAdapter, type Quote } from "./types";
@@ -22,7 +22,7 @@ export function loomisRequest(s: Shipment, coverage: boolean, username: string, 
     tag("delivery_name", b.contact_name || b.company), tag("delivery_phone", b.phone),
     tag("delivery_postal_code", b.postal_code), tag("delivery_province", b.region),
     tag("dimension_unit", "M"),
-    `<dto:packages>${["length", "width", "height"].map((key) => named("package_info_num", key.toUpperCase(), new Decimal(convert(p[key as "length" | "width" | "height"], p.dimensionUnit, "cm")).toFixed(3))).join("")}${tag("reported_weight", new Decimal(convert(p.weight, p.weightUnit, "kg")).toFixed(3))}</dto:packages>`,
+    `<dto:packages>${hasPackageDimensions(p) ? ["length", "width", "height"].map((key) => named("package_info_num", key.toUpperCase(), new Decimal(convert(p[key as "length" | "width" | "height"], p.dimensionUnit, "cm")).toFixed(3))).join("") : ""}${tag("reported_weight", new Decimal(convert(p.weight, p.weightUnit, "kg")).toFixed(3))}</dto:packages>`,
     tag("pickup_address_line_1", a.address_line1), tag("pickup_address_line_2", a.address_line2),
     tag("pickup_city", a.city), tag("pickup_name", a.contact_name || a.company), tag("pickup_phone", a.phone),
     tag("pickup_postal_code", a.postal_code), tag("pickup_province", a.region),

@@ -12,6 +12,7 @@ import { mock } from "./carriers/mock";
 import type { Shipment } from "./schemas";
 import type { Comparison, Quote, RateRow } from "./carriers/types";
 import { CarrierApiError, CarrierResponseError } from "./carriers/transport";
+import { hasPackageDimensions } from "./units";
 import { CarrierSettings } from "./carrier-settings";
 export function difference(base: Quote, covered?: Quote) {
   return covered &&
@@ -20,7 +21,7 @@ export function difference(base: Quote, covered?: Quote) {
     ? new Decimal(covered.total).minus(base.total).toFixed(2)
     : null;
 }
-export async function compare(s: Shipment, owner?: string): Promise<Comparison> {
+export async function compare(s: Shipment, owner?: string, groupId?: string): Promise<Comparison> {
   const mode = s.carrierMode;
   const source = mockEnabled(mode) ? "mock" : "live_carrier";
   const output: Comparison = {
@@ -33,9 +34,9 @@ export async function compare(s: Shipment, owner?: string): Promise<Comparison> 
   };
   await Promise.all(
     s.carriers.map(async (carrier: Carrier) => {
-      const saved = owner ? await new CarrierSettings().config(owner, carrier, mode) : undefined;
-      if (saved && !saved.enabled && source !== "mock") {
-        output.carrierStatuses.push({ carrier, mode, source, status: "disabled", message: "Disabled in your carrier settings." });
+      const saved = owner ? await new CarrierSettings(undefined, undefined, groupId).config(owner, carrier, mode) : undefined;
+      if (saved && !saved.enabled) {
+        output.carrierStatuses.push({ carrier, mode, source, status: "disabled", message: "Disabled in your company group’s carrier settings." });
         return;
       }
       const status = saved ? "configured" : configured(carrier, mode);
@@ -55,7 +56,7 @@ export async function compare(s: Shipment, owner?: string): Promise<Comparison> 
           status: "unconfigured",
           message:
             carrier === "loomis"
-              ? "Save the Loomis API URL, username, password and account ID in this area’s Settings."
+              ? "Ask an administrator to configure Loomis for your company group."
               : "Credentials missing for this mode",
         });
         return;
@@ -136,6 +137,7 @@ export async function compare(s: Shipment, owner?: string): Promise<Comparison> 
             coverageDifference: difference(q, match),
             notices: [
               ...q.notices,
+              ...(!hasPackageDimensions(s.packages[0]) ? ["Package dimensions were not provided. Actual measurements may change final charges."] : []),
               ...(coveredFailed
                 ? [`${coveredError} Base quote retained.`]
                 : []),

@@ -33,7 +33,7 @@ export function mockEnabled(mode?: Mode) {
   return mode !== "production" && flag("MOCK_CARRIERS");
 }
 export function allowedModes(user?: User | null): Mode[] {
-  return user ? ["production", "sandbox"] : [];
+  return user ? [...(user.productionAccess !== false ? ["production" as const] : []), ...(user.uatAccess !== false ? ["sandbox" as const] : [])] : [];
 }
 export function carrierMode(): Mode {
   return "production";

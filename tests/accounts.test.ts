@@ -15,15 +15,29 @@ beforeEach(async () => {
   vi.spyOn(database, "db").mockReturnValue(store);
   admin = { id: randomUUID(), email: `${randomUUID()}@example.test`, role: "admin", webAccess: true, apiAccess: true, channel: "web" };
   await store.query("INSERT INTO users (id,email,password_hash,role,created_at) VALUES (?,?,?,?,?)", [admin.id, admin.email, await passwordHash(password), "admin", new Date().toISOString()]);
+  await store.query("INSERT INTO company_groups(id,name,created_at) VALUES (?,?,?)", [admin.id, "Test company", new Date().toISOString()]);
+  await store.query("INSERT INTO group_memberships(user_id,group_id) VALUES (?,?)", [admin.id, admin.id]);
 });
 afterEach(async () => { vi.restoreAllMocks(); vi.unstubAllEnvs(); await store.close(); });
-const makeAccount = (webAccess = true, apiAccess = true) => saveAccount(admin, { email: `${randomUUID()}@example.test`, password, role: "user", webAccess, apiAccess });
+const makeAccount = (webAccess = true, apiAccess = true) => saveAccount(admin, { email: `${randomUUID()}@example.test`, password, role: "user", webAccess, apiAccess, groupId: admin.id });
 async function request(route: string, method: string, cookie = "", value?: unknown, requestOrigin = origin) {
   const handler = { GET, POST, PATCH, DELETE }[method as "GET"];
   return handler(new Request(`${origin}/api/v1/${route}`, { method, headers: { Cookie: cookie, Origin: requestOrigin, "Content-Type": "application/json" }, body: value === undefined ? undefined : JSON.stringify(value) }), { params: Promise.resolve({ path: route.split("/") }) });
 }
 const session = async (email: string, channel: "web" | "api" = "web") => `shipping_session=${(await login(email, password, channel)).token}`;
 describe("admin accounts and access enforcement", () => {
+  it("defaults new users to UAT and revokes sessions when environment access changes", async () => {
+    const account = await makeAccount();
+    expect(account).toMatchObject({ productionAccess: false, uatAccess: true });
+    const cookie = await session(account.email);
+    expect((await request("profiles", "GET", cookie)).status).toBe(403);
+    await saveAccount(admin, { productionAccess: true, uatAccess: false }, account.id);
+    expect(await currentUser(new Request(origin, { headers: { Cookie: cookie } }))).toBeNull();
+    expect((await login(account.email, password, "api")).user).toMatchObject({ productionAccess: true, uatAccess: false });
+    await saveAccount(admin, { productionAccess: false, uatAccess: false }, account.id);
+    await expect(login(account.email, password, "web")).rejects.toMatchObject({ code: "ACCESS_DENIED" });
+    await expect(saveAccount(admin, { productionAccess: false, uatAccess: false }, admin.id)).rejects.toMatchObject({ code: "LAST_ADMIN" });
+  });
   it("rejects a password reset that races with login verification", async () => {
     const transaction = store.transaction.bind(store);
     vi.spyOn(store, "transaction").mockImplementationOnce(async (fn) => {
@@ -77,13 +91,13 @@ describe("admin accounts and access enforcement", () => {
     await expect(saveAccount(admin, { role: "user" }, admin.id)).resolves.toMatchObject({ role: "user" });
     await expect(saveAccount(admin, { role: "admin" }, admin.id)).rejects.toMatchObject({ code: "ADMIN_REQUIRED" });
   });
-  it("supports the management endpoints and cascades profile and carrier data", async () => {
+  it("supports management endpoints and preserves company credentials when deleting a user", async () => {
     const cookie = await session(admin.email);
-    const created = await request("admin/accounts", "POST", cookie, { email: "api-created@example.test", password, role: "user", webAccess: false, apiAccess: true });
+    const created = await request("admin/accounts", "POST", cookie, { email: "api-created@example.test", password, role: "user", webAccess: false, apiAccess: true, groupId: admin.id });
     expect(created.status).toBe(201); const account = await created.json();
     expect((await request(`admin/accounts/${account.id}`, "PATCH", cookie, { webAccess: true })).status).toBe(200);
-    await store.query("INSERT INTO carrier_settings (user_id,carrier,mode,enabled,encrypted_settings,updated_at) VALUES (?,?,?,?,?,?)", [account.id, "fedex", "sandbox", 0, "ciphertext", new Date().toISOString()]);
+    await store.query("INSERT INTO group_carrier_settings (group_id,carrier,mode,enabled,encrypted_settings,updated_at) VALUES (?,?,?,?,?,?)", [admin.id, "fedex", "sandbox", 0, "ciphertext", new Date().toISOString()]);
     expect((await request(`admin/accounts/${account.id}`, "DELETE", cookie)).status).toBe(204);
-    expect(await store.query("SELECT * FROM carrier_settings WHERE user_id=?", [account.id])).toHaveLength(0);
+    expect(await store.query("SELECT * FROM group_carrier_settings WHERE group_id=?", [admin.id])).toHaveLength(1);
   });
 });

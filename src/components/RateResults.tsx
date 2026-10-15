@@ -1,24 +1,45 @@
 "use client";
+import { useSitePreferences } from "./SitePreferences";
+import { formatSiteTime } from "@/lib/site-preferences";
 import { useEffect, useState } from "react";
-import type { Comparison } from "@/lib/carriers/types";
+import type { RateRow, Comparison } from "@/lib/carriers/types";
 import { rateTotal, taxLabel, comparableTax } from "@/lib/rate-suggestion";
+import { useToast } from "./ToastProvider";
+import { downloadPageImage } from "@/lib/page-image";
+import { clientApi } from "@/lib/client-api";
+import type { Shipment } from "@/lib/schemas";
 import { carrierIds } from "@/lib/schemas";
-import { carrierNames, formatPrice as price, formatEta as eta, serviceKey, buildRateTable, copyRateTable, copyApiResult } from "@/lib/rate-table";
+import { carrierNames, formatPrice as price, formatEta as eta, serviceKey, type RateTableShipment, rateTableCaption, buildRateTable, copyRateTable, copyApiResult } from "@/lib/rate-table";
 export default function RateResults({
   result,
   busy,
-  coverage,
+  coverageAmount,
+  shipment,
   preferencesKey,
+  labelShipment,
+  shipmentEdited = false,
+  generationEnabled = false,
 }: {
   result: Comparison | null;
   busy: boolean;
-  coverage: boolean;
+  coverageAmount: number;
+  shipment: RateTableShipment;
   preferencesKey: string;
+  labelShipment?: Shipment | null;
+  shipmentEdited?: boolean;
+  generationEnabled?: boolean;
 }) {
+  const { preferences } = useSitePreferences();
+  const coverage = coverageAmount > 0;
   const [sort, setSort] = useState("price");
   const [includeTax, setIncludeTax] = useState(false);
   const [hiddenServices, setHiddenServices] = useState<string[]>([]);
-  const [copyMessage, setCopyMessage] = useState("");
+  const notify = useToast();
+  const [imageBusy, setImageBusy] = useState(false);
+  const [generatingLabels, setGeneratingLabels] = useState<string[]>([]);
+  const [confirmLabel, setConfirmLabel] = useState<string | null>(null);
+  const [labelError, setLabelError] = useState("");
+  const showLabels = generationEnabled && result?.mode === "sandbox" && !!labelShipment && result.carrierStatuses.some((s) => s.carrier === "loomis" && s.source === "live_carrier" && ["success", "partial"].includes(s.status));
   const storageKey = `shipping:hidden-services:${preferencesKey}`;
   useEffect(() => {
     try {
@@ -26,14 +47,33 @@ export default function RateResults({
       setHiddenServices(Array.isArray(saved) ? saved.filter((key): key is string => typeof key === "string") : []);
     } catch { setHiddenServices([]); }
   }, [storageKey]);
-  useEffect(() => { setCopyMessage(""); }, [result, coverage, sort, hiddenServices, includeTax]);
+  async function generateLabel(r: RateRow) {
+    if (!labelShipment || !generationEnabled || shipmentEdited) return;
+    setConfirmLabel(null);
+    const rowKey = `${r.carrier}:${r.serviceCode}:${r.variant}`;
+    setGeneratingLabels((previous) => [...previous, rowKey]); setLabelError("");
+    try {
+      const response: { labelId: string; labels: string[] } = await clientApi("sandbox", "loomis/labels", "POST", { shipment: labelShipment, serviceCode: r.serviceCode });
+      const generated = response.labels.map((png, i) => ({ id: `${response.labelId}-${i + 1}`, png }));
+      for (const label of generated) {
+        const download = document.createElement("a");
+        download.href = `data:image/png;base64,${label.png}`;
+        download.download = `loomis-sandbox-${label.id}.png`;
+        document.body.appendChild(download);
+        download.click();
+        download.remove();
+      }
+      notify("Label saved and downloaded. View it again in Labels.");
+    } catch (error) { setLabelError((error as Error).message); }
+    finally { setGeneratingLabels((previous) => previous.filter((key) => key !== rowKey)); }
+  }
   function saveHiddenServices(next: string[]) {
     setHiddenServices(next);
     try { localStorage.setItem(storageKey, JSON.stringify(next)); } catch { /* Keep the setting for this visit. */ }
   }
   const services = [...new Map((result?.results ?? []).map((row) => [serviceKey(row), row])).values()];
   const hiddenCount = services.filter((row) => hiddenServices.includes(serviceKey(row))).length;
-  useEffect(() => { if (busy) setSort("price"); }, [busy]);
+  useEffect(() => { if (busy) { setSort("price"); setConfirmLabel(null); } }, [busy]);
   const rows = (result?.results ?? [])
     .filter((r) => !hiddenServices.includes(serviceKey(r)))
     .toSorted((a, b) =>
@@ -50,12 +90,16 @@ export default function RateResults({
   const cheapest = comparable.toSorted((a, b) => Number(rateTotal(a, coverage, includeTax)) - Number(rateTotal(b, coverage, includeTax)))[0];
   return (
     <section aria-label="Rate comparison">
+      {result && shipmentEdited && <div className="stale-rates-note" role="status"><strong>Shipment details changed</strong><span>Previous rates are kept below. Compare again to update them.</span></div>}
       <div className="results-head">
         <div>
-          <h2>Compare your options</h2>
+          <h2>Shipping rates</h2>
+          <p className="subtle" style={{ margin: "7px 0 0" }}>
+            {rateTableCaption(coverageAmount, includeTax).replace("Shipping rates · ", "")}
+          </p>
           <p className="subtle" style={{ margin: "7px 0 0" }}>
             {result
-              ? `${rows.length} shown of ${result.results.length} rates · ${new Date(result.quotedAt).toLocaleTimeString()}`
+              ? `${rows.length} shown of ${result.results.length} rates · ${formatSiteTime(result.quotedAt, preferences)}`
               : "All your carriers. One clear comparison."}
           </p>
         </div>
@@ -132,15 +176,23 @@ export default function RateResults({
                 </div>
               </div>
             </details>
+            <div className="actions" style={{ margin: 0 }}>
             <button type="button" className="secondary" disabled={busy || !rows.length}
               onClick={async () => {
                 try {
-                  await copyRateTable(buildRateTable(rows, coverage, includeTax));
-                  setCopyMessage(`Table copied: ${rows.length} rates. Paste into Teams or another app.`);
-                } catch { setCopyMessage("Could not copy the table. Allow clipboard access and try again."); }
+                  await copyRateTable(buildRateTable(rows, coverage, includeTax, coverageAmount, shipment));
+                  notify(`Table copied: ${rows.length} rates. Paste into Teams or another app.`);
+                } catch { notify("Could not copy the table. Allow clipboard access and try again.", "error"); }
               }}>Copy table</button>
+            <button type="button" className="secondary" title="Download the full page as JPG" aria-busy={imageBusy} disabled={busy || imageBusy}
+              onClick={async () => {
+                setImageBusy(true);
+                try { await downloadPageImage(); notify("Full page downloaded as shipping-calculator.jpg."); }
+                catch (error) { notify((error as Error).message || "Could not download the page image.", "error"); }
+                finally { setImageBusy(false); }
+              }}>Copy image</button>
+            </div>
           </div>
-          {copyMessage && <p className="subtle" role="status">{copyMessage}</p>}
         </>
       )}
       <div className="panel" aria-live="polite" aria-busy={busy}>
@@ -176,6 +228,7 @@ export default function RateResults({
                     )}
                     <th>Signature</th>
                     <th>Status</th>
+                    {showLabels && <th>Sandbox label</th>}
                   </tr>
                 </thead>
                 <tbody>
@@ -184,6 +237,7 @@ export default function RateResults({
                       <td><span className="service">{carrierNames[status.carrier]}</span><span className="subtle">Requesting carrier rates…</span></td>
                       <td colSpan={coverage ? 4 : 3}><span className="quote-skeleton" /></td>
                       <td><span className="status-badge quoting"><span className="quote-spinner" aria-hidden="true" />Quoting…</span></td>
+                      {showLabels && <td />}
                     </tr>
                   ))}
                   {rows.map((r) => (
@@ -241,10 +295,21 @@ export default function RateResults({
                       </td>
                       <td><div className="row-result-status"><span className={`status-badge ${coverage && !r.withCoverage.available ? "warning" : "positive"}`}><span aria-hidden="true">{coverage && !r.withCoverage.available ? "!" : "✓"}</span> {coverage && !r.withCoverage.available ? "Base quoted" : "Success"}</span>
                         <button type="button" className="copy-api-result" disabled={r.apiResult === undefined} aria-label={`Copy API result for ${carrierNames[r.carrier]} ${r.serviceName}`} onClick={async () => {
-                          try { await copyApiResult(r); setCopyMessage(`API result copied: ${r.serviceName}.`); }
-                          catch (error) { setCopyMessage((error as Error).message || "Could not copy the API result."); }
+                          try { await copyApiResult(r); notify(`API result copied: ${r.serviceName}.`); }
+                          catch (error) { notify((error as Error).message || "Could not copy the API result.", "error"); }
                         }}><span aria-hidden="true">›</span> Copy API result</button>
                       </div></td>
+                      {showLabels && <td>{r.carrier === "loomis" && ["DD", "DE", "DN", "D9"].includes(r.serviceCode) ? (
+                        confirmLabel === `${r.carrier}:${r.serviceCode}:${r.variant}` ? <div className="label-confirmation" role="group" aria-label={`Confirm label for ${r.serviceName}`}>
+                          <span className="subtle">Generate and download label?</span>
+                          <div className="label-confirmation-actions">
+                            <button type="button" className="secondary label-button" disabled={busy || shipmentEdited} onClick={() => void generateLabel(r)}>Yes</button>
+                            <button type="button" className="secondary label-button" onClick={() => setConfirmLabel(null)}>No</button>
+                          </div>
+                        </div> : <button type="button" className="secondary label-button" disabled={busy || shipmentEdited || generatingLabels.includes(`${r.carrier}:${r.serviceCode}:${r.variant}`)} onClick={() => setConfirmLabel(`${r.carrier}:${r.serviceCode}:${r.variant}`)}>
+                          {generatingLabels.includes(`${r.carrier}:${r.serviceCode}:${r.variant}`) ? "Generating…" : "Generate Label"}
+                        </button>
+                      ) : <span className="subtle">—</span>}</td>}
                     </tr>
                   ))}
                 </tbody>
@@ -259,10 +324,10 @@ export default function RateResults({
           </>
         )}
       </div>
+      {labelError && <p role="alert">{labelError}</p>}
       <div className="notice">
         Carrier quotes are estimates; final charges and coverage terms may
-        differ. Declared value does not guarantee insurance coverage. Your
-        quotes are not saved.
+        differ. Declared value does not guarantee insurance coverage. Comparisons and shipment details are saved in Rate logs.
         <br />
         Rates use your own parcel packaging. FedEx quotes assume drop-off at a
         staffed location.
