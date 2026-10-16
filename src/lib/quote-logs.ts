@@ -14,7 +14,7 @@ const parse = (row: Row): QuoteLog => {
   const pending = comparison.carrierStatuses.some(status => status.status === "quoting");
   const failure = comparison.carrierStatuses.some(status => status.status !== "success");
   return { id: row.id, mode: row.mode, created_at: row.created_at, shipment, comparison, ship_from: location(shipment.ship_from), ship_to: location(shipment.ship_to), shipDate: shipment.shipDate,
-    weight: shipment.packages[0].weight, weightUnit: shipment.packages[0].weightUnit, rateCount: comparison.results.length,
+    quantity: shipment.packages[0].quantity ?? 1, weight: shipment.packages[0].weight, weightUnit: shipment.packages[0].weightUnit, rateCount: comparison.results.length,
     status: pending ? "comparing" : !comparison.results.length ? "no_rates" : failure ? "partial" : "completed" };
 };
 // Save normalized prices/statuses; upstream response blobs are transient and may contain account details.

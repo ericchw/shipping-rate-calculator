@@ -7,6 +7,7 @@ export const carrierNames = {
   canada_post: "Canada Post",
   loomis: "Loomis Express",
   fedex: "FedEx",
+  purolator: "Purolator",
 };
 export const formatPrice = (value: string | null, currency: string) =>
   value === null ? "Unavailable" : new Intl.NumberFormat("en-CA", {
@@ -81,7 +82,7 @@ export function buildRateTable(rows: RateRow[], coverage: boolean, includeTax = 
       `Ship From: ${[shipment.origin.region, shipment.origin.city, shipment.origin.postal_code].filter(Boolean).join(" · ")}`,
       `Ship To: ${[shipment.destination.region, shipment.destination.city, shipment.destination.postal_code].filter(Boolean).join(" · ")}`,
       `Ship Date: ${shipment.shipDate}`,
-      `Package: ${shipment.parcel.weight} ${shipment.parcel.weightUnit} · ${hasPackageDimensions(shipment.parcel) ? `${shipment.parcel.length} × ${shipment.parcel.width} × ${shipment.parcel.height} ${shipment.parcel.dimensionUnit}` : "Dimensions not provided"}`,
+      `Package: ${shipment.parcel.quantity ?? 1} ${(shipment.parcel.quantity ?? 1) === 1 ? "box" : "boxes"} · ${shipment.parcel.weight} ${shipment.parcel.weightUnit} each · Total weight ${Number(shipment.parcel.weight * (shipment.parcel.quantity ?? 1)).toFixed(2)} ${shipment.parcel.weightUnit} · ${hasPackageDimensions(shipment.parcel) ? `${shipment.parcel.length} × ${shipment.parcel.width} × ${shipment.parcel.height} ${shipment.parcel.dimensionUnit}` : "Dimensions not provided"}`,
     ] : []),
     `Signature: ${(shipment?.signatureRequired ?? rows.some((row) => row.signature.requested)) ? "Required" : "Not required"}`,
     includeTax ? "Tax: included" : "Tax: excluded",
@@ -148,6 +149,13 @@ export function buildApiResult(row: RateRow) {
 }
 export async function copyApiResult(row: RateRow) {
   await copyText(buildApiResult(row));
+}
+export function buildApiRequest(shipment: Shipment, carrier?: RateRow["carrier"]) {
+  if (carrier && !shipment.carriers.includes(carrier)) throw new Error("Request unavailable for this carrier. Compare rates again.");
+  return JSON.stringify({ ...shipment, carriers: carrier ? [carrier] : shipment.carriers }, null, 2);
+}
+export async function copyApiRequest(shipment: Shipment, carrier?: RateRow["carrier"]) {
+  await copyText(buildApiRequest(shipment, carrier));
 }
 export async function copyText(text: string) {
   if (navigator.clipboard?.writeText) {

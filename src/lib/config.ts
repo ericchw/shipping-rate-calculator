@@ -2,16 +2,14 @@ import "server-only";
 import { z } from "zod";
 import { AppError } from "./errors";
 import type { User } from "./auth";
-import { validCarrierUrl } from "./carrier-settings-schema";
+import { validCarrierUrl, requiredCredentialKeys } from "./carrier-settings-schema";
 import { carrierIds } from "./schemas";
 export type Mode = "sandbox" | "production";
 export type Carrier = (typeof carrierIds)[number];
 export type CarrierConfig = { base: string; get(name: string): string };
 export function credentialsConfigured(carrier: Carrier, mode: Mode, c: CarrierConfig) {
-  const keys = carrier === "canada_post" ? ["API_KEY", "API_SECRET"]
-    : carrier === "fedex" ? ["CLIENT_ID", "CLIENT_SECRET", "ACCOUNT_NUMBER"]
-    : ["USERNAME", "PASSWORD", "ACCOUNT_NUMBER"];
-  return !!c.base && (carrier !== "loomis" || mode !== "production" || validCarrierUrl(carrier, mode, c.base)) && keys.every((key) => !!c.get(key));
+  return !!c.base && ((carrier === "loomis" && mode === "production") || carrier === "purolator" ? validCarrierUrl(carrier, mode, c.base) : true)
+    && requiredCredentialKeys(carrier, mode).every((key) => !!c.get(key));
 }
 export const flag = (key: string, fallback = false) =>
   process.env[key] === undefined ? fallback : process.env[key] === "true";
@@ -47,6 +45,10 @@ export const baseUrls = {
     sandbox: "https://ct.soa-gw.canadapost.ca",
     production: "https://soa-gw.canadapost.ca",
   },
+  purolator: {
+    sandbox: "https://shipapi-sandbox.purolator.com",
+    production: "https://shipapi.purolator.com",
+  },
   fedex: {
     sandbox: "https://apis-sandbox.fedex.com",
     production: "https://apis.fedex.com",
@@ -77,7 +79,7 @@ export function carrierConfig(carrier: Carrier, mode: Mode) {
 export function configured(carrier: Carrier, mode: Mode) {
   const c = carrierConfig(carrier, mode);
   if (mockEnabled()) return "configured";
-  if (carrier === "loomis") return credentialsConfigured(carrier, mode, c) ? "configured" : "unconfigured";
+  if (carrier === "loomis" || carrier === "purolator") return credentialsConfigured(carrier, mode, c) ? "configured" : "unconfigured";
   const keys =
     carrier === "canada_post"
       ? ["API_KEY", "API_SECRET"]

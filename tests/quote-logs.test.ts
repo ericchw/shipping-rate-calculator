@@ -60,3 +60,13 @@ it("blocks deletion during a comparison and allows old interrupted logs to be re
  await store.query("UPDATE quote_logs SET created_at=? WHERE id=?",["2000-01-01T00:00:00.000Z",id]);
  await logs.delete("sandbox",id);expect((await logs.list("sandbox")).total).toBe(0);
 });
+
+it("retains box quantities for restoring multi-box Purolator shipments and treats older records as one box", async () => {
+ const logs = new QuoteLogs(group,store);
+ const multi = { ...shipment, packages: [{ ...shipment.packages[0], quantity: 3 }], carriers: ["purolator" as const] };
+ const id = await logs.start(owner,multi,{ ...initial, carrierStatuses: [] });
+ const saved = await logs.get("sandbox",id);
+ expect(saved.quantity).toBe(3); expect(saved.shipment.packages[0]).toMatchObject({ quantity:3, weight:5 });
+ const old = await logs.start(owner,shipment,initial);
+ expect((await logs.get("sandbox",old)).quantity).toBe(1);
+});

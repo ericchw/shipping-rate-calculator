@@ -1,15 +1,15 @@
 import "server-only";
 import { XMLParser, XMLValidator } from "fast-xml-parser";
 export class CarrierApiError extends Error {
-  constructor(status: number, operation: string, code?: string) {
-    super(`${operation} failed (HTTP ${status}${code ? `; ${code}` : ""}).`);
+  constructor(status: number, operation: string, code?: string, detail?: string) {
+    super(`${operation} failed (HTTP ${status}${code ? `; ${code}` : ""}).${detail ? ` ${detail}` : ""}`);
   }
 }
 export class CarrierResponseError extends Error {}
 function errorCode(text: string) {
   try {
     const data = text.trim().startsWith("{") ? JSON.parse(text) : xml(text);
-    const code = data.errors?.[0]?.code ?? array(data.messages?.message)[0]?.code;
+    const code = data.errors?.[0]?.error?.code ?? data.errors?.[0]?.code ?? data.errorCode ?? data.code ?? data.error ?? array(data.messages?.message)[0]?.code;
     return typeof code === "string" && /^[A-Za-z0-9_.-]{1,100}$/.test(code) ? code : undefined;
   } catch { return undefined; }
 }
@@ -61,6 +61,7 @@ export async function request(
   init: RequestInit,
   signal: AbortSignal,
   attempts = 3,
+  describeError?: (text: string) => string | undefined,
 ) {
   for (let attempt = 0; attempt < attempts; attempt++) {
     signal.throwIfAborted();
@@ -90,8 +91,9 @@ export async function request(
     }
     if (!response.ok) {
       const text = await responseText(response).catch(() => "");
-      const operation = new URL(url).pathname.includes("oauth") ? "Authentication" : "Rate request";
-      throw new CarrierApiError(response.status, operation, errorCode(text));
+      const pathname = new URL(url).pathname;
+      const operation = pathname.includes("oauth") || pathname.startsWith("/auth/") ? "Authentication" : "Rate request";
+      throw new CarrierApiError(response.status, operation, errorCode(text), describeError?.(text));
     }
     return responseText(response);
   }

@@ -6,7 +6,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import path from "node:path";
 import { db, type Store, type Connection } from "./db";
 import { AppError } from "./errors";
-import { carrierDefinitions, carrierSettingsInput, defaultCarrierUrl, validCarrierUrl, type SettingsCarrier, type SettingsMode, type PublicCarrierSettings } from "./carrier-settings-schema";
+import { carrierDefinitions, requiredCredentialKeys, carrierSettingsInput, defaultCarrierUrl, validCarrierUrl, type SettingsCarrier, type SettingsMode, type PublicCarrierSettings } from "./carrier-settings-schema";
 import type { CarrierConfig } from "./config";
 
 type StoredSettings = { baseUrl: string; fields: Record<string, string>; quoteType: "counter" | "commercial" };
@@ -45,7 +45,7 @@ export class CarrierSettings {
     return { groupId, enabled: !!row?.enabled, value: row ? this.decrypt(row.encrypted_settings, groupId!, carrier, mode) : this.defaults(carrier, mode) };
   }
   private ready(carrier: SettingsCarrier, mode: SettingsMode, value: StoredSettings) {
-    const required = carrier === "canada_post" ? ["API_KEY", "API_SECRET"] : carrier === "fedex" ? ["CLIENT_ID", "CLIENT_SECRET", "ACCOUNT_NUMBER"] : ["USERNAME", "PASSWORD", "ACCOUNT_NUMBER"];
+    const required = requiredCredentialKeys(carrier, mode);
     return validCarrierUrl(carrier, mode, value.baseUrl) && required.every((key) => !!value.fields[key]);
   }
   async get(owner: string, carrier: SettingsCarrier, mode: SettingsMode): Promise<PublicCarrierSettings> {

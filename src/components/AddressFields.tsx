@@ -1,4 +1,5 @@
 "use client";
+import { useI18n } from "./UIPreferences";
 import { useEffect, useRef, useState } from "react";
 import { clientApi } from "@/lib/client-api";
 import type { AppMode } from "@/lib/app-routes";
@@ -34,6 +35,7 @@ export default function AddressFields({
   sandbox?: boolean;
   mode?: AppMode;
 }) {
+  const { t } = useI18n();
   const latest = useRef({ value, onChange });
   latest.current = { value, onChange };
   const autoFillRequest = useRef<Address | null>(null);
@@ -77,7 +79,7 @@ export default function AddressFields({
       className={full ? "full" : ""}
       htmlFor={`${prefix}-${key}`}
     >
-      {label}
+      {t(label)}
       <input
         id={`${prefix}-${key}`}
         name={`${prefix}-${key}`}
@@ -97,9 +99,7 @@ export default function AddressFields({
   );
   return (
     <div className="field-grid">
-      <label>
-        Country
-        <select
+      <label>{t("Country")}{" "}<select
           aria-label={`${prefix} country`}
           value={value.country_code}
           onChange={(e) => {
@@ -108,32 +108,32 @@ export default function AddressFields({
             onChange(next);
           }}
         >
-          <option value="CA">Canada</option>
-          <option value="US">United States</option>
-          <option value="GB">United Kingdom</option>
-          <option value="AU">Australia</option>
+          <option value="CA">{t("Canada")}</option>
+          <option value="US">{t("United States")}</option>
+          <option value="GB">{t("United Kingdom")}</option>
+          <option value="AU">{t("Australia")}</option>
         </select>
       </label>
-      {field("postal_code", "Postal / ZIP code", true)}
+      {field("postal_code", t("Postal / ZIP code"), true)}
       {lookupKey && suggestions && (suggestions.suggestions.length > 1 || suggestions.message) && <div className="full postal-suggestions" aria-live="polite">
         {suggestions.suggestions.length > 1 && <div className="postal-suggestion-options">{suggestions.suggestions.map((suggestion) => <button type="button" className="secondary label-button" key={`${suggestion.city}:${suggestion.region}`} onClick={() => onChange({ ...value, city: suggestion.city, region: suggestion.region })}>
           {suggestion.city}, {suggestion.region}
         </button>)}</div>}
-        {suggestions.message && <p className="subtle">{suggestions.message}</p>}
+        {suggestions.message && <p className="subtle">{t(suggestions.message)}</p>}
       </div>}
-      {field("city", "City", true)}
-      {field("region", "Province / state", true)}
-      {field("address_line1", "Street address", false, true)}
-      {field("address_line2", "Apartment, unit, suite", false, true)}
+      {field("city", t("City"), true)}
+      {field("region", t("Province / state"), true)}
+      {field("address_line1", t("Street address"), false, true)}
+      {field("address_line2", t("Apartment, unit, suite"), false, true)}
       <div className="full">
         <details>
-          <summary>Contact details</summary>
-          <p className="muted">{sandbox ? "Loomis uses the shown test defaults for empty street, contact, and phone fields in sandbox." : "Loomis requires a street address, contact name or company, and phone number."}</p>
+          <summary>{t("Contact details")}</summary>
+          <p className="muted">{sandbox ? t("Loomis uses the shown test defaults for empty street, contact, and phone fields in sandbox.") : t("Loomis requires a street address, contact name or company, and phone number.")}</p>
           <div className="field-grid" style={{ marginTop: 14 }}>
-            {field("contact_name", "Contact name")}
-            {field("company", "Company")}
-            {field("phone", "Phone")}
-            {field("email", "Email")}
+            {field("contact_name", t("Contact name"))}
+            {field("company", t("Company"))}
+            {field("phone", t("Phone"))}
+            {field("email", t("Email"))}
           </div>
         </details>
       </div>

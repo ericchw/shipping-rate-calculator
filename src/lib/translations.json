@@ -1,0 +1,3277 @@
+{
+  "Language": [
+    "Langue",
+    "語言",
+    "语言"
+  ],
+  "Theme": [
+    "Thème",
+    "主題",
+    "主题"
+  ],
+  "System theme": [
+    "Thème système",
+    "跟隨系統",
+    "跟随系统"
+  ],
+  "Light mode": [
+    "Mode clair",
+    "淺色模式",
+    "浅色模式"
+  ],
+  "Dark mode": [
+    "Mode sombre",
+    "深色模式",
+    "深色模式"
+  ],
+  "Shipping Rate Calculator": [
+    "Comparateur de tarifs d’expédition",
+    "運費比較工具",
+    "运费比较工具"
+  ],
+  "Home": [
+    "Accueil",
+    "首頁",
+    "首页"
+  ],
+  "Rates": [
+    "Tarifs",
+    "運費",
+    "运费"
+  ],
+  "Labels": [
+    "Étiquettes",
+    "標籤",
+    "标签"
+  ],
+  "Settings": [
+    "Paramètres",
+    "設定",
+    "设置"
+  ],
+  "API Docs": [
+    "Documentation API",
+    "API 文件",
+    "API 文档"
+  ],
+  "SANDBOX Environment": [
+    "Environnement SANDBOX",
+    "SANDBOX 測試環境",
+    "SANDBOX 测试环境"
+  ],
+  "Production": [
+    "Production",
+    "正式環境",
+    "正式环境"
+  ],
+  "Sandbox / UAT": [
+    "Bac à sable / UAT",
+    "測試環境 / UAT",
+    "测试环境 / UAT"
+  ],
+  "Sign in": [
+    "Connexion",
+    "登入",
+    "登录"
+  ],
+  "Sign out": [
+    "Déconnexion",
+    "登出",
+    "退出"
+  ],
+  "Signing in…": [
+    "Connexion…",
+    "登入中…",
+    "登录中…"
+  ],
+  "Sign in to the calculator": [
+    "Se connecter au calculateur",
+    "登入運費工具",
+    "登录运费工具"
+  ],
+  "Email": [
+    "Courriel",
+    "電郵",
+    "电子邮件"
+  ],
+  "Password": [
+    "Mot de passe",
+    "密碼",
+    "密码"
+  ],
+  "Enter your password": [
+    "Saisissez votre mot de passe",
+    "輸入密碼",
+    "输入密码"
+  ],
+  "Show password": [
+    "Afficher le mot de passe",
+    "顯示密碼",
+    "显示密码"
+  ],
+  "Hide password": [
+    "Masquer le mot de passe",
+    "隱藏密碼",
+    "隐藏密码"
+  ],
+  "Main navigation": [
+    "Navigation principale",
+    "主選單",
+    "主菜单"
+  ],
+  "Your next shipment, compared.": [
+    "Comparez votre prochain envoi.",
+    "比較下一次寄件運費。",
+    "比较下一次寄件运费。"
+  ],
+  "Enter your shipment details to see rates and delivery estimates side by side.": [
+    "Saisissez les détails pour comparer les tarifs et délais.",
+    "輸入寄件資料，比較運費及預計送達日期。",
+    "输入寄件资料，比较运费及预计送达日期。"
+  ],
+  "Compare shipping rates": [
+    "Comparer les tarifs d’expédition",
+    "比較運費",
+    "比较运费"
+  ],
+  "Shipment details": [
+    "Détails de l’envoi",
+    "寄件資料",
+    "寄件资料"
+  ],
+  "Shipping details": [
+    "Détails d’expédition",
+    "寄件詳情",
+    "寄件详情"
+  ],
+  "Shipment": [
+    "Envoi",
+    "寄件",
+    "寄件"
+  ],
+  "Ship From": [
+    "Expéditeur",
+    "寄件地址",
+    "寄件地址"
+  ],
+  "Ship To": [
+    "Destinataire",
+    "收件地址",
+    "收件地址"
+  ],
+  "Destination address": [
+    "Adresse de destination",
+    "收件地址",
+    "收件地址"
+  ],
+  "Origin address": [
+    "Adresse d’origine",
+    "寄件地址",
+    "寄件地址"
+  ],
+  "New address": [
+    "Nouvelle adresse",
+    "新地址",
+    "新地址"
+  ],
+  "Saved Ship From Profile": [
+    "Adresse d’expéditeur enregistrée",
+    "已儲存的寄件地址",
+    "已保存的寄件地址"
+  ],
+  "Country": [
+    "Pays",
+    "國家",
+    "国家"
+  ],
+  "Canada": [
+    "Canada",
+    "加拿大",
+    "加拿大"
+  ],
+  "United States": [
+    "États-Unis",
+    "美國",
+    "美国"
+  ],
+  "United Kingdom": [
+    "Royaume-Uni",
+    "英國",
+    "英国"
+  ],
+  "Australia": [
+    "Australie",
+    "澳洲",
+    "澳大利亚"
+  ],
+  "Postal / ZIP code": [
+    "Code postal / ZIP",
+    "郵遞區號",
+    "邮政编码"
+  ],
+  "City": [
+    "Ville",
+    "城市",
+    "城市"
+  ],
+  "Province / state": [
+    "Province / État",
+    "省份／州",
+    "省份／州"
+  ],
+  "Street address": [
+    "Adresse municipale",
+    "街道地址",
+    "街道地址"
+  ],
+  "Apartment, unit, suite": [
+    "Appartement, unité, bureau",
+    "公寓、單位、室號",
+    "公寓、单元、室号"
+  ],
+  "Contact details": [
+    "Coordonnées",
+    "聯絡資料",
+    "联系资料"
+  ],
+  "Contact name": [
+    "Nom du contact",
+    "聯絡人",
+    "联系人"
+  ],
+  "Company": [
+    "Entreprise",
+    "公司",
+    "公司"
+  ],
+  "Phone": [
+    "Téléphone",
+    "電話",
+    "电话"
+  ],
+  "Ship date": [
+    "Date d’expédition",
+    "寄件日期",
+    "寄件日期"
+  ],
+  "Ship date:": [
+    "Date d’expédition :",
+    "寄件日期：",
+    "寄件日期："
+  ],
+  "Time zone:": [
+    "Fuseau horaire :",
+    "時區：",
+    "时区："
+  ],
+  "Open Google Maps": [
+    "Ouvrir Google Maps",
+    "開啟 Google Maps",
+    "打开 Google Maps"
+  ],
+  "Open Ship To address in Google Maps": [
+    "Ouvrir l’adresse du destinataire dans Google Maps",
+    "在 Google Maps 開啟收件地址",
+    "在 Google Maps 打开收件地址"
+  ],
+  "Package": [
+    "Colis",
+    "包裹",
+    "包裹"
+  ],
+  "Boxes": [
+    "Boîtes",
+    "箱數",
+    "箱数"
+  ],
+  "Weight": [
+    "Poids",
+    "重量",
+    "重量"
+  ],
+  "Length": [
+    "Longueur",
+    "長度",
+    "长度"
+  ],
+  "Width": [
+    "Largeur",
+    "寬度",
+    "宽度"
+  ],
+  "Height": [
+    "Hauteur",
+    "高度",
+    "高度"
+  ],
+  "per box": [
+    "par boîte",
+    "每箱",
+    "每箱"
+  ],
+  "each": [
+    "chacune",
+    "每箱",
+    "每箱"
+  ],
+  "each ·": [
+    "chacune ·",
+    "每箱 ·",
+    "每箱 ·"
+  ],
+  "box": [
+    "boîte",
+    "箱",
+    "箱"
+  ],
+  "boxes": [
+    "boîtes",
+    "箱",
+    "箱"
+  ],
+  "Total weight:": [
+    "Poids total :",
+    "總重量：",
+    "总重量："
+  ],
+  "Weight and dimensions are per box.": [
+    "Le poids et les dimensions sont indiqués par boîte.",
+    "重量及尺寸按每箱計算。",
+    "重量及尺寸按每箱计算。"
+  ],
+  ". Multiple boxes are currently supported by Purolator only.": [
+    ". Seul Purolator prend actuellement en charge plusieurs boîtes.",
+    "。目前只有 Purolator 支援多箱。",
+    "。目前只有 Purolator 支持多箱。"
+  ],
+  "All three dimensions at 0 means no dimensions provided. Actual measurements may change final charges.": [
+    "Trois dimensions à 0 signifient qu’elles ne sont pas fournies. Les mesures réelles peuvent modifier le prix final.",
+    "三個尺寸皆為 0 表示未提供尺寸；實際尺寸可能影響最終收費。",
+    "三个尺寸均为 0 表示未提供尺寸；实际尺寸可能影响最终收费。"
+  ],
+  "Imperial · lb / in": [
+    "Impérial · lb / po",
+    "英制 · lb / in",
+    "英制 · lb / in"
+  ],
+  "Metric · kg / cm": [
+    "Métrique · kg / cm",
+    "公制 · kg / cm",
+    "公制 · kg / cm"
+  ],
+  "Package measurement system": [
+    "Unités du colis",
+    "包裹計量單位",
+    "包裹计量单位"
+  ],
+  "Additional options": [
+    "Options supplémentaires",
+    "其他選項",
+    "其他选项"
+  ],
+  "Signature required": [
+    "Signature requise",
+    "需要簽收",
+    "需要签收"
+  ],
+  "Coverage / declared value (CAD)": [
+    "Couverture / valeur déclarée (CAD)",
+    "保障／申報價值（CAD）",
+    "保障／申报价值（CAD）"
+  ],
+  "Optional · e.g. 500.00": [
+    "Facultatif · ex. 500,00",
+    "選填 · 例如 500.00",
+    "选填 · 例如 500.00"
+  ],
+  "Compare with and without declared value. Carrier terms and exclusions apply.": [
+    "Comparez avec et sans valeur déclarée. Les conditions et exclusions du transporteur s’appliquent.",
+    "比較有／無申報價值的運費，適用承運商條款及限制。",
+    "比较有／无申报价值的运费，适用承运商条款及限制。"
+  ],
+  "Carriers to quote": [
+    "Transporteurs à comparer",
+    "報價承運商",
+    "报价承运商"
+  ],
+  "Loading carriers…": [
+    "Chargement des transporteurs…",
+    "載入承運商…",
+    "加载承运商…"
+  ],
+  "No carriers enabled for your company group.": [
+    "Aucun transporteur activé pour votre entreprise.",
+    "你的公司群組未啟用任何承運商。",
+    "你的公司组未启用任何承运商。"
+  ],
+  "Ask your administrator to enable a carrier.": [
+    "Demandez à l’administrateur d’activer un transporteur.",
+    "請聯絡管理員啟用承運商。",
+    "请联系管理员启用承运商。"
+  ],
+  "Configure carriers in Settings": [
+    "Configurer les transporteurs",
+    "在設定中配置承運商",
+    "在设置中配置承运商"
+  ],
+  "Select at least one carrier.": [
+    "Sélectionnez au moins un transporteur.",
+    "請選擇至少一個承運商。",
+    "请选择至少一个承运商。"
+  ],
+  "Compare rates": [
+    "Comparer les tarifs",
+    "比較運費",
+    "比较运费"
+  ],
+  "Compare rates →": [
+    "Comparer les tarifs →",
+    "比較運費 →",
+    "比较运费 →"
+  ],
+  "Comparing rates…": [
+    "Comparaison des tarifs…",
+    "比較運費中…",
+    "比较运费中…"
+  ],
+  "COMPARING…": [
+    "COMPARAISON…",
+    "比較中…",
+    "比较中…"
+  ],
+  "QUOTES READY": [
+    "TARIFS DISPONIBLES",
+    "報價已就緒",
+    "报价已就绪"
+  ],
+  "NO RATES": [
+    "AUCUN TARIF",
+    "沒有報價",
+    "没有报价"
+  ],
+  "Shipping rates": [
+    "Tarifs d’expédition",
+    "運費報價",
+    "运费报价"
+  ],
+  "Rate comparison": [
+    "Comparaison des tarifs",
+    "運費比較",
+    "运费比较"
+  ],
+  "Rate logs": [
+    "Historique des tarifs",
+    "報價紀錄",
+    "报价记录"
+  ],
+  "View saved comparisons": [
+    "Voir les comparaisons enregistrées",
+    "查看已儲存的報價",
+    "查看已保存的报价"
+  ],
+  "Carrier / service": [
+    "Transporteur / service",
+    "承運商／服務",
+    "承运商／服务"
+  ],
+  "Carrier": [
+    "Transporteur",
+    "承運商",
+    "承运商"
+  ],
+  "Service": [
+    "Service",
+    "服務",
+    "服务"
+  ],
+  "Delivery estimate": [
+    "Livraison estimée",
+    "預計送達",
+    "预计送达"
+  ],
+  "Rate": [
+    "Tarif",
+    "運費",
+    "运费"
+  ],
+  "Signature": [
+    "Signature",
+    "簽收",
+    "签收"
+  ],
+  "Status": [
+    "Statut",
+    "狀態",
+    "状态"
+  ],
+  "Success": [
+    "Réussite",
+    "成功",
+    "成功"
+  ],
+  "Base quoted": [
+    "Tarif de base obtenu",
+    "已取得基本報價",
+    "已取得基本报价"
+  ],
+  "Error": [
+    "Erreur",
+    "錯誤",
+    "错误"
+  ],
+  "Timeout": [
+    "Délai dépassé",
+    "逾時",
+    "超时"
+  ],
+  "Disabled": [
+    "Désactivé",
+    "已停用",
+    "已停用"
+  ],
+  "Enabled": [
+    "Activé",
+    "已啟用",
+    "已启用"
+  ],
+  "Not configured": [
+    "Non configuré",
+    "未設定",
+    "未设置"
+  ],
+  "No rates": [
+    "Aucun tarif",
+    "沒有報價",
+    "没有报价"
+  ],
+  "Partial quotes": [
+    "Tarifs partiels",
+    "部分報價",
+    "部分报价"
+  ],
+  "Quoting…": [
+    "Calcul du tarif…",
+    "報價中…",
+    "报价中…"
+  ],
+  "Requesting carrier rates…": [
+    "Demande de tarifs…",
+    "正在取得承運商報價…",
+    "正在获取承运商报价…"
+  ],
+  "Quote details": [
+    "Détails du tarif",
+    "報價詳情",
+    "报价详情"
+  ],
+  "Copy API result": [
+    "Copier la réponse API",
+    "複製 API 結果",
+    "复制 API 结果"
+  ],
+  "Copy request": [
+    "Copier la requête",
+    "複製請求",
+    "复制请求"
+  ],
+  "Copy table": [
+    "Copier le tableau",
+    "複製表格",
+    "复制表格"
+  ],
+  "Copy image": [
+    "Copier l’image",
+    "複製圖片",
+    "复制图片"
+  ],
+  "Download the full page as JPG": [
+    "Télécharger la page en JPG",
+    "下載整個頁面為 JPG",
+    "下载整个页面为 JPG"
+  ],
+  "Include tax": [
+    "Taxes incluses",
+    "含稅",
+    "含税"
+  ],
+  "Sort rates": [
+    "Trier les tarifs",
+    "排序報價",
+    "排序报价"
+  ],
+  "Lowest price (by currency)": [
+    "Prix le plus bas (par devise)",
+    "最低價格（按貨幣）",
+    "最低价格（按货币）"
+  ],
+  "Fastest estimate": [
+    "Délai le plus court",
+    "最快送達",
+    "最快送达"
+  ],
+  "Show / hide services": [
+    "Afficher / masquer les services",
+    "顯示／隱藏服務",
+    "显示／隐藏服务"
+  ],
+  "Show all services": [
+    "Afficher tous les services",
+    "顯示所有服務",
+    "显示所有服务"
+  ],
+  "Checked services appear in the comparison and copied table. Choices are saved in this browser.": [
+    "Les services cochés apparaissent dans le tableau. Choix enregistrés dans ce navigateur.",
+    "勾選的服務會顯示於比較及複製的表格，選項儲存於此瀏覽器。",
+    "勾选的服务会显示于比较及复制的表格，选项保存在此浏览器。"
+  ],
+  "With coverage": [
+    "Avec couverture",
+    "含保障",
+    "含保障"
+  ],
+  "With coverage:": [
+    "Avec couverture :",
+    "含保障：",
+    "含保障："
+  ],
+  "WITHOUT COVERAGE": [
+    "SANS COUVERTURE",
+    "不含保障",
+    "不含保障"
+  ],
+  "WITH COVERAGE": [
+    "AVEC COUVERTURE",
+    "含保障",
+    "含保障"
+  ],
+  "LOWEST CAD TOTAL ·": [
+    "TOTAL CAD LE PLUS BAS ·",
+    "最低 CAD 總額 ·",
+    "最低 CAD 总额 ·"
+  ],
+  "Coverage quote failed": [
+    "Échec du tarif avec couverture",
+    "保障報價失敗",
+    "保障报价失败"
+  ],
+  "Coverage not available": [
+    "Couverture indisponible",
+    "未提供保障",
+    "未提供保障"
+  ],
+  "Shipment details changed": [
+    "Détails de l’envoi modifiés",
+    "寄件資料已變更",
+    "寄件资料已更改"
+  ],
+  "Previous rates are kept below. Compare again to update them.": [
+    "Les anciens tarifs sont conservés. Relancez la comparaison pour les actualiser.",
+    "下方保留之前的報價，請重新比較以更新。",
+    "下方保留之前的报价，请重新比较以更新。"
+  ],
+  "Generate Label": [
+    "Créer l’étiquette",
+    "產生標籤",
+    "生成标签"
+  ],
+  "Generating…": [
+    "Création…",
+    "產生中…",
+    "生成中…"
+  ],
+  "Generate and download label?": [
+    "Créer et télécharger l’étiquette ?",
+    "產生並下載標籤？",
+    "生成并下载标签？"
+  ],
+  "Yes": [
+    "Oui",
+    "是",
+    "是"
+  ],
+  "No": [
+    "Non",
+    "否",
+    "否"
+  ],
+  "Reset": [
+    "Réinitialiser",
+    "重設",
+    "重置"
+  ],
+  "Cancel": [
+    "Annuler",
+    "取消",
+    "取消"
+  ],
+  "Save": [
+    "Enregistrer",
+    "儲存",
+    "保存"
+  ],
+  "Save settings": [
+    "Enregistrer les paramètres",
+    "儲存設定",
+    "保存设置"
+  ],
+  "Saving…": [
+    "Enregistrement…",
+    "儲存中…",
+    "保存中…"
+  ],
+  "Save changes": [
+    "Enregistrer les modifications",
+    "儲存變更",
+    "保存更改"
+  ],
+  "Edit": [
+    "Modifier",
+    "編輯",
+    "编辑"
+  ],
+  "Delete": [
+    "Supprimer",
+    "刪除",
+    "删除"
+  ],
+  "Delete profile": [
+    "Supprimer le profil",
+    "刪除地址",
+    "删除地址"
+  ],
+  "Save profile": [
+    "Enregistrer le profil",
+    "儲存地址",
+    "保存地址"
+  ],
+  "Profile name": [
+    "Nom du profil",
+    "地址名稱",
+    "地址名称"
+  ],
+  "No saved profiles yet.": [
+    "Aucun profil enregistré.",
+    "尚未儲存地址。",
+    "尚未保存地址。"
+  ],
+  "Saving / loading profiles…": [
+    "Enregistrement / chargement des profils…",
+    "正在儲存／載入地址…",
+    "正在保存／加载地址…"
+  ],
+  "Loading…": [
+    "Chargement…",
+    "載入中…",
+    "加载中…"
+  ],
+  "Open": [
+    "Ouvrir",
+    "開啟",
+    "打开"
+  ],
+  "Details": [
+    "Détails",
+    "詳情",
+    "详情"
+  ],
+  "First": [
+    "Première",
+    "第一頁",
+    "第一页"
+  ],
+  "Last": [
+    "Dernière",
+    "最後一頁",
+    "最后一页"
+  ],
+  "Next": [
+    "Suivante",
+    "下一頁",
+    "下一页"
+  ],
+  "Previous": [
+    "Précédente",
+    "上一頁",
+    "上一页"
+  ],
+  "Page": [
+    "Page",
+    "頁",
+    "页"
+  ],
+  "of": [
+    "sur",
+    "／",
+    "／"
+  ],
+  "Rows": [
+    "Lignes",
+    "筆數",
+    "条数"
+  ],
+  "Rows per page": [
+    "Lignes par page",
+    "每頁筆數",
+    "每页条数"
+  ],
+  "Results": [
+    "Résultats",
+    "結果",
+    "结果"
+  ],
+  "Try again": [
+    "Réessayer",
+    "重試",
+    "重试"
+  ],
+  "Loading labels…": [
+    "Chargement des étiquettes…",
+    "載入標籤…",
+    "加载标签…"
+  ],
+  "Your labels will appear here": [
+    "Vos étiquettes apparaîtront ici",
+    "標籤將顯示在這裡",
+    "标签将显示在这里"
+  ],
+  "Saved labels remain available here to view and download.": [
+    "Les étiquettes enregistrées restent consultables et téléchargeables ici.",
+    "已儲存的標籤可在此查看及下載。",
+    "已保存的标签可在此查看及下载。"
+  ],
+  "Label history": [
+    "Historique des étiquettes",
+    "標籤紀錄",
+    "标签记录"
+  ],
+  "Label details": [
+    "Détails de l’étiquette",
+    "標籤詳情",
+    "标签详情"
+  ],
+  "Label pages": [
+    "Pages d’étiquettes",
+    "標籤頁數",
+    "标签页数"
+  ],
+  "Labels company group": [
+    "Entreprise des étiquettes",
+    "標籤所屬公司",
+    "标签所属公司"
+  ],
+  "Label preview": [
+    "Aperçu de l’étiquette",
+    "標籤預覽",
+    "标签预览"
+  ],
+  "Label": [
+    "Étiquette",
+    "標籤",
+    "标签"
+  ],
+  "Label ID": [
+    "ID de l’étiquette",
+    "標籤 ID",
+    "标签 ID"
+  ],
+  "Generated": [
+    "Créée",
+    "產生時間",
+    "生成时间"
+  ],
+  "Shipment number": [
+    "Numéro d’envoi",
+    "寄件編號",
+    "寄件编号"
+  ],
+  "Download PNG": [
+    "Télécharger PNG",
+    "下載 PNG",
+    "下载 PNG"
+  ],
+  "Download package": [
+    "Télécharger le colis",
+    "下載包裹",
+    "下载包裹"
+  ],
+  "Original PNG · Print at 4 × 6 inches, 100% scale": [
+    "PNG original · Imprimer en 4 × 6 pouces, à 100 %",
+    "原始 PNG · 以 4 × 6 吋、100% 比例列印",
+    "原始 PNG · 以 4 × 6 英寸、100% 比例打印"
+  ],
+  "Copy shipment number": [
+    "Copier le numéro d’envoi",
+    "複製寄件編號",
+    "复制寄件编号"
+  ],
+  "Back to labels": [
+    "Retour aux étiquettes",
+    "返回標籤",
+    "返回标签"
+  ],
+  "← All labels": [
+    "← Toutes les étiquettes",
+    "← 所有標籤",
+    "← 所有标签"
+  ],
+  "View label →": [
+    "Voir l’étiquette →",
+    "查看標籤 →",
+    "查看标签 →"
+  ],
+  "View labels ↗": [
+    "Voir les étiquettes ↗",
+    "查看標籤 ↗",
+    "查看标签 ↗"
+  ],
+  "Sandbox label": [
+    "Étiquette de test",
+    "測試標籤",
+    "测试标签"
+  ],
+  "Shipment details and saved labels": [
+    "Détails de l’envoi et étiquettes",
+    "寄件資料及標籤",
+    "寄件资料及标签"
+  ],
+  "SAVED SHIPMENTS": [
+    "ENVOIS ENREGISTRÉS",
+    "已儲存的寄件",
+    "已保存的寄件"
+  ],
+  "SAVED COMPARISON": [
+    "COMPARAISON ENREGISTRÉE",
+    "已儲存的報價",
+    "已保存的报价"
+  ],
+  "Saved comparisons": [
+    "Comparaisons enregistrées",
+    "已儲存的比較",
+    "已保存的比较"
+  ],
+  "Comparison history": [
+    "Historique des comparaisons",
+    "比較紀錄",
+    "比较记录"
+  ],
+  "Comparison details": [
+    "Détails de la comparaison",
+    "比較詳情",
+    "比较详情"
+  ],
+  "Saved rate comparison": [
+    "Comparaison de tarifs enregistrée",
+    "已儲存的報價比較",
+    "已保存的报价比较"
+  ],
+  "Saved estimates": [
+    "Estimations enregistrées",
+    "已儲存的報價",
+    "已保存的报价"
+  ],
+  "Loading comparisons…": [
+    "Chargement des comparaisons…",
+    "載入報價紀錄…",
+    "加载报价记录…"
+  ],
+  "Loading comparison…": [
+    "Chargement de la comparaison…",
+    "載入報價詳情…",
+    "加载报价详情…"
+  ],
+  "Your next comparison starts here": [
+    "Votre prochaine comparaison commence ici",
+    "開始新的運費比較",
+    "开始新的运费比较"
+  ],
+  "Compare rates to save your shipment and prices automatically.": [
+    "Comparez les tarifs pour enregistrer automatiquement l’envoi et ses prix.",
+    "比較運費後，寄件資料和價格會自動儲存。",
+    "比较运费后，寄件资料和价格会自动保存。"
+  ],
+  "Every shipment, ready to revisit": [
+    "Retrouvez chaque envoi",
+    "隨時查看每次寄件",
+    "随时查看每次寄件"
+  ],
+  "Select a comparison to review its prices, carrier results and shipping details.": [
+    "Sélectionnez une comparaison pour consulter les tarifs, transporteurs et détails.",
+    "選擇紀錄以查看價格、承運商結果及寄件詳情。",
+    "选择记录以查看价格、承运商结果及寄件详情。"
+  ],
+  "1. Choose a comparison": [
+    "1. Choisir une comparaison",
+    "1. 選擇報價紀錄",
+    "1. 选择报价记录"
+  ],
+  "2. Review saved rates": [
+    "2. Consulter les tarifs",
+    "2. 查看已儲存的運費",
+    "2. 查看已保存的运费"
+  ],
+  "3. Load details to quote again": [
+    "3. Recharger pour comparer",
+    "3. 載入資料以重新報價",
+    "3. 加载资料以重新报价"
+  ],
+  "Load shipping details": [
+    "Charger les détails d’expédition",
+    "載入寄件資料",
+    "加载寄件资料"
+  ],
+  "Load the details, then compare current rates.": [
+    "Chargez les détails, puis comparez les tarifs actuels.",
+    "載入資料後，比較最新運費。",
+    "加载资料后，比较最新运费。"
+  ],
+  "Past ship dates update to today.": [
+    "Les dates passées sont remplacées par aujourd’hui.",
+    "過去的寄件日期會更新為今天。",
+    "过去的寄件日期会更新为今天。"
+  ],
+  "No rates were returned. Load these details to try again.": [
+    "Aucun tarif retourné. Rechargez ces détails pour réessayer.",
+    "未返回運費，可載入資料後重試。",
+    "未返回运费，可加载资料后重试。"
+  ],
+  "Route": [
+    "Trajet",
+    "路線",
+    "路线"
+  ],
+  "Carrier results": [
+    "Résultats des transporteurs",
+    "承運商結果",
+    "承运商结果"
+  ],
+  "Dimensions": [
+    "Dimensions",
+    "尺寸",
+    "尺寸"
+  ],
+  "Not provided": [
+    "Non fournies",
+    "未提供",
+    "未提供"
+  ],
+  "Declared value": [
+    "Valeur déclarée",
+    "申報價值",
+    "申报价值"
+  ],
+  "Required": [
+    "Requis",
+    "必填",
+    "必填"
+  ],
+  "Not requested": [
+    "Non demandée",
+    "未要求",
+    "未要求"
+  ],
+  "Delete log": [
+    "Supprimer l’historique",
+    "刪除紀錄",
+    "删除记录"
+  ],
+  "Delete this rate log?": [
+    "Supprimer cette comparaison ?",
+    "刪除此報價紀錄？",
+    "删除此报价记录？"
+  ],
+  "Yes, delete log": [
+    "Oui, supprimer",
+    "是，刪除紀錄",
+    "是，删除记录"
+  ],
+  "This cannot be undone.": [
+    "Cette action est irréversible.",
+    "此操作無法復原。",
+    "此操作无法撤销。"
+  ],
+  "The saved comparison from": [
+    "La comparaison enregistrée de",
+    "以下已儲存的報價紀錄：",
+    "以下已保存的报价记录："
+  ],
+  "to": [
+    "vers",
+    "至",
+    "至"
+  ],
+  "will be removed for everyone in this company. Shipping labels stay saved.": [
+    "sera supprimée pour toute l’entreprise. Les étiquettes restent enregistrées.",
+    "將從公司所有用戶的紀錄中移除。寄件標籤會保留。",
+    "将从公司所有用户的记录中移除。寄件标签会保留。"
+  ],
+  "Close rate logs": [
+    "Fermer l’historique",
+    "關閉報價紀錄",
+    "关闭报价记录"
+  ],
+  "Refresh rate logs": [
+    "Actualiser l’historique",
+    "重新整理報價紀錄",
+    "刷新报价记录"
+  ],
+  "Rate log page size": [
+    "Taille de page de l’historique",
+    "報價紀錄每頁筆數",
+    "报价记录每页条数"
+  ],
+  "Rate log pages": [
+    "Pages de l’historique",
+    "報價紀錄頁數",
+    "报价记录页数"
+  ],
+  "Previous rate log page": [
+    "Page précédente de l’historique",
+    "上一頁報價紀錄",
+    "上一页报价记录"
+  ],
+  "Next rate log page": [
+    "Page suivante de l’historique",
+    "下一頁報價紀錄",
+    "下一页报价记录"
+  ],
+  "← All rate logs": [
+    "← Tout l’historique",
+    "← 所有報價紀錄",
+    "← 所有报价记录"
+  ],
+  "My settings": [
+    "Mes paramètres",
+    "我的設定",
+    "我的设置"
+  ],
+  "Company groups": [
+    "Entreprises",
+    "公司群組",
+    "公司组"
+  ],
+  "Users and access": [
+    "Utilisateurs et accès",
+    "用戶及權限",
+    "用户及权限"
+  ],
+  "Settings sections": [
+    "Sections des paramètres",
+    "設定分類",
+    "设置分类"
+  ],
+  "YOUR ACCOUNT": [
+    "VOTRE COMPTE",
+    "你的帳戶",
+    "你的账户"
+  ],
+  "YOUR COMPANY": [
+    "VOTRE ENTREPRISE",
+    "你的公司",
+    "你的公司"
+  ],
+  "Company assignment": [
+    "Affectation à une entreprise",
+    "公司指派",
+    "公司分配"
+  ],
+  "Administrator managed": [
+    "Géré par l’administrateur",
+    "由管理員管理",
+    "由管理员管理"
+  ],
+  "Managed by your administrator": [
+    "Géré par votre administrateur",
+    "由你的管理員管理",
+    "由你的管理员管理"
+  ],
+  "Managed in Company groups": [
+    "Géré dans Entreprises",
+    "於公司群組中管理",
+    "在公司组中管理"
+  ],
+  "Manage company settings →": [
+    "Gérer l’entreprise →",
+    "管理公司設定 →",
+    "管理公司设置 →"
+  ],
+  "Need a connection or company change? Contact your administrator.": [
+    "Besoin de modifier une connexion ou entreprise ? Contactez l’administrateur.",
+    "需要更改連線或公司？請聯絡管理員。",
+    "需要更改连接或公司？请联系管理员。"
+  ],
+  "Location and time": [
+    "Région et heure",
+    "地區及時間",
+    "地区及时间"
+  ],
+  "Choose the time zone used for today’s ship date and times across the site. Settings apply to production and sandbox in this browser.": [
+    "Choisissez le fuseau horaire utilisé sur le site. Ces paramètres s’appliquent aux deux environnements dans ce navigateur.",
+    "選擇用於寄件日期及網站時間的時區；設定適用於此瀏覽器的正式及測試環境。",
+    "选择用于寄件日期及网站时间的时区；设置适用于此浏览器的正式及测试环境。"
+  ],
+  "Location / time zone": [
+    "Région / fuseau horaire",
+    "地區／時區",
+    "地区／时区"
+  ],
+  "Date and time region": [
+    "Région de date et heure",
+    "日期及時間地區格式",
+    "日期及时间地区格式"
+  ],
+  "Time format": [
+    "Format de l’heure",
+    "時間格式",
+    "时间格式"
+  ],
+  "12-hour · AM / PM": [
+    "12 heures · AM / PM",
+    "12 小時制 · AM / PM",
+    "12 小时制 · AM / PM"
+  ],
+  "24-hour": [
+    "24 heures",
+    "24 小時制",
+    "24 小时制"
+  ],
+  "Today:": [
+    "Aujourd’hui :",
+    "今天：",
+    "今天："
+  ],
+  "· Local time:": [
+    "· Heure locale :",
+    "· 當地時間：",
+    "· 当地时间："
+  ],
+  "Changes save automatically in this browser.": [
+    "Les modifications sont enregistrées automatiquement dans ce navigateur.",
+    "變更會自動儲存於此瀏覽器。",
+    "更改会自动保存在此浏览器。"
+  ],
+  "Changes apply for this visit. Browser storage is unavailable.": [
+    "Modifications valables pour cette visite. Stockage indisponible.",
+    "瀏覽器儲存空間不可用，變更只適用於此次瀏覽。",
+    "浏览器存储不可用，更改仅适用于此次访问。"
+  ],
+  "Companies": [
+    "Entreprises",
+    "公司",
+    "公司"
+  ],
+  "Company name": [
+    "Nom de l’entreprise",
+    "公司名稱",
+    "公司名称"
+  ],
+  "Company group": [
+    "Entreprise",
+    "公司群組",
+    "公司组"
+  ],
+  "Company group:": [
+    "Entreprise :",
+    "公司群組：",
+    "公司组："
+  ],
+  "Company profile": [
+    "Profil de l’entreprise",
+    "公司資料",
+    "公司资料"
+  ],
+  "Company settings sections": [
+    "Sections des paramètres d’entreprise",
+    "公司設定分類",
+    "公司设置分类"
+  ],
+  "COMPANY SETTINGS": [
+    "PARAMÈTRES D’ENTREPRISE",
+    "公司設定",
+    "公司设置"
+  ],
+  "WORKSPACES": [
+    "ESPACES DE TRAVAIL",
+    "工作空間",
+    "工作空间"
+  ],
+  "Your companies belong here": [
+    "Vos entreprises apparaissent ici",
+    "在此管理公司",
+    "在此管理公司"
+  ],
+  "Create your first company, then add members and carrier connections.": [
+    "Créez votre première entreprise, puis ajoutez membres et transporteurs.",
+    "先建立公司，再加入成員及承運商連線。",
+    "先创建公司，再加入成员及承运商连接。"
+  ],
+  "Create a company to manage its members and carrier connections in one place.": [
+    "Créez une entreprise pour centraliser ses membres et connexions.",
+    "建立公司，集中管理成員及承運商連線。",
+    "创建公司，集中管理成员及承运商连接。"
+  ],
+  "Each user belongs to one company. Administrators manage connections and account access.": [
+    "Chaque utilisateur appartient à une entreprise. Les administrateurs gèrent connexions et accès.",
+    "每個用戶隸屬一間公司，管理員負責連線及帳戶權限。",
+    "每个用户属于一家公司，管理员负责连接及账户权限。"
+  ],
+  "This name identifies the shared workspace for your users.": [
+    "Ce nom identifie l’espace partagé de vos utilisateurs.",
+    "此名稱用於識別用戶共用的工作空間。",
+    "此名称用于标识用户共享的工作空间。"
+  ],
+  "Search companies": [
+    "Rechercher des entreprises",
+    "搜尋公司",
+    "搜索公司"
+  ],
+  "Find a company": [
+    "Trouver une entreprise",
+    "尋找公司",
+    "查找公司"
+  ],
+  "Add company": [
+    "Ajouter une entreprise",
+    "新增公司",
+    "添加公司"
+  ],
+  "+ Create company": [
+    "+ Créer une entreprise",
+    "+ 建立公司",
+    "+ 创建公司"
+  ],
+  "Create company": [
+    "Créer une entreprise",
+    "建立公司",
+    "创建公司"
+  ],
+  "Choose company": [
+    "Choisir une entreprise",
+    "選擇公司",
+    "选择公司"
+  ],
+  "Create": [
+    "Créer",
+    "建立",
+    "创建"
+  ],
+  "Save name": [
+    "Enregistrer le nom",
+    "儲存名稱",
+    "保存名称"
+  ],
+  "Overview": [
+    "Vue d’ensemble",
+    "概覽",
+    "概览"
+  ],
+  "API connections": [
+    "Connexions API",
+    "API 連線",
+    "API 连接"
+  ],
+  "Members": [
+    "Membres",
+    "成員",
+    "成员"
+  ],
+  "Manage members": [
+    "Gérer les membres",
+    "管理成員",
+    "管理成员"
+  ],
+  "Connect carriers": [
+    "Connecter des transporteurs",
+    "連接承運商",
+    "连接承运商"
+  ],
+  "Set up the API credentials used by this company.": [
+    "Configurez les identifiants API de cette entreprise.",
+    "設定此公司使用的 API 憑證。",
+    "设置此公司使用的 API 凭据。"
+  ],
+  "Delete company group": [
+    "Supprimer l’entreprise",
+    "刪除公司群組",
+    "删除公司组"
+  ],
+  "Delete group": [
+    "Supprimer l’entreprise",
+    "刪除群組",
+    "删除组"
+  ],
+  "Confirm group deletion": [
+    "Confirmer la suppression",
+    "確認刪除群組",
+    "确认删除组"
+  ],
+  "Yes, delete group": [
+    "Oui, supprimer",
+    "是，刪除群組",
+    "是，删除组"
+  ],
+  "Only groups without members, labels or rate logs can be deleted.": [
+    "Seules les entreprises sans membres, étiquettes ou historique peuvent être supprimées.",
+    "只能刪除沒有成員、標籤或報價紀錄的群組。",
+    "只能删除没有成员、标签或报价记录的组。"
+  ],
+  "Saved carrier credentials and tracking permissions for this company will be removed in both environments. This cannot be undone.": [
+    "Les identifiants et autorisations seront supprimés dans les deux environnements. Action irréversible.",
+    "此公司在兩個環境的承運商憑證及追蹤權限都會移除，無法復原。",
+    "此公司在两个环境的承运商凭据及跟踪权限都会移除，无法撤销。"
+  ],
+  "Loading company settings…": [
+    "Chargement des paramètres…",
+    "載入公司設定…",
+    "加载公司设置…"
+  ],
+  "Carrier API settings": [
+    "Paramètres API des transporteurs",
+    "承運商 API 設定",
+    "承运商 API 设置"
+  ],
+  "Shared by users in this company group. Blank secret fields keep the saved value.": [
+    "Partagés par les utilisateurs de cette entreprise. Les secrets laissés vides sont conservés.",
+    "此公司群組的用戶共用設定，機密欄位留空會保留原值。",
+    "此公司组的用户共享设置，机密字段留空会保留原值。"
+  ],
+  "Save your credentials, then test the carrier connection. Available services depend on your shipment and account.": [
+    "Enregistrez vos identifiants, puis testez la connexion. Les services dépendent de l’envoi et du compte.",
+    "儲存憑證後測試連線，可用服務視寄件資料及帳戶而定。",
+    "保存凭据后测试连接，可用服务取决于寄件资料及账户。"
+  ],
+  "Loading carrier settings…": [
+    "Chargement des paramètres transporteurs…",
+    "載入承運商設定…",
+    "加载承运商设置…"
+  ],
+  "API URL": [
+    "URL API",
+    "API 網址",
+    "API 网址"
+  ],
+  "Rating API URL": [
+    "URL API de tarification",
+    "報價 API 網址",
+    "报价 API 网址"
+  ],
+  "Credentials saved": [
+    "Identifiants enregistrés",
+    "憑證已儲存",
+    "凭据已保存"
+  ],
+  "Credentials required": [
+    "Identifiants requis",
+    "需要憑證",
+    "需要凭据"
+  ],
+  "Unsaved changes": [
+    "Modifications non enregistrées",
+    "尚未儲存的變更",
+    "尚未保存的更改"
+  ],
+  "Clear settings": [
+    "Effacer les paramètres",
+    "清除設定",
+    "清除设置"
+  ],
+  "Clearing edits the form. Save to apply.": [
+    "L’effacement modifie le formulaire. Enregistrez pour appliquer.",
+    "清除只會修改表單，儲存後才會生效。",
+    "清除仅修改表单，保存后才会生效。"
+  ],
+  "Connection check": [
+    "Test de connexion",
+    "連線測試",
+    "连接测试"
+  ],
+  "Test connection": [
+    "Tester la connexion",
+    "測試連線",
+    "测试连接"
+  ],
+  "Test again": [
+    "Tester à nouveau",
+    "重新測試",
+    "重新测试"
+  ],
+  "Checking…": [
+    "Vérification…",
+    "檢查中…",
+    "检查中…"
+  ],
+  "Not tested": [
+    "Non testée",
+    "尚未測試",
+    "尚未测试"
+  ],
+  "Connection failed": [
+    "Échec de connexion",
+    "連線失敗",
+    "连接失败"
+  ],
+  "Connected": [
+    "Connecté",
+    "已連線",
+    "已连接"
+  ],
+  "Save your changes before testing.": [
+    "Enregistrez avant de tester.",
+    "請先儲存變更再測試。",
+    "请先保存更改再测试。"
+  ],
+  "Add and save your credentials to test.": [
+    "Ajoutez et enregistrez vos identifiants.",
+    "請先輸入並儲存憑證。",
+    "请先输入并保存凭据。"
+  ],
+  "Test your saved carrier credentials.": [
+    "Testez les identifiants enregistrés.",
+    "測試已儲存的承運商憑證。",
+    "测试已保存的承运商凭据。"
+  ],
+  "Settings saved to this company group.": [
+    "Paramètres enregistrés pour cette entreprise.",
+    "設定已儲存至此公司群組。",
+    "设置已保存至此公司组。"
+  ],
+  "Rate type": [
+    "Type de tarif",
+    "運費類型",
+    "运费类型"
+  ],
+  "Counter / retail": [
+    "Comptoir / détail",
+    "櫃檯／零售",
+    "柜台／零售"
+  ],
+  "Commercial account": [
+    "Compte commercial",
+    "商業帳戶",
+    "商业账户"
+  ],
+  "API key / username": [
+    "Clé API / utilisateur",
+    "API 金鑰／用戶名稱",
+    "API 密钥／用户名"
+  ],
+  "API secret / password": [
+    "Secret API / mot de passe",
+    "API 機密／密碼",
+    "API 机密／密码"
+  ],
+  "Customer / account ID": [
+    "ID client / compte",
+    "客戶／帳戶 ID",
+    "客户／账户 ID"
+  ],
+  "Contract ID": [
+    "ID du contrat",
+    "合約 ID",
+    "合同 ID"
+  ],
+  "API key / client ID": [
+    "Clé API / ID client",
+    "API 金鑰／Client ID",
+    "API 密钥／Client ID"
+  ],
+  "Secret key / client secret": [
+    "Clé secrète / secret client",
+    "機密金鑰／Client Secret",
+    "机密密钥／Client Secret"
+  ],
+  "Client ID / key": [
+    "ID client / clé",
+    "Client ID／金鑰",
+    "Client ID／密钥"
+  ],
+  "Client secret / password": [
+    "Secret client / mot de passe",
+    "Client Secret／密碼",
+    "Client Secret／密码"
+  ],
+  "REST API key (x-api-key)": [
+    "Clé API REST (x-api-key)",
+    "REST API 金鑰（x-api-key）",
+    "REST API 密钥（x-api-key）"
+  ],
+  "REST API key (x-api-key) (optional in UAT)": [
+    "Clé API REST (x-api-key) (facultative en UAT)",
+    "REST API 金鑰（x-api-key，UAT 選填）",
+    "REST API 密钥（x-api-key，UAT 选填）"
+  ],
+  "Sender account": [
+    "Compte expéditeur",
+    "寄件帳戶",
+    "寄件账户"
+  ],
+  "Receiver account (optional)": [
+    "Compte destinataire (facultatif)",
+    "收件帳戶（選填）",
+    "收件账户（选填）"
+  ],
+  "Freight account (optional)": [
+    "Compte de fret (facultatif)",
+    "貨運帳戶（選填）",
+    "货运账户（选填）"
+  ],
+  "Test sender account": [
+    "Compte expéditeur de test",
+    "測試寄件帳戶",
+    "测试寄件账户"
+  ],
+  "Test receiver account (optional)": [
+    "Compte destinataire de test (facultatif)",
+    "測試收件帳戶（選填）",
+    "测试收件账户（选填）"
+  ],
+  "Test freight account (optional)": [
+    "Compte de fret de test (facultatif)",
+    "測試貨運帳戶（選填）",
+    "测试货运账户（选填）"
+  ],
+  "Account ID": [
+    "ID du compte",
+    "帳戶 ID",
+    "账户 ID"
+  ],
+  "Username": [
+    "Nom d’utilisateur",
+    "用戶名稱",
+    "用户名"
+  ],
+  "Saved — leave blank to keep": [
+    "Enregistré — laisser vide pour conserver",
+    "已儲存 — 留空以保留",
+    "已保存 — 留空以保留"
+  ],
+  "Courier rates bill the sender account. Receiver and freight accounts are saved for future billing and freight support.": [
+    "Les tarifs de messagerie utilisent le compte expéditeur. Les autres comptes sont conservés pour une prise en charge future.",
+    "快遞報價使用寄件帳戶；收件及貨運帳戶保留供日後功能使用。",
+    "快递报价使用寄件账户；收件及货运账户保留供后续功能使用。"
+  ],
+  "Enter your client ID, client secret / password and test sender account. Leave x-api-key blank if Purolator did not issue one for UAT.": [
+    "Saisissez l’ID client, le secret et le compte expéditeur de test. Laissez x-api-key vide si aucune clé UAT n’a été fournie.",
+    "輸入 Client ID、Client Secret／密碼及測試寄件帳戶；如 Purolator 未提供 UAT 金鑰，可將 x-api-key 留空。",
+    "输入 Client ID、Client Secret／密码及测试寄件账户；如 Purolator 未提供 UAT 密钥，可将 x-api-key 留空。"
+  ],
+  "Enter your production REST API key, client ID, client secret / password and sender account.": [
+    "Saisissez la clé API REST, l’ID client, le secret et le compte expéditeur de production.",
+    "輸入正式環境的 REST API 金鑰、Client ID、Client Secret／密碼及寄件帳戶。",
+    "输入正式环境的 REST API 密钥、Client ID、Client Secret／密码及寄件账户。"
+  ],
+  "Enable tracking and label generation": [
+    "Activer le suivi et les étiquettes",
+    "啟用追蹤及標籤產生",
+    "启用跟踪及标签生成"
+  ],
+  "Tracking generation settings": [
+    "Paramètres de génération du suivi",
+    "追蹤號碼產生設定",
+    "跟踪号码生成设置"
+  ],
+  "Label generation": [
+    "Création d’étiquettes",
+    "標籤產生",
+    "标签生成"
+  ],
+  "Label generation currently supports Loomis sandbox only.": [
+    "La création d’étiquettes est limitée au bac à sable Loomis.",
+    "目前標籤產生只支援 Loomis 測試環境。",
+    "目前标签生成仅支持 Loomis 测试环境。"
+  ],
+  "Allow members to generate tracking numbers and labels in": [
+    "Autoriser les membres à générer le suivi et les étiquettes dans",
+    "允許成員在以下環境產生追蹤號碼及標籤：",
+    "允许成员在以下环境生成跟踪号码及标签："
+  ],
+  "+ Add user": [
+    "+ Ajouter un utilisateur",
+    "+ 新增用戶",
+    "+ 添加用户"
+  ],
+  "Add user": [
+    "Ajouter un utilisateur",
+    "新增用戶",
+    "添加用户"
+  ],
+  "Edit user": [
+    "Modifier l’utilisateur",
+    "編輯用戶",
+    "编辑用户"
+  ],
+  "Create user": [
+    "Créer l’utilisateur",
+    "建立用戶",
+    "创建用户"
+  ],
+  "User management": [
+    "Gestion des utilisateurs",
+    "用戶管理",
+    "用户管理"
+  ],
+  "Company members": [
+    "Membres de l’entreprise",
+    "公司成員",
+    "公司成员"
+  ],
+  "Find a user": [
+    "Trouver un utilisateur",
+    "尋找用戶",
+    "查找用户"
+  ],
+  "Search by email": [
+    "Rechercher par courriel",
+    "按電郵搜尋",
+    "按电子邮件搜索"
+  ],
+  "All companies": [
+    "Toutes les entreprises",
+    "所有公司",
+    "所有公司"
+  ],
+  "Filter users by company": [
+    "Filtrer par entreprise",
+    "按公司篩選用戶",
+    "按公司筛选用户"
+  ],
+  "User": [
+    "Utilisateur",
+    "用戶",
+    "用户"
+  ],
+  "Operator": [
+    "Opérateur",
+    "操作員",
+    "操作员"
+  ],
+  "Admin": [
+    "Administrateur",
+    "管理員",
+    "管理员"
+  ],
+  "Role": [
+    "Rôle",
+    "角色",
+    "角色"
+  ],
+  "Access": [
+    "Accès",
+    "權限",
+    "权限"
+  ],
+  "Environments": [
+    "Environnements",
+    "環境",
+    "环境"
+  ],
+  "Actions": [
+    "Actions",
+    "操作",
+    "操作"
+  ],
+  "User role": [
+    "Rôle de l’utilisateur",
+    "用戶角色",
+    "用户角色"
+  ],
+  "User company group": [
+    "Entreprise de l’utilisateur",
+    "用戶公司群組",
+    "用户公司组"
+  ],
+  "Web access": [
+    "Accès Web",
+    "網站存取權限",
+    "网站访问权限"
+  ],
+  "Integration API access": [
+    "Accès API d’intégration",
+    "整合 API 權限",
+    "集成 API 权限"
+  ],
+  "Allow API login sessions": [
+    "Autoriser les sessions API",
+    "允許 API 登入",
+    "允许 API 登录"
+  ],
+  "Production access": [
+    "Accès à la production",
+    "正式環境權限",
+    "正式环境权限"
+  ],
+  "UAT / Sandbox access": [
+    "Accès au bac à sable / UAT",
+    "UAT／測試環境權限",
+    "UAT／测试环境权限"
+  ],
+  "Use live carrier services": [
+    "Utiliser les services réels",
+    "使用正式承運商服務",
+    "使用正式承运商服务"
+  ],
+  "Use the test environment": [
+    "Utiliser l’environnement de test",
+    "使用測試環境",
+    "使用测试环境"
+  ],
+  "Management only": [
+    "Administration uniquement",
+    "僅管理用途",
+    "仅管理用途"
+  ],
+  "Choose a company": [
+    "Choisir une entreprise",
+    "選擇公司",
+    "选择公司"
+  ],
+  "Saving changes signs this user out.": [
+    "L’enregistrement déconnectera cet utilisateur.",
+    "儲存變更會使此用戶登出。",
+    "保存更改会使此用户退出。"
+  ],
+  "Choose the company this user will work in.": [
+    "Choisissez l’entreprise de cet utilisateur.",
+    "選擇此用戶所屬的公司。",
+    "选择此用户所属的公司。"
+  ],
+  "New password (optional)": [
+    "Nouveau mot de passe (facultatif)",
+    "新密碼（選填）",
+    "新密码（选填）"
+  ],
+  "Leave blank to keep current password": [
+    "Laisser vide pour conserver le mot de passe",
+    "留空以保留目前密碼",
+    "留空以保留当前密码"
+  ],
+  "At least 6 characters": [
+    "Au moins 6 caractères",
+    "至少 6 個字元",
+    "至少 6 个字符"
+  ],
+  "Delete user": [
+    "Supprimer l’utilisateur",
+    "刪除用戶",
+    "删除用户"
+  ],
+  "Sessions and personal addresses will be removed. Company connections, labels and rate logs stay saved.": [
+    "Les sessions et adresses personnelles seront supprimées. Les données de l’entreprise seront conservées.",
+    "登入及個人地址會移除，公司連線、標籤及報價紀錄會保留。",
+    "登录及个人地址会移除，公司连接、标签及报价记录会保留。"
+  ],
+  "Loading users…": [
+    "Chargement des utilisateurs…",
+    "載入用戶…",
+    "加载用户…"
+  ],
+  "No matching users": [
+    "Aucun utilisateur correspondant",
+    "沒有符合的用戶",
+    "没有匹配的用户"
+  ],
+  "No members yet": [
+    "Aucun membre",
+    "尚無成員",
+    "暂无成员"
+  ],
+  "Try another email or company.": [
+    "Essayez un autre courriel ou une autre entreprise.",
+    "請嘗試其他電郵或公司。",
+    "请尝试其他电子邮件或公司。"
+  ],
+  "Add a user and assign them to this company.": [
+    "Ajoutez un utilisateur à cette entreprise.",
+    "新增用戶並指派至此公司。",
+    "添加用户并分配至此公司。"
+  ],
+  "Create accounts, assign a company and control Web, API and environment access.": [
+    "Créez des comptes, affectez une entreprise et gérez les accès Web, API et environnements.",
+    "建立帳戶、指派公司及管理網站、API 和環境權限。",
+    "创建账户、分配公司及管理网站、API 和环境权限。"
+  ],
+  "Members use this company's carrier connections and share its labels and rate logs.": [
+    "Les membres partagent les connexions, étiquettes et comparaisons de cette entreprise.",
+    "成員共用此公司的承運商連線、標籤及報價紀錄。",
+    "成员共享此公司的承运商连接、标签及报价记录。"
+  ],
+  "Account saved.": [
+    "Compte enregistré.",
+    "帳戶已儲存。",
+    "账户已保存。"
+  ],
+  "Account deleted.": [
+    "Compte supprimé.",
+    "帳戶已刪除。",
+    "账户已删除。"
+  ],
+  "Rate log deleted.": [
+    "Comparaison supprimée.",
+    "報價紀錄已刪除。",
+    "报价记录已删除。"
+  ],
+  "Shipment request copied.": [
+    "Requête d’envoi copiée.",
+    "寄件請求已複製。",
+    "寄件请求已复制。"
+  ],
+  "Label saved and downloaded. View it again in Labels.": [
+    "Étiquette enregistrée et téléchargée. Retrouvez-la dans Étiquettes.",
+    "標籤已儲存及下載，可於標籤頁再次查看。",
+    "标签已保存及下载，可在标签页再次查看。"
+  ],
+  "Full page downloaded as shipping-calculator.jpg.": [
+    "Page téléchargée sous shipping-calculator.jpg.",
+    "整個頁面已下載為 shipping-calculator.jpg。",
+    "整个页面已下载为 shipping-calculator.jpg。"
+  ],
+  "Could not copy the request.": [
+    "Impossible de copier la requête.",
+    "無法複製請求。",
+    "无法复制请求。"
+  ],
+  "Could not copy the API result.": [
+    "Impossible de copier la réponse API.",
+    "無法複製 API 結果。",
+    "无法复制 API 结果。"
+  ],
+  "Could not download the page image.": [
+    "Impossible de télécharger l’image.",
+    "無法下載頁面圖片。",
+    "无法下载页面图片。"
+  ],
+  "Could not copy the table. Allow clipboard access and try again.": [
+    "Impossible de copier le tableau. Autorisez le presse-papiers et réessayez.",
+    "無法複製表格，請允許剪貼簿存取後重試。",
+    "无法复制表格，请允许剪贴板访问后重试。"
+  ],
+  "Enter a whole number of boxes from 1 to 100.": [
+    "Saisissez un nombre entier de boîtes entre 1 et 100.",
+    "請輸入 1 至 100 的整數箱數。",
+    "请输入 1 至 100 的整数箱数。"
+  ],
+  "Enter all three dimensions, or leave all three at 0 for a quote without dimensions.": [
+    "Saisissez les trois dimensions ou laissez-les toutes à 0.",
+    "請輸入全部三個尺寸，或全部設為 0 以取得不含尺寸的報價。",
+    "请输入全部三个尺寸，或全部设为 0 以获取不含尺寸的报价。"
+  ],
+  "Profile changes saved.": [
+    "Modifications du profil enregistrées.",
+    "地址變更已儲存。",
+    "地址更改已保存。"
+  ],
+  "Redirecting to login…": [
+    "Redirection vers la connexion…",
+    "正在前往登入頁…",
+    "正在前往登录页…"
+  ],
+  "Sign in to access your carrier settings.": [
+    "Connectez-vous pour accéder aux paramètres.",
+    "登入以存取承運商設定。",
+    "登录以访问承运商设置。"
+  ],
+  "Go to login": [
+    "Aller à la connexion",
+    "前往登入",
+    "前往登录"
+  ],
+  "Notifications": [
+    "Notifications",
+    "通知",
+    "通知"
+  ],
+  "Dismiss notification": [
+    "Fermer la notification",
+    "關閉通知",
+    "关闭通知"
+  ],
+  "Supported carriers:": [
+    "Transporteurs pris en charge :",
+    "支援的承運商：",
+    "支持的承运商："
+  ],
+  "DEVELOPER GUIDE": [
+    "GUIDE DÉVELOPPEUR",
+    "開發者指南",
+    "开发者指南"
+  ],
+  "Build with shipping rates": [
+    "Intégrez les tarifs d’expédition",
+    "整合運費報價",
+    "集成运费报价"
+  ],
+  "Shipping API": [
+    "API d’expédition",
+    "寄件 API",
+    "寄件 API"
+  ],
+  "HTTP API · VERSION 1": [
+    "API HTTP · VERSION 1",
+    "HTTP API · 第 1 版",
+    "HTTP API · 第 1 版"
+  ],
+  "API documentation sections": [
+    "Sections de documentation API",
+    "API 文件分類",
+    "API 文档分类"
+  ],
+  "Current API base path": [
+    "Chemin de base API actuel",
+    "目前 API 基礎路徑",
+    "当前 API 基础路径"
+  ],
+  "Find an endpoint": [
+    "Trouver un point d’accès",
+    "尋找端點",
+    "查找端点"
+  ],
+  "Search rates, login, carrier settings…": [
+    "Rechercher tarifs, connexion, paramètres…",
+    "搜尋報價、登入、承運商設定…",
+    "搜索报价、登录、承运商设置…"
+  ],
+  "Endpoints": [
+    "Points d’accès",
+    "端點",
+    "端点"
+  ],
+  "Endpoint": [
+    "Point d’accès",
+    "端點",
+    "端点"
+  ],
+  "Authentication": [
+    "Authentification",
+    "驗證",
+    "验证"
+  ],
+  "Authentication and calling the API": [
+    "Authentification et appels API",
+    "驗證及呼叫 API",
+    "验证及调用 API"
+  ],
+  "Request example": [
+    "Exemple de requête",
+    "請求範例",
+    "请求示例"
+  ],
+  "Request fields": [
+    "Champs de requête",
+    "請求欄位",
+    "请求字段"
+  ],
+  "Response": [
+    "Réponse",
+    "回應",
+    "响应"
+  ],
+  "Field": [
+    "Champ",
+    "欄位",
+    "字段"
+  ],
+  "Type / default": [
+    "Type / valeur par défaut",
+    "類型／預設值",
+    "类型／默认值"
+  ],
+  "Errors and limits": [
+    "Erreurs et limites",
+    "錯誤及限制",
+    "错误及限制"
+  ],
+  "Rate request": [
+    "Demande de tarif",
+    "運費請求",
+    "运费请求"
+  ],
+  "Carrier settings and connection checks": [
+    "Paramètres et tests de connexion",
+    "承運商設定及連線測試",
+    "承运商设置及连接测试"
+  ],
+  "Session cookie": [
+    "Cookie de session",
+    "登入 Cookie",
+    "登录 Cookie"
+  ],
+  "Origin required": [
+    "Origin requis",
+    "需要 Origin",
+    "需要 Origin"
+  ],
+  "No endpoints match your search. Try a carrier name, path or HTTP method.": [
+    "Aucun résultat. Essayez un transporteur, chemin ou verbe HTTP.",
+    "找不到符合的端點，請嘗試承運商名稱、路徑或 HTTP 方法。",
+    "找不到匹配的端点，请尝试承运商名称、路径或 HTTP 方法。"
+  ],
+  "Checked": [
+    "Vérifiée",
+    "檢查時間",
+    "检查时间"
+  ],
+  "Carrier API status": [
+    "État API du transporteur",
+    "承運商 API 狀態",
+    "承运商 API 状态"
+  ],
+  "Connect carriers and compare rates": [
+    "Connecter et comparer les transporteurs",
+    "連接承運商及比較運費",
+    "连接承运商及比较运费"
+  ],
+  "Calculate shipping rates and use your saved addresses.": [
+    "Calculez les tarifs avec vos adresses enregistrées.",
+    "計算運費並使用已儲存的地址。",
+    "计算运费并使用已保存的地址。"
+  ],
+  "Enter shipment details and compare carrier services.": [
+    "Saisissez les détails et comparez les services.",
+    "輸入寄件資料並比較承運商服務。",
+    "输入寄件资料并比较承运商服务。"
+  ],
+  "Create accounts and assign company access.": [
+    "Créez des comptes et attribuez les accès.",
+    "建立帳戶並指派公司權限。",
+    "创建账户并分配公司权限。"
+  ],
+  "View saved labels and shipment details, or download a label again.": [
+    "Consultez les étiquettes et détails ou téléchargez à nouveau une étiquette.",
+    "查看已儲存的標籤及寄件詳情，或再次下載標籤。",
+    "查看已保存的标签及寄件详情，或再次下载标签。"
+  ],
+  "Manage company groups, carrier connections, accounts and access permissions.": [
+    "Gérez entreprises, connexions, comptes et autorisations.",
+    "管理公司群組、承運商連線、帳戶及權限。",
+    "管理公司组、承运商连接、账户及权限。"
+  ],
+  "Call the shipping calculator from your own application.": [
+    "Appelez le calculateur depuis votre application.",
+    "從你的應用程式呼叫運費工具。",
+    "从你的应用调用运费工具。"
+  ],
+  "Your preferences, company workspace and access — in one place.": [
+    "Vos préférences, espace d’entreprise et accès au même endroit.",
+    "集中管理你的偏好、公司工作空間及權限。",
+    "集中管理你的偏好、公司工作空间及权限。"
+  ],
+  "Generated labels": [
+    "Étiquettes créées",
+    "已產生的標籤",
+    "已生成的标签"
+  ],
+  "API documentation": [
+    "Documentation API",
+    "API 文件",
+    "API 文档"
+  ],
+  "Shipping calculator": [
+    "Calculateur d’expédition",
+    "運費計算工具",
+    "运费计算工具"
+  ],
+  "Choose an action below to get started.": [
+    "Choisissez une action pour commencer.",
+    "選擇下方操作以開始。",
+    "选择下方操作以开始。"
+  ],
+  "Production login": [
+    "Connexion production",
+    "正式環境登入",
+    "正式环境登录"
+  ],
+  "Sandbox / UAT login": [
+    "Connexion bac à sable / UAT",
+    "測試環境登入",
+    "测试环境登录"
+  ],
+  "Copy": [
+    "Copier",
+    "複製",
+    "复制"
+  ],
+  "Example": [
+    "Exemple",
+    "範例",
+    "示例"
+  ],
+  "Copied": [
+    "Copié",
+    "已複製",
+    "已复制"
+  ],
+  "Checking connection": [
+    "Vérification de la connexion",
+    "正在檢查連線",
+    "正在检查连接"
+  ],
+  "Request timed out": [
+    "Délai de la requête dépassé",
+    "請求逾時",
+    "请求超时"
+  ],
+  "Connected · no rates returned": [
+    "Connecté · aucun tarif retourné",
+    "已連線 · 未返回報價",
+    "已连接 · 未返回报价"
+  ],
+  "Credentials needed": [
+    "Identifiants nécessaires",
+    "需要憑證",
+    "需要凭据"
+  ],
+  "Connection result": [
+    "Résultat de connexion",
+    "連線結果",
+    "连接结果"
+  ],
+  "Endpoint reference": [
+    "Référence des points d’accès",
+    "端點參考",
+    "端点参考"
+  ],
+  "Rate requests": [
+    "Demandes de tarifs",
+    "運費請求",
+    "运费请求"
+  ],
+  "Carrier settings": [
+    "Paramètres des transporteurs",
+    "承運商設定",
+    "承运商设置"
+  ],
+  "Errors & limits": [
+    "Erreurs et limites",
+    "錯誤及限制",
+    "错误及限制"
+  ],
+  "Package and options": [
+    "Colis et options",
+    "包裹及選項",
+    "包裹及选项"
+  ],
+  "No services returned for this shipment.": [
+    "Aucun service disponible pour cet envoi.",
+    "此寄件未返回可用服務。",
+    "此寄件未返回可用服务。"
+  ],
+  "Copy calculator API request JSON for this carrier": [
+    "Copier la requête JSON pour ce transporteur",
+    "複製此承運商的運費 API 請求 JSON",
+    "复制此承运商的运费 API 请求 JSON"
+  ],
+  "Copy calculator API request JSON for this comparison": [
+    "Copier la requête JSON de cette comparaison",
+    "複製此次比較的運費 API 請求 JSON",
+    "复制此次比较的运费 API 请求 JSON"
+  ],
+  "Carrier quotes are estimates; final charges and coverage terms may differ. Declared value does not guarantee insurance coverage. Comparisons and shipment details are saved in Rate logs.": [
+    "Les tarifs sont estimatifs ; les frais et conditions peuvent varier. La valeur déclarée ne garantit pas une assurance. Les comparaisons et détails sont enregistrés dans l’historique.",
+    "承運商報價僅為估算，最終收費及保障條款可能不同。申報價值不保證保險保障。比較結果及寄件資料會儲存於報價紀錄。",
+    "承运商报价仅为估算，最终收费及保障条款可能不同。申报价值不保证保险保障。比较结果及寄件资料会保存在报价记录。"
+  ],
+  "Rates use your own parcel packaging. FedEx quotes assume drop-off at a staffed location.": [
+    "Les tarifs utilisent votre emballage. FedEx suppose un dépôt à un comptoir avec personnel.",
+    "報價按自備包裝計算；FedEx 假設於有人服務的地點投寄。",
+    "报价按自备包装计算；FedEx 假设在有工作人员的网点投寄。"
+  ],
+  "City / province suggestions use": [
+    "Les suggestions de ville / province utilisent",
+    "城市／省份建議資料來自",
+    "城市／省份建议数据来自"
+  ],
+  "postal data. Canadian suggestions cover the first three postal-code characters and do not verify the full delivery address.": [
+    "Les suggestions canadiennes se basent sur les trois premiers caractères du code postal et ne valident pas l’adresse complète.",
+    "郵政資料。加拿大建議僅依郵遞區號前三碼，不能驗證完整地址。",
+    "邮政数据。加拿大建议仅依据邮政编码前三位，不能验证完整地址。"
+  ],
+  "Ship": [
+    "Expédition",
+    "寄件",
+    "寄件"
+  ],
+  "labels ready to view or download": [
+    "étiquettes à consulter ou télécharger",
+    "張標籤可查看或下載",
+    "张标签可查看或下载"
+  ],
+  "rates": [
+    "tarifs",
+    "筆報價",
+    "条报价"
+  ],
+  "saved": [
+    "enregistrées",
+    "已儲存",
+    "已保存"
+  ],
+  "endpoints": [
+    "points d’accès",
+    "個端點",
+    "个端点"
+  ],
+  "settings": [
+    "paramètres",
+    "設定",
+    "设置"
+  ],
+  "· Shared carrier connections, labels and rate logs": [
+    "· Connexions, étiquettes et historique partagés",
+    "· 共用承運商連線、標籤及報價紀錄",
+    "· 共享承运商连接、标签及报价记录"
+  ],
+  "Delete “": [
+    "Supprimer «",
+    "刪除「",
+    "删除「"
+  ],
+  "Production base:": [
+    "Base de production :",
+    "正式環境基礎路徑：",
+    "正式环境基础路径："
+  ],
+  ". Sandbox / UAT base:": [
+    ". Base de test / UAT :",
+    "。測試環境基礎路徑：",
+    "。测试环境基础路径："
+  ],
+  ". Examples below use": [
+    ". Les exemples ci-dessous utilisent",
+    "。以下範例使用",
+    "。以下示例使用"
+  ],
+  "Paths are relative to": [
+    "Les chemins sont relatifs à",
+    "路徑相對於",
+    "路径相对于"
+  ],
+  ". Except health, login, logout and session, endpoints require a signed-in account. Optional": [
+    ". Tous les points d’accès sauf health, login, logout et session exigent une connexion. Le paramètre facultatif",
+    "。除 health、login、logout 及 session 外，端點均需要登入。選填參數",
+    "。除 health、login、logout 及 session 外，端点均需要登录。可选参数"
+  ],
+  "on carriers and carrier-settings must match this area.": [
+    "dans carriers et carrier-settings doit correspondre à cet environnement.",
+    "用於 carriers 和 carrier-settings 時必須符合目前環境。",
+    "用于 carriers 和 carrier-settings 时必须匹配当前环境。"
+  ],
+  "Both areas share account sessions and company group assignments. Carrier credentials and enabled settings are separate for each area. A mismatched mode returns HTTP 400": [
+    "Les sessions et entreprises sont partagées. Les identifiants et activations sont propres à chaque environnement. Un mode incorrect retourne HTTP 400",
+    "兩個環境共用登入及公司群組；承運商憑證及啟用設定分開儲存。環境不符會返回 HTTP 400",
+    "两个环境共享登录及公司组；承运商凭据及启用设置分别保存。环境不匹配会返回 HTTP 400"
+  ],
+  "Use the examples below with your deployment origin. All endpoints return JSON, except successful profile deletion (HTTP 204).": [
+    "Utilisez les exemples avec l’origine de votre déploiement. Les réponses sont en JSON, sauf la suppression réussie d’un profil (HTTP 204).",
+    "請將範例套用於你的部署網址。除成功刪除地址（HTTP 204）外，端點均返回 JSON。",
+    "请将示例用于你的部署网址。除成功删除地址（HTTP 204）外，端点均返回 JSON。"
+  ],
+  "Same-origin browser calls use": [
+    "Les appels du même domaine utilisent",
+    "同來源的瀏覽器請求使用",
+    "同源浏览器请求使用"
+  ],
+  "locally with your own credentials:": [
+    "localement avec vos propres identifiants :",
+    "於本機使用自己的憑證：",
+    "在本地使用自己的凭据："
+  ],
+  ". Save the rate example below as": [
+    ". Enregistrez l’exemple ci-dessous sous",
+    "。將以下運費範例儲存為",
+    "。将以下运费示例保存为"
+  ],
+  ". Replace the date with your intended shipping date.": [
+    ". Remplacez la date par votre date d’expédition.",
+    "。請將日期改為預定寄件日期。",
+    "。请将日期改为预定寄件日期。"
+  ],
+  ". Omitting carrierMode uses the route’s mode.": [
+    ". Sans carrierMode, l’environnement de la route est utilisé.",
+    "。未指定 carrierMode 時會使用路徑的環境。",
+    "。未指定 carrierMode 时会使用路径的环境。"
+  ],
+  "OAuth / JWT tokens are not enabled.": [
+    "Les jetons OAuth / JWT ne sont pas activés.",
+    "未啟用 OAuth／JWT token。",
+    "未启用 OAuth／JWT token。"
+  ],
+  "Save settings through the Settings page or PUT endpoint. Credential field keys are case-sensitive:": [
+    "Enregistrez via Paramètres ou PUT. Les noms des champs sont sensibles à la casse :",
+    "可於設定頁或 PUT 端點儲存。憑證欄位名稱區分大小寫：",
+    "可在设置页或 PUT 端点保存。凭据字段名称区分大小写："
+  ],
+  ". Session cookies are HttpOnly and SameSite=Strict, with Secure enabled for HTTPS hosting. Cross-origin browser access is not enabled. Expired or revoked sessions require another login.": [
+    ". Les cookies sont HttpOnly et SameSite=Strict, avec Secure en HTTPS. Les appels interorigines sont désactivés. Reconnectez-vous après expiration ou révocation.",
+    "。登入 Cookie 使用 HttpOnly 和 SameSite=Strict，HTTPS 部署另啟用 Secure。不開放跨來源瀏覽器存取；登入過期或撤銷後需重新登入。",
+    "。登录 Cookie 使用 HttpOnly 和 SameSite=Strict，HTTPS 部署还启用 Secure。不开放跨源浏览器访问；登录过期或撤销后需重新登录。"
+  ],
+  "Administrators grant Web and API access separately. Login defaults to channel: api and requires API access. The website sends channel: web and requires Web access; its session authorizes the backend calls needed by the calculator. An API session cannot open protected web pages or administer accounts, groups or carrier settings. Only admins create accounts; users and operators must have a company group. Account edits revoke existing sessions.": [
+    "Les accès Web et API sont distincts. La connexion utilise channel: api par défaut ; le site utilise channel: web. Une session API ne permet ni l’accès aux pages protégées ni l’administration. Seuls les administrateurs créent des comptes. Les utilisateurs et opérateurs nécessitent une entreprise. Les modifications de compte révoquent les sessions.",
+    "網站及 API 權限分開授予。登入預設 channel: api，需要 API 權限；網站使用 channel: web，需要網站權限。API 登入不能存取受保護網頁或管理帳戶、群組及承運商設定。只有管理員可建立帳戶；用戶及操作員必須隸屬公司群組。修改帳戶會撤銷現有登入。",
+    "网站及 API 权限分别授予。登录默认 channel: api，需要 API 权限；网站使用 channel: web，需要网站权限。API 登录不能访问受保护网页或管理账户、组及承运商设置。仅管理员可创建账户；用户及操作员必须属于公司组。修改账户会撤销现有登录。"
+  ],
+  "Authenticated operations generally allow 30 requests per minute per account. Login allows five attempts per email per minute, with a global limit of 100 per minute. Limits are maintained by each running server process.": [
+    "Les opérations autorisent généralement 30 requêtes par minute et par compte. La connexion autorise cinq essais par courriel par minute, avec un plafond global de 100. Ces limites s’appliquent par processus serveur.",
+    "已登入操作通常每帳戶每分鐘限 30 次請求。每個電郵每分鐘可嘗試登入 5 次，全域每分鐘上限 100 次。限制由各伺服器程序維護。",
+    "已登录操作通常每账户每分钟限 30 次请求。每个电子邮件每分钟可尝试登录 5 次，全局每分钟上限 100 次。限制由各服务器进程维护。"
+  ],
+  "Both addresses require city, region and postal_code; country_code defaults to CA. Optional fields: contact_name, company, address_line1, address_line2, phone and email. Supply real street/contact/phone information when testing carriers that require it. Canadian postal codes normalize to uppercase without spaces.": [
+    "Les deux adresses exigent city, region et postal_code ; country_code vaut CA par défaut. Les autres coordonnées sont facultatives. Fournissez des adresses et contacts réels si le transporteur les exige. Les codes postaux canadiens sont normalisés en majuscules sans espaces.",
+    "寄件及收件地址均需要 city、region、postal_code；country_code 預設為 CA。contact_name、company、address_line1、address_line2、phone、email 為選填。承運商有要求時需提供真實街道及聯絡資料。加拿大郵遞區號會轉為無空格大寫。",
+    "寄件及收件地址均需要 city、region、postal_code；country_code 默认为 CA。contact_name、company、address_line1、address_line2、phone、email 为可选。承运商有要求时需提供真实街道及联系资料。加拿大邮政编码会转为无空格大写。"
+  ],
+  "Carrier connections belong to company groups. Only admin web sessions can save, clear or test them. Admins may pass ?groupId=GROUP_UUID to manage another company. User sessions receive status fields only and cannot select a different group. Secret values are never returned. Blank secret fields keep saved values; clearCredentials: true replaces them.": [
+    "Les connexions appartiennent aux entreprises. Seules les sessions Web d’administration peuvent les modifier ou tester. ?groupId=GROUP_UUID permet de gérer une autre entreprise. Les utilisateurs ne reçoivent que les statuts. Les secrets ne sont jamais retournés ; vides, ils sont conservés sauf avec clearCredentials: true.",
+    "承運商連線隸屬公司群組，只有管理員網站登入可儲存、清除及測試。管理員可傳入 ?groupId=GROUP_UUID 管理其他公司。一般用戶只能讀取狀態，不能選擇其他群組。機密資料不會返回；留空會保留原值，clearCredentials: true 則取代原值。",
+    "承运商连接属于公司组，仅管理员网站登录可保存、清除及测试。管理员可传入 ?groupId=GROUP_UUID 管理其他公司。普通用户仅可读取状态，不能选择其他组。机密数据不会返回；留空会保留原值，clearCredentials: true 则替换原值。"
+  ],
+  "Carrier failures can still return HTTP 200 with partial or empty results. Always inspect carrierStatuses: success, disabled, unconfigured, unavailable, timeout or error. HTTP 200 alone does not mean every carrier succeeded. Display sorting and hidden-service preferences belong to the UI; the API returns carrier results without those display filters.": [
+    "Un échec transporteur peut retourner HTTP 200 avec des résultats partiels ou vides. Vérifiez carrierStatuses : success, disabled, unconfigured, unavailable, timeout ou error. HTTP 200 ne garantit pas la réussite de tous les transporteurs. Tri et masquage sont des préférences d’interface.",
+    "承運商失敗時仍可能返回 HTTP 200，結果可能不完整或為空。請檢查 carrierStatuses：success、disabled、unconfigured、unavailable、timeout 或 error。HTTP 200 不代表全部成功。排序及隱藏服務屬介面偏好，API 不套用這些顯示篩選。",
+    "承运商失败时仍可能返回 HTTP 200，结果可能不完整或为空。请检查 carrierStatuses：success、disabled、unconfigured、unavailable、timeout 或 error。HTTP 200 不代表全部成功。排序及隐藏服务属于界面偏好，API 不应用这些显示筛选。"
+  ],
+  "The response contains requestId, quotedAt, mode, appEnvironment, results and carrierStatuses. Each service row has carrier, serviceCode, serviceName, currency, source, mode, eta, signature, notices, breakdown, withoutCoverage and withCoverage.": [
+    "La réponse comprend requestId, quotedAt, mode, appEnvironment, results et carrierStatuses. Chaque tarif contient carrier, serviceCode, serviceName, currency, source, mode, eta, signature, notices, breakdown, withoutCoverage et withCoverage.",
+    "回應包含 requestId、quotedAt、mode、appEnvironment、results 及 carrierStatuses。每個服務包含 carrier、serviceCode、serviceName、currency、source、mode、eta、signature、notices、breakdown、withoutCoverage 及 withCoverage。",
+    "响应包含 requestId、quotedAt、mode、appEnvironment、results 及 carrierStatuses。每个服务包含 carrier、serviceCode、serviceName、currency、source、mode、eta、signature、notices、breakdown、withoutCoverage 及 withCoverage。"
+  ],
+  "{count} business days": [
+    "{count} jours ouvrables",
+    "{count} 個工作日",
+    "{count} 个工作日"
+  ],
+  "{count} business day": [
+    "{count} jour ouvrable",
+    "{count} 個工作日",
+    "{count} 个工作日"
+  ],
+  "{count} CARRIERS": [
+    "{count} TRANSPORTEURS",
+    "{count} 個承運商",
+    "{count} 个承运商"
+  ],
+  "{count} rates": [
+    "{count} tarifs",
+    "{count} 筆報價",
+    "{count} 条报价"
+  ],
+  "{count} saved comparisons": [
+    "{count} comparaisons enregistrées",
+    "{count} 筆已儲存的報價",
+    "{count} 条已保存的报价"
+  ],
+  "{count} saved comparison": [
+    "{count} comparaison enregistrée",
+    "{count} 筆已儲存的報價",
+    "{count} 条已保存的报价"
+  ],
+  "{count} services returned": [
+    "{count} services disponibles",
+    "返回 {count} 個服務",
+    "返回 {count} 个服务"
+  ],
+  "Request copied: {carrier}.": [
+    "Requête copiée : {carrier}.",
+    "已複製請求：{carrier}。",
+    "已复制请求：{carrier}。"
+  ],
+  "API result copied: {service}.": [
+    "Réponse API copiée : {service}.",
+    "已複製 API 結果：{service}。",
+    "已复制 API 结果：{service}。"
+  ],
+  "Table copied: {count} rates. Paste into Teams or another app.": [
+    "Tableau copié : {count} tarifs. Collez dans Teams ou une autre application.",
+    "已複製 {count} 筆報價，可貼到 Teams 或其他應用程式。",
+    "已复制 {count} 条报价，可粘贴到 Teams 或其他应用。"
+  ],
+  "{shown} shown of {total} rates · {time}": [
+    "{shown} sur {total} tarifs · {time}",
+    "顯示 {shown}／{total} 筆報價 · {time}",
+    "显示 {shown}／{total} 条报价 · {time}"
+  ],
+  "Page {current} of {total}": [
+    "Page {current} sur {total}",
+    "第 {current}／{total} 頁",
+    "第 {current}／{total} 页"
+  ],
+  "Tax included where available": [
+    "Taxes incluses si disponibles",
+    "如有提供則含稅",
+    "如有提供则含税"
+  ],
+  "Tax excluded where available": [
+    "Taxes exclues si disponibles",
+    "如有提供則不含稅",
+    "如有提供则不含税"
+  ],
+  "Coverage {amount} CAD": [
+    "Couverture {amount} CAD",
+    "保障金額 {amount} CAD",
+    "保障金额 {amount} CAD"
+  ],
+  "Signature quoted": [
+    "Signature demandée",
+    "已報價簽收服務",
+    "已报价签收服务"
+  ],
+  "Signature not quoted": [
+    "Signature non demandée",
+    "未報價簽收服務",
+    "未报价签收服务"
+  ],
+  "Tax included": [
+    "Taxes incluses",
+    "含稅",
+    "含税"
+  ],
+  "Tax excluded": [
+    "Taxes exclues",
+    "不含稅",
+    "不含税"
+  ],
+  "Incomplete": [
+    "Incomplète",
+    "未完成",
+    "未完成"
+  ],
+  "completed": [
+    "terminée",
+    "已完成",
+    "已完成"
+  ],
+  "partial": [
+    "partielle",
+    "部分完成",
+    "部分完成"
+  ],
+  "no rates": [
+    "aucun tarif",
+    "沒有報價",
+    "没有报价"
+  ],
+  "comparing": [
+    "comparaison",
+    "比較中",
+    "比较中"
+  ],
+  "success": [
+    "réussite",
+    "成功",
+    "成功"
+  ],
+  "disabled": [
+    "désactivé",
+    "已停用",
+    "已停用"
+  ],
+  "unconfigured": [
+    "non configuré",
+    "未設定",
+    "未设置"
+  ],
+  "unavailable": [
+    "indisponible",
+    "未提供",
+    "未提供"
+  ],
+  "timeout": [
+    "délai dépassé",
+    "逾時",
+    "超时"
+  ],
+  "error": [
+    "erreur",
+    "錯誤",
+    "错误"
+  ],
+  "Your settings": [
+    "Vos paramètres",
+    "你的設定",
+    "你的设置"
+  ],
+  "Management account · No company assigned": [
+    "Compte d’administration · Sans entreprise",
+    "管理帳戶 · 未指派公司",
+    "管理账户 · 未分配公司"
+  ],
+  "No company assigned": [
+    "Aucune entreprise affectée",
+    "未指派公司",
+    "未分配公司"
+  ],
+  "Your company shares carrier connections, labels and rate logs.": [
+    "Votre entreprise partage connexions, étiquettes et comparaisons.",
+    "你的公司共用承運商連線、標籤及報價紀錄。",
+    "你的公司共享承运商连接、标签及报价记录。"
+  ],
+  "Select Company groups to create a workspace and assign its members.": [
+    "Ouvrez Entreprises pour créer un espace et affecter les membres.",
+    "選擇公司群組以建立工作空間及指派成員。",
+    "选择公司组以创建工作空间及分配成员。"
+  ],
+  "Ask an administrator to assign your company.": [
+    "Demandez à un administrateur de vous affecter une entreprise.",
+    "請管理員指派你的公司。",
+    "请管理员分配你的公司。"
+  ],
+  "Manage groups, API connections and accounts.": [
+    "Gérez les entreprises, connexions API et comptes.",
+    "管理群組、API 連線及帳戶。",
+    "管理组、API 连接及账户。"
+  ],
+  "Manage your locations and time preferences.": [
+    "Gérez vos préférences de région et d’heure.",
+    "管理地區及時間偏好。",
+    "管理地区及时间偏好。"
+  ],
+  "Company administration": [
+    "Administration des entreprises",
+    "公司管理",
+    "公司管理"
+  ],
+  "Company comparisons": [
+    "Comparaisons de l’entreprise",
+    "公司報價比較",
+    "公司报价比较"
+  ],
+  "Company group required": [
+    "Entreprise requise",
+    "需要公司群組",
+    "需要公司组"
+  ],
+  "Select a shipment to view its label and details.": [
+    "Sélectionnez un envoi pour voir son étiquette et ses détails.",
+    "選擇寄件以查看標籤及詳情。",
+    "选择寄件以查看标签及详情。"
+  ],
+  "Generate a new label →": [
+    "Créer une étiquette →",
+    "產生新標籤 →",
+    "生成新标签 →"
+  ],
+  "Shipping details loaded. Compare rates for current prices.": [
+    "Détails chargés. Comparez pour obtenir les tarifs actuels.",
+    "寄件資料已載入，請比較運費以取得最新價格。",
+    "寄件资料已加载，请比较运费以获取最新价格。"
+  ],
+  "Shipping details loaded. Past ship date updated to today. Compare rates for current prices.": [
+    "Détails chargés. La date passée a été remplacée par aujourd’hui. Comparez les tarifs actuels.",
+    "寄件資料已載入，過去的寄件日期已更新為今天，請重新比較運費。",
+    "寄件资料已加载，过去的寄件日期已更新为今天，请重新比较运费。"
+  ],
+  "Company created. Add members or connect a carrier to get started.": [
+    "Entreprise créée. Ajoutez des membres ou connectez un transporteur.",
+    "公司已建立，可新增成員或連接承運商。",
+    "公司已创建，可添加成员或连接承运商。"
+  ],
+  "Company group renamed.": [
+    "Entreprise renommée.",
+    "公司群組已重新命名。",
+    "公司组已重命名。"
+  ],
+  "Company group deleted.": [
+    "Entreprise supprimée.",
+    "公司群組已刪除。",
+    "公司组已删除。"
+  ],
+  "Array containing one package": [
+    "Tableau contenant un type de colis",
+    "包含一種包裹規格的陣列",
+    "包含一种包裹规格的数组"
+  ],
+  "Address objects": [
+    "Objets d’adresse",
+    "地址物件",
+    "地址对象"
+  ],
+  "Boolean · false": [
+    "Booléen · false",
+    "布林值 · false",
+    "布尔值 · false"
+  ],
+  "Number · 0": [
+    "Nombre · 0",
+    "數值 · 0",
+    "数值 · 0"
+  ],
+  "Current API area": [
+    "Environnement API actuel",
+    "目前 API 環境",
+    "当前 API 环境"
+  ],
+  "Owned profile UUID": [
+    "UUID d’un profil personnel",
+    "自己的地址 UUID",
+    "自己的地址 UUID"
+  ],
+  "Account session required": [
+    "Session de compte requise",
+    "需要帳戶登入",
+    "需要账户登录"
+  ],
+  "Session not required": [
+    "Session non requise",
+    "無需登入",
+    "无需登录"
+  ],
+  "Before tax": [
+    "Avant taxes",
+    "稅前",
+    "税前"
+  ],
+  "Includes tax": [
+    "Taxes comprises",
+    "含稅",
+    "含税"
+  ],
+  "Without coverage": [
+    "Sans couverture",
+    "不含保障",
+    "不含保障"
+  ],
+  "Partial results": [
+    "Résultats partiels",
+    "部分結果",
+    "部分结果"
+  ],
+  "Not returned": [
+    "Non retourné",
+    "未返回",
+    "未返回"
+  ],
+  "No signature quoted": [
+    "Signature non incluse",
+    "未包含簽收報價",
+    "未包含签收报价"
+  ],
+  "Signature requested and quoted": [
+    "Signature demandée et incluse",
+    "已要求並報價簽收服務",
+    "已要求并报价签收服务"
+  ],
+  "All your carriers. One clear comparison.": [
+    "Tous vos transporteurs. Une comparaison claire.",
+    "所有承運商，一目了然地比較。",
+    "所有承运商，一目了然地比较。"
+  ],
+  "All returned services are hidden. Use Show all services.": [
+    "Tous les services sont masqués. Utilisez Afficher tous les services.",
+    "所有返回的服務均已隱藏，請使用「顯示所有服務」。",
+    "所有返回的服务均已隐藏，请使用“显示所有服务”。"
+  ],
+  "No quotes available. Check the carrier statuses above.": [
+    "Aucun tarif disponible. Vérifiez les statuts ci-dessus.",
+    "沒有可用報價，請檢查上方承運商狀態。",
+    "没有可用报价，请检查上方承运商状态。"
+  ],
+  "Select at least one carrier. You can enable carriers in Carrier settings.": [
+    "Choisissez au moins un transporteur. Activez-les dans les paramètres.",
+    "請選擇至少一個承運商，可在承運商設定中啟用。",
+    "请选择至少一个承运商，可在承运商设置中启用。"
+  ],
+  "Carrier returned no status.": [
+    "Le transporteur n’a retourné aucun statut.",
+    "承運商未返回狀態。",
+    "承运商未返回状态。"
+  ],
+  "Fields cleared. Click Save settings to apply.": [
+    "Champs effacés. Enregistrez pour appliquer.",
+    "欄位已清除，請按儲存設定以套用。",
+    "字段已清除，请点击保存设置以应用。"
+  ],
+  "Checking connection…": [
+    "Vérification de la connexion…",
+    "正在檢查連線…",
+    "正在检查连接…"
+  ],
+  "The carrier request timed out. Try again.": [
+    "Le délai de la requête est dépassé. Réessayez.",
+    "承運商請求逾時，請重試。",
+    "承运商请求超时，请重试。"
+  ],
+  "The carrier took too long to respond. Try again.": [
+    "Le transporteur met trop de temps à répondre. Réessayez.",
+    "承運商回應時間過長，請重試。",
+    "承运商响应时间过长，请重试。"
+  ],
+  "The server took too long to respond. Refresh to try again.": [
+    "Le serveur met trop de temps à répondre. Actualisez pour réessayer.",
+    "伺服器回應時間過長，請重新整理後重試。",
+    "服务器响应时间过长，请刷新后重试。"
+  ],
+  "City suggestions are unavailable. You can enter the address manually.": [
+    "Suggestions indisponibles. Saisissez l’adresse manuellement.",
+    "城市建議暫時無法使用，請手動輸入地址。",
+    "城市建议暂时不可用，请手动输入地址。"
+  ],
+  "Loomis requires a street address, contact name or company, and phone number.": [
+    "Loomis exige une adresse, un contact ou une entreprise, et un téléphone.",
+    "Loomis 需要街道地址、聯絡人或公司名稱及電話。",
+    "Loomis 需要街道地址、联系人或公司名称及电话。"
+  ],
+  "Loomis uses the shown test defaults for empty street, contact, and phone fields in sandbox.": [
+    "Loomis utilise les valeurs de test indiquées pour les coordonnées vides en bac à sable.",
+    "在測試環境中，Loomis 會使用顯示的預設測試資料填入空白街道、聯絡人及電話欄位。",
+    "在测试环境中，Loomis 会使用显示的默认测试资料填入空白街道、联系人及电话字段。"
+  ],
+  "Production credentials": [
+    "Identifiants de production",
+    "正式環境憑證",
+    "正式环境凭据"
+  ],
+  "Sandbox / UAT credentials": [
+    "Identifiants de test / UAT",
+    "測試環境憑證",
+    "测试环境凭据"
+  ],
+  "Sandbox": [
+    "Bac à sable",
+    "測試環境",
+    "测试环境"
+  ],
+  "Enter production rating URL": [
+    "Saisissez l’URL de tarification de production",
+    "輸入正式環境報價網址",
+    "输入正式环境报价网址"
+  ],
+  "Set default": [
+    "Définir par défaut",
+    "設為預設",
+    "设为默认"
+  ],
+  "Default profile": [
+    "Profil par défaut",
+    "預設地址",
+    "默认地址"
+  ],
+  "Copied to clipboard.": [
+    "Copié dans le presse-papiers.",
+    "已複製至剪貼簿。",
+    "已复制到剪贴板。"
+  ],
+  "Could not copy. Select the text to copy manually.": [
+    "Copie impossible. Sélectionnez le texte pour le copier.",
+    "無法複製，請選取文字手動複製。",
+    "无法复制，请选择文字手动复制。"
+  ],
+  "Canada · English": [
+    "Canada · anglais",
+    "加拿大 · 英文",
+    "加拿大 · 英文"
+  ],
+  "Canada · French": [
+    "Canada · français",
+    "加拿大 · 法文",
+    "加拿大 · 法文"
+  ],
+  "member": [
+    "membre",
+    "位成員",
+    "位成员"
+  ],
+  "members": [
+    "membres",
+    "位成員",
+    "位成员"
+  ],
+  "Members ({count})": [
+    "Membres ({count})",
+    "成員（{count}）",
+    "成员（{count}）"
+  ],
+  " · Your company": [
+    " · Votre entreprise",
+    " · 你的公司",
+    " · 你的公司"
+  ],
+  "COMPANY ACCESS": [
+    "ACCÈS À L’ENTREPRISE",
+    "公司權限",
+    "公司权限"
+  ],
+  "ACCOUNT ADMINISTRATION": [
+    "ADMINISTRATION DES COMPTES",
+    "帳戶管理",
+    "账户管理"
+  ],
+  "No account found": [
+    "Aucun compte trouvé",
+    "找不到帳戶",
+    "找不到账户"
+  ],
+  "Web": [
+    "Web",
+    "網站",
+    "网站"
+  ],
+  "API": [
+    "API",
+    "API",
+    "API"
+  ],
+  "on": [
+    "activé",
+    "開啟",
+    "开启"
+  ],
+  "off": [
+    "désactivé",
+    "關閉",
+    "关闭"
+  ],
+  "user": [
+    "utilisateur",
+    "用戶",
+    "用户"
+  ],
+  "operator": [
+    "opérateur",
+    "操作員",
+    "操作员"
+  ],
+  "admin": [
+    "administrateur",
+    "管理員",
+    "管理员"
+  ],
+  "Tax unconfirmed": [
+    "Taxes non confirmées",
+    "稅額未確認",
+    "税额未确认"
+  ],
+  "Pre-tax unavailable": [
+    "Montant avant taxes indisponible",
+    "未提供稅前金額",
+    "未提供税前金额"
+  ],
+  "ETA unavailable": [
+    "Délai indisponible",
+    "未提供送達時間",
+    "未提供送达时间"
+  ],
+  "Invalid email or password": [
+    "Courriel ou mot de passe incorrect",
+    "電郵或密碼不正確",
+    "电子邮件或密码不正确"
+  ],
+  "Sign in to continue": [
+    "Connectez-vous pour continuer",
+    "請登入以繼續",
+    "请登录以继续"
+  ],
+  "{shown} shown of {total} services": [
+    "{shown} services sur {total}",
+    "顯示 {shown}／{total} 個服務",
+    "显示 {shown}／{total} 个服务"
+  ],
+  "Public liveness check. Returns {status: 'ok'}; does not test carriers.": [
+    "Vérification publique de disponibilité. Retourne {status: 'ok'} ; ne teste pas les transporteurs.",
+    "公開服務狀態檢查，返回 {status: 'ok'}，不測試承運商。",
+    "公开服务状态检查，返回 {status: 'ok'}，不测试承运商。"
+  ],
+  "Body: {email, password, channel?}. channel defaults to api; the website uses web. Requires the corresponding access grant and Origin. Returns {user} and a session cookie.": [
+    "Corps : {email, password, channel?}. channel vaut api par défaut ; le site utilise web. Accès correspondant et Origin requis. Retourne {user} et un cookie de session.",
+    "內容：{email, password, channel?}。channel 預設 api，網站使用 web。需要對應權限及 Origin，返回 {user} 和登入 Cookie。",
+    "内容：{email, password, channel?}。channel 默认 api，网站使用 web。需要对应权限及 Origin，返回 {user} 和登录 Cookie。"
+  ],
+  "Returns {user, group, generationEnabled, modes, mode, source}. user is null when signed out.": [
+    "Retourne {user, group, generationEnabled, modes, mode, source}. user est null hors connexion.",
+    "返回 {user, group, generationEnabled, modes, mode, source}；未登入時 user 為 null。",
+    "返回 {user, group, generationEnabled, modes, mode, source}；未登录时 user 为 null。"
+  ],
+  "Revokes the session; returns {ok: true}. Requires Origin.": [
+    "Révoque la session ; retourne {ok: true}. Origin requis.",
+    "撤銷登入，返回 {ok: true}，需要 Origin。",
+    "撤销登录，返回 {ok: true}，需要 Origin。"
+  ],
+  "Compare and save shipment details, returned prices and carrier statuses using this company group’s enabled connections. Returns quoteLogId.": [
+    "Compare et enregistre les envois, tarifs et statuts via les connexions de l’entreprise. Retourne quoteLogId.",
+    "使用公司啟用的連線比較及儲存寄件資料、價格和承運商狀態，返回 quoteLogId。",
+    "使用公司启用的连接比较及保存寄件资料、价格和承运商状态，返回 quoteLogId。"
+  ],
+  "Returns {mode, source, carriers}: configured, disabled or unconfigured.": [
+    "Retourne {mode, source, carriers} : configured, disabled ou unconfigured.",
+    "返回 {mode, source, carriers}，狀態為 configured、disabled 或 unconfigured。",
+    "返回 {mode, source, carriers}，状态为 configured、disabled 或 unconfigured。"
+  ],
+  "Returns {settings}. Users receive carrier, mode, enabled and configured only. Admin web sessions receive editable public fields and savedSecrets flags.": [
+    "Retourne {settings}. Les utilisateurs reçoivent les statuts ; les administrateurs Web reçoivent aussi les champs modifiables et savedSecrets.",
+    "返回 {settings}。用戶只收到 carrier、mode、enabled 及 configured；管理員網站登入另可讀取可編輯公開欄位及 savedSecrets。",
+    "返回 {settings}。用户仅收到 carrier、mode、enabled 及 configured；管理员网站登录还可读取可编辑公开字段及 savedSecrets。"
+  ],
+  "Admin web session only. Save company settings with {enabled, baseUrl, fields, quoteType?, clearCredentials?}. Blank secrets retain saved values unless clearCredentials is true.": [
+    "Administrateur Web uniquement. Enregistre {enabled, baseUrl, fields, quoteType?, clearCredentials?}. Les secrets vides sont conservés sauf si clearCredentials est true.",
+    "僅限管理員網站登入。以 {enabled, baseUrl, fields, quoteType?, clearCredentials?} 儲存公司設定；機密欄位留空會保留原值，除非 clearCredentials 為 true。",
+    "仅限管理员网站登录。以 {enabled, baseUrl, fields, quoteType?, clearCredentials?} 保存公司设置；机密字段留空会保留原值，除非 clearCredentials 为 true。"
+  ],
+  "Admin web session only. Clear group credentials and disable the carrier; returns its cleared settings.": [
+    "Administrateur Web uniquement. Efface les identifiants, désactive le transporteur et retourne les paramètres effacés.",
+    "僅限管理員網站登入。清除群組憑證並停用承運商，返回清除後的設定。",
+    "仅限管理员网站登录。清除组凭据并停用承运商，返回清除后的设置。"
+  ],
+  "Admin web session only. Test group credentials with a real rate request. Returns status, message and milliseconds (when a request is made). No shipment is booked.": [
+    "Administrateur Web uniquement. Teste les identifiants avec une vraie demande de tarif. Retourne status, message et milliseconds. Aucun envoi créé.",
+    "僅限管理員網站登入。以實際報價請求測試群組憑證，返回 status、message 及 milliseconds，不會建立寄件。",
+    "仅限管理员网站登录。以实际报价请求测试组凭据，返回 status、message 及 milliseconds，不会创建寄件。"
+  ],
+  "Returns {profiles} belonging to the signed-in account.": [
+    "Retourne les {profiles} du compte connecté.",
+    "返回登入帳戶的 {profiles}。",
+    "返回登录账户的 {profiles}。"
+  ],
+  "Create {profile_name, address, is_default?}. Returns a profile with HTTP 201.": [
+    "Crée {profile_name, address, is_default?}. Retourne le profil avec HTTP 201.",
+    "以 {profile_name, address, is_default?} 建立地址，返回地址及 HTTP 201。",
+    "以 {profile_name, address, is_default?} 创建地址，返回地址及 HTTP 201。"
+  ],
+  "Retrieve an owned profile; id is a UUID.": [
+    "Récupère un profil personnel ; id est un UUID.",
+    "取得自己的地址，id 為 UUID。",
+    "获取自己的地址，id 为 UUID。"
+  ],
+  "Update optional profile_name, complete address and/or is_default; returns the profile.": [
+    "Modifie profile_name, l’adresse complète ou is_default ; retourne le profil.",
+    "更新 profile_name、完整地址或 is_default，返回地址。",
+    "更新 profile_name、完整地址或 is_default，返回地址。"
+  ],
+  "Delete an owned profile. Returns HTTP 204 with no body.": [
+    "Supprime un profil personnel. Retourne HTTP 204 sans contenu.",
+    "刪除自己的地址，返回無內容的 HTTP 204。",
+    "删除自己的地址，返回无内容的 HTTP 204。"
+  ],
+  "Set the account’s default origin; returns the profile.": [
+    "Définit l’origine par défaut ; retourne le profil.",
+    "設定帳戶的預設寄件地址，返回地址。",
+    "设置账户的默认寄件地址，返回地址。"
+  ],
+  "Admin web session only. List company groups and member counts.": [
+    "Administrateur Web uniquement. Liste les entreprises et nombres de membres.",
+    "僅限管理員網站登入。列出公司群組及成員數。",
+    "仅限管理员网站登录。列出公司组及成员数。"
+  ],
+  "Admin web session only. Create {name}; returns HTTP 201.": [
+    "Administrateur Web uniquement. Crée {name} ; retourne HTTP 201.",
+    "僅限管理員網站登入。以 {name} 建立公司，返回 HTTP 201。",
+    "仅限管理员网站登录。以 {name} 创建公司，返回 HTTP 201。"
+  ],
+  "Admin web session only. Delete an empty company and its credentials. Members or shipment history block deletion with HTTP 409.": [
+    "Administrateur Web uniquement. Supprime une entreprise vide. Des membres ou un historique entraînent HTTP 409.",
+    "僅限管理員網站登入。刪除空公司及憑證；有成員或寄件紀錄時返回 HTTP 409。",
+    "仅限管理员网站登录。删除空公司及凭据；有成员或寄件记录时返回 HTTP 409。"
+  ],
+  "Admin web session only. Rename with {name}.": [
+    "Administrateur Web uniquement. Renomme avec {name}.",
+    "僅限管理員網站登入。以 {name} 重新命名。",
+    "仅限管理员网站登录。以 {name} 重命名。"
+  ],
+  "Admin web session only. Group permission for this area; optional ?groupId=GROUP_UUID. Defaults disabled.": [
+    "Administrateur Web uniquement. Autorisation pour cet environnement ; ?groupId=GROUP_UUID facultatif. Désactivée par défaut.",
+    "僅限管理員網站登入。此環境的群組權限，可選填 ?groupId=GROUP_UUID，預設停用。",
+    "仅限管理员网站登录。此环境的组权限，可选填 ?groupId=GROUP_UUID，默认停用。"
+  ],
+  "Admin web session only. Save {enabled} for this company group and area; optional ?groupId=GROUP_UUID.": [
+    "Administrateur Web uniquement. Enregistre {enabled} pour l’entreprise et l’environnement ; ?groupId=GROUP_UUID facultatif.",
+    "僅限管理員網站登入。儲存此公司及環境的 {enabled}，可選填 ?groupId=GROUP_UUID。",
+    "仅限管理员网站登录。保存此公司及环境的 {enabled}，可选填 ?groupId=GROUP_UUID。"
+  ],
+  "List company comparisons with page/pageSize (10,20,50,100). Admin web sessions may use ?groupId=GROUP_UUID.": [
+    "Liste les comparaisons avec page/pageSize (10,20,50,100). Les administrateurs peuvent utiliser ?groupId=GROUP_UUID.",
+    "以 page/pageSize（10、20、50、100）列出公司報價，管理員可使用 ?groupId=GROUP_UUID。",
+    "以 page/pageSize（10、20、50、100）列出公司报价，管理员可使用 ?groupId=GROUP_UUID。"
+  ],
+  "Delete one company comparison after confirmation in the UI. Returns 204; active comparisons return 409. Shipping labels remain.": [
+    "Supprime une comparaison après confirmation. Retourne 204 ; une comparaison active retourne 409. Les étiquettes restent.",
+    "於介面確認後刪除一筆公司報價，返回 204；進行中的比較返回 409，標籤會保留。",
+    "在界面确认后删除一条公司报价，返回 204；进行中的比较返回 409，标签会保留。"
+  ],
+  "View saved shipment details, prices and carrier statuses; another company’s ID returns 404.": [
+    "Affiche les détails, tarifs et statuts enregistrés. L’ID d’une autre entreprise retourne 404.",
+    "查看已儲存的寄件資料、價格及承運商狀態；其他公司的 ID 返回 404。",
+    "查看已保存的寄件资料、价格及承运商状态；其他公司的 ID 返回 404。"
+  ],
+  "List company labels; page and pageSize (10,20,50,100). Admins may select ?groupId=GROUP_UUID.": [
+    "Liste les étiquettes avec page/pageSize (10,20,50,100). ?groupId=GROUP_UUID disponible aux administrateurs.",
+    "以 page 和 pageSize（10、20、50、100）列出公司標籤；管理員可指定 ?groupId=GROUP_UUID。",
+    "以 page 和 pageSize（10、20、50、100）列出公司标签；管理员可指定 ?groupId=GROUP_UUID。"
+  ],
+  "View a company label, its original PNGs and shipment details. Other company IDs return 404.": [
+    "Affiche une étiquette, ses PNG originaux et détails. Les ID d’autres entreprises retournent 404.",
+    "查看公司標籤、原始 PNG 及寄件詳情；其他公司的 ID 返回 404。",
+    "查看公司标签、原始 PNG 及寄件详情；其他公司的 ID 返回 404。"
+  ],
+  "Sandbox only. Generate with {shipment, serviceCode}; requires the company generation permission and enabled Loomis credentials.": [
+    "Bac à sable uniquement. Génère avec {shipment, serviceCode} ; exige l’autorisation et les identifiants Loomis activés.",
+    "僅限測試環境。以 {shipment, serviceCode} 產生標籤，需要公司產生權限及已啟用的 Loomis 憑證。",
+    "仅限测试环境。以 {shipment, serviceCode} 生成标签，需要公司生成权限及已启用的 Loomis 凭据。"
+  ],
+  "Admin web session only. Returns {accounts} with roles and web/API grants; passwords are never returned.": [
+    "Administrateur Web uniquement. Retourne {accounts}, rôles et accès Web/API ; jamais les mots de passe.",
+    "僅限管理員網站登入。返回 {accounts}、角色及網站／API 權限，不會返回密碼。",
+    "仅限管理员网站登录。返回 {accounts}、角色及网站／API 权限，不会返回密码。"
+  ],
+  "Admin web session only. Create {email, password, role, webAccess, apiAccess, productionAccess?, uatAccess?, groupId}. New accounts default to UAT access only. Password requires at least 6 characters; returns HTTP 201.": [
+    "Administrateur Web uniquement. Crée {email, password, role, webAccess, apiAccess, productionAccess?, uatAccess?, groupId}. Accès UAT seul par défaut, mot de passe de 6 caractères minimum ; HTTP 201.",
+    "僅限管理員網站登入。以 {email, password, role, webAccess, apiAccess, productionAccess?, uatAccess?, groupId} 建立帳戶，預設只開 UAT，密碼至少 6 個字元，返回 HTTP 201。",
+    "仅限管理员网站登录。以 {email, password, role, webAccess, apiAccess, productionAccess?, uatAccess?, groupId} 创建账户，默认仅开 UAT，密码至少 6 个字符，返回 HTTP 201。"
+  ],
+  "Admin web session only. Edit email, optional password, role, groupId and/or webAccess/apiAccess/productionAccess/uatAccess. Revokes that account’s sessions.": [
+    "Administrateur Web uniquement. Modifie email, password facultatif, role, groupId et accès. Révoque les sessions du compte.",
+    "僅限管理員網站登入。編輯 email、選填 password、role、groupId 及各項權限，並撤銷帳戶現有登入。",
+    "仅限管理员网站登录。编辑 email、可选 password、role、groupId 及各项权限，并撤销账户现有登录。"
+  ],
+  "Admin web session only. Delete account, sessions and saved addresses; company labels and credentials remain. HTTP 204. Self deletion and removal of the last web admin are blocked.": [
+    "Administrateur Web uniquement. Supprime compte, sessions et adresses ; les données d’entreprise restent. HTTP 204. Impossible de se supprimer ou retirer le dernier administrateur Web.",
+    "僅限管理員網站登入。刪除帳戶、登入及個人地址，保留公司標籤及憑證，返回 HTTP 204。不能刪除自己或最後一位網站管理員。",
+    "仅限管理员网站登录。删除账户、登录及个人地址，保留公司标签及凭据，返回 HTTP 204。不能删除自己或最后一位网站管理员。"
+  ],
+  "HTTP statuses: 400 invalid input or mode mismatch; 401 invalid login or expired session; 403 invalid Origin; 404 missing route or owned profile; 409 duplicate profile name; 413 JSON body exceeds 16 KiB; 429 throttled; 500 server failure. Unknown request fields are rejected. Responses use Cache-Control: no-store.": [
+    "Statuts HTTP : 400 entrée invalide ou environnement incorrect ; 401 connexion invalide ou expirée ; 403 Origin invalide ; 404 route ou profil introuvable ; 409 nom de profil en double ; 413 JSON supérieur à 16 Kio ; 429 limite dépassée ; 500 erreur serveur. Les champs inconnus sont rejetés. Cache-Control: no-store.",
+    "HTTP 狀態：400 輸入或環境不正確；401 登入無效或過期；403 Origin 不正確；404 找不到路徑或地址；409 地址名稱重複；413 JSON 超過 16 KiB；429 請求過多；500 伺服器錯誤。不接受未知欄位，回應使用 Cache-Control: no-store。",
+    "HTTP 状态：400 输入或环境不正确；401 登录无效或过期；403 Origin 不正确；404 找不到路径或地址；409 地址名称重复；413 JSON 超过 16 KiB；429 请求过多；500 服务器错误。不接受未知字段，响应使用 Cache-Control: no-store。"
+  ],
+  "Log in with an existing account and retain the returned session cookie. Rate requests, profiles and carrier settings require that session; an APP_API_KEY alone cannot identify an account. OAuth authorization and JWT bearer tokens are not currently supported by this application API. FedEx OAuth credentials authenticate upstream carrier requests only. Sessions expire after eight hours and are revoked on logout. All POST, PUT, PATCH and DELETE calls require an Origin header matching the deployment’s APP_ORIGIN exactly. JSON bodies require Content-Type: application/json.": [
+    "Connectez-vous avec un compte existant et conservez le cookie. Les tarifs, profils et paramètres exigent cette session ; APP_API_KEY seul ne suffit pas. L’API de cette application ne prend pas en charge OAuth ou JWT. FedEx utilise OAuth uniquement en amont. Les sessions expirent après huit heures ou à la déconnexion. POST, PUT, PATCH et DELETE exigent un Origin identique à APP_ORIGIN. Les corps JSON exigent Content-Type: application/json.",
+    "使用現有帳戶登入並保留登入 Cookie。報價、地址及承運商設定都需要此登入，僅有 APP_API_KEY 不能識別帳戶。本應用程式 API 尚未支援 OAuth 或 JWT；FedEx OAuth 只用於上游承運商請求。登入八小時後或登出時失效。POST、PUT、PATCH 和 DELETE 都需要與 APP_ORIGIN 完全相同的 Origin；JSON 內容需要 Content-Type: application/json。",
+    "使用现有账户登录并保留登录 Cookie。报价、地址及承运商设置均需要此登录，仅有 APP_API_KEY 不能识别账户。本应用 API 尚未支持 OAuth 或 JWT；FedEx OAuth 仅用于上游承运商请求。登录八小时后或退出时失效。POST、PUT、PATCH 和 DELETE 均需要与 APP_ORIGIN 完全相同的 Origin；JSON 内容需要 Content-Type: application/json。"
+  ],
+  "Prices are decimal strings. Coverage status is quoted, not_quoted, not_supported or carrier_error; unavailable amounts are null. ETA contains kind, date and businessDays; unavailable values are null. Signature reports requested, available and includedInQuote. API results are original per-service response objects in apiResult and withCoverage.apiResult; XML results are parsed objects. Comparisons and shipment details are saved in company rate logs. Raw carrier API results remain transient and do not expose request credentials.": [
+    "Les prix sont des chaînes décimales. La couverture utilise quoted, not_quoted, not_supported ou carrier_error ; les montants indisponibles valent null. ETA contient kind, date et businessDays, avec null si indisponible. La signature indique requested, available et includedInQuote. apiResult et withCoverage.apiResult contiennent les réponses par service ; le XML est converti en objets. Les comparaisons et détails sont enregistrés, mais les réponses brutes restent temporaires et n’exposent pas les identifiants.",
+    "價格為小數字串。保障狀態為 quoted、not_quoted、not_supported 或 carrier_error；未提供的金額為 null。ETA 包含 kind、date 和 businessDays，未提供時為 null。簽收包含 requested、available 和 includedInQuote。apiResult 及 withCoverage.apiResult 為各服務的 API 回應，XML 已解析為物件。比較及寄件資料會存入公司報價紀錄；原始回應只暫時保留，不會公開請求憑證。",
+    "价格为小数字符串。保障状态为 quoted、not_quoted、not_supported 或 carrier_error；未提供的金额为 null。ETA 包含 kind、date 和 businessDays，未提供时为 null。签收包含 requested、available 和 includedInQuote。apiResult 及 withCoverage.apiResult 为各服务的 API 响应，XML 已解析为对象。比较及寄件资料会存入公司报价记录；原始响应仅临时保留，不会公开请求凭据。"
+  ],
+  "The connection check uses saved credentials, even if the carrier is disabled. It requests a domestic sample rate with a 30-second timeout and returns success, unavailable, error, timeout or unconfigured. Loomis production requires your carrier-provided SOAP 1.1 rating endpoint and production credentials. It does not save settings or book a shipment. Checks are limited to five per minute per account, carrier and mode.": [
+    "Le test utilise les identifiants enregistrés, même si le transporteur est désactivé. Il demande un tarif domestique avec un délai de 30 secondes et retourne success, unavailable, error, timeout ou unconfigured. Loomis production exige son point d’accès SOAP 1.1 et ses identifiants de production. Aucun paramètre n’est enregistré et aucun envoi n’est créé. Limite : cinq tests par minute, compte, transporteur et environnement.",
+    "連線測試使用已儲存憑證，即使承運商停用也可測試。測試會請求國內範例報價，逾時為 30 秒，返回 success、unavailable、error、timeout 或 unconfigured。Loomis 正式環境需要承運商提供的 SOAP 1.1 端點及正式憑證。測試不會儲存設定或建立寄件；每帳戶、承運商及環境每分鐘限 5 次。",
+    "连接测试使用已保存凭据，即使承运商停用也可测试。测试会请求国内示例报价，超时为 30 秒，返回 success、unavailable、error、timeout 或 unconfigured。Loomis 正式环境需要承运商提供的 SOAP 1.1 端点及正式凭据。测试不会保存设置或创建寄件；每账户、承运商及环境每分钟限 5 次。"
+  ],
+  "Tax basis unconfirmed": [
+    "Taxes non confirmées",
+    "稅額未確認",
+    "税额未确认"
+  ],
+  "Returned total · pre-tax amount unavailable": [
+    "Total retourné · montant avant taxes indisponible",
+    "返回總額 · 未提供稅前金額",
+    "返回总额 · 未提供税前金额"
+  ],
+  "Unavailable": [
+    "Indisponible",
+    "未提供",
+    "未提供"
+  ],
+  "In progress": [
+    "En cours",
+    "進行中",
+    "进行中"
+  ],
+  "No rates returned": [
+    "Aucun tarif retourné",
+    "未返回報價",
+    "未返回报价"
+  ],
+  "Copy request for {service}": [
+    "Copier la requête pour {service}",
+    "複製 {service} 的請求",
+    "复制 {service} 的请求"
+  ],
+  "Copy API result for {service}": [
+    "Copier la réponse API pour {service}",
+    "複製 {service} 的 API 結果",
+    "复制 {service} 的 API 结果"
+  ],
+  "View comparison from {origin} to {destination}": [
+    "Voir la comparaison de {origin} vers {destination}",
+    "查看 {origin} 至 {destination} 的報價",
+    "查看 {origin} 至 {destination} 的报价"
+  ],
+  "Delete comparison from {origin} to {destination}": [
+    "Supprimer la comparaison de {origin} vers {destination}",
+    "刪除 {origin} 至 {destination} 的報價",
+    "删除 {origin} 至 {destination} 的报价"
+  ],
+  "Confirm label for {service}": [
+    "Confirmer l’étiquette pour {service}",
+    "確認 {service} 的標籤",
+    "确认 {service} 的标签"
+  ],
+  "({count} hidden)": [
+    "({count} masqués)",
+    "（隱藏 {count} 個）",
+    "（隐藏 {count} 个）"
+  ],
+  "Completed": [
+    "Terminée",
+    "已完成",
+    "已完成"
+  ],
+  "Partial": [
+    "Partielle",
+    "部分完成",
+    "部分完成"
+  ],
+  "LABEL": [
+    "ÉTIQUETTE",
+    "張標籤",
+    "张标签"
+  ],
+  "LABELS": [
+    "ÉTIQUETTES",
+    "張標籤",
+    "张标签"
+  ],
+  "Shipment number copied.": [
+    "Numéro d’envoi copié.",
+    "寄件編號已複製。",
+    "寄件编号已复制。"
+  ],
+  "Could not copy the shipment number.": [
+    "Impossible de copier le numéro d’envoi.",
+    "無法複製寄件編號。",
+    "无法复制寄件编号。"
+  ],
+  "Label download started.": [
+    "Téléchargement de l’étiquette démarré.",
+    "已開始下載標籤。",
+    "已开始下载标签。"
+  ],
+  "System theme · Switch to dark mode": [
+    "Thème système · Passer au mode sombre",
+    "系統主題 · 切換至深色模式",
+    "系统主题 · 切换至深色模式"
+  ],
+  "Dark mode · Switch to light mode": [
+    "Mode sombre · Passer au mode clair",
+    "深色模式 · 切換至淺色模式",
+    "深色模式 · 切换至浅色模式"
+  ],
+  "Light mode · Use system theme": [
+    "Mode clair · Utiliser le thème système",
+    "淺色模式 · 跟隨系統主題",
+    "浅色模式 · 跟随系统主题"
+  ],
+  "Environment": [
+    "Environnement",
+    "環境",
+    "环境"
+  ],
+  "Enter the addresses, package size, and weight to compare rates from your enabled carriers.": [
+    "Saisissez les adresses, les dimensions et le poids pour comparer les tarifs de vos transporteurs activés.",
+    "輸入地址、包裹尺寸和重量，比較已啟用承運商的運費。",
+    "输入地址、包裹尺寸和重量，比较已启用承运商的运费。"
+  ],
+  "Connect your application to your shipping carriers. Compare services, manage carrier connections and reuse saved addresses.": [
+    "Connectez votre application à vos transporteurs. Comparez les services, gérez les connexions et réutilisez les adresses.",
+    "將你的應用程式連接至承運商，比較服務、管理連線並重用已儲存地址。",
+    "将你的应用连接至承运商，比较服务、管理连接并复用已保存地址。"
+  ],
+  "Array · all supported carriers": [
+    "Tableau · tous les transporteurs pris en charge",
+    "陣列 · 所有支援的承運商",
+    "数组 · 所有支持的承运商"
+  ],
+  "One package specification is supported. Optional packages[0].quantity is a whole number from 1 to 100 (default 1). Weight and dimensions apply per box. Multiple identical boxes are currently supported by Purolator only; other carriers return unavailable for quantity greater than 1. Measurements must be numeric and no more than 1000. Weight must be greater than zero. Dimensions must either all be greater than zero, or all be zero to omit dimensions from carrier requests. Actual measurements may change final charges when dimensions are omitted. Weight units: kg or lb. Dimension units: cm or in. coverageAmount is 0–99999.99, CAD only; zero omits coverage. signatureRequired defaults to false in the API, so send true to match the UI default. carriers defaults to all supported carrier IDs; duplicate IDs are rejected. Optional ship_from_profile_id must identify your own saved UUID; explicit addresses take precedence.": [
+    "Un type de colis est accepté. packages[0].quantity est un entier de 1 à 100, égal à 1 par défaut. Poids et dimensions sont par boîte. Seul Purolator accepte plusieurs boîtes identiques ; les autres transporteurs retournent unavailable. Les mesures sont numériques, au maximum 1000. Le poids doit être positif. Les trois dimensions doivent être positives ou toutes à zéro pour être omises ; les mesures réelles peuvent modifier le prix. Unités : kg/lb et cm/in. coverageAmount : 0–99999.99 CAD ; 0 désactive la couverture. signatureRequired vaut false par défaut dans l’API ; envoyez true pour correspondre à l’interface. carriers utilise tous les transporteurs pris en charge par défaut, sans doublons. ship_from_profile_id facultatif doit être votre UUID ; les adresses explicites sont prioritaires.",
+    "支援一種包裹規格。選填 packages[0].quantity 為 1–100 的整數，預設 1。重量及尺寸按每箱計算；目前只有 Purolator 支援多個相同箱子，其他承運商在多箱時返回 unavailable。尺寸及重量需為數值且不超過 1000，重量必須大於零；三個尺寸必須皆大於零或皆為零以省略尺寸，實際測量可能影響最終收費。重量單位為 kg 或 lb，尺寸為 cm 或 in。coverageAmount 為 0–99999.99 CAD，0 表示不報保障。API 的 signatureRequired 預設 false，傳 true 可符合介面預設。carriers 預設包含所有支援的承運商且不可重複。選填 ship_from_profile_id 必須是自己的地址 UUID；明確輸入的地址優先。",
+    "支持一种包裹规格。可选 packages[0].quantity 为 1–100 的整数，默认 1。重量及尺寸按每箱计算；目前仅 Purolator 支持多个相同箱子，其他承运商在多箱时返回 unavailable。尺寸及重量须为数值且不超过 1000，重量必须大于零；三个尺寸必须均大于零或均为零以省略尺寸，实际测量可能影响最终收费。重量单位为 kg 或 lb，尺寸为 cm 或 in。coverageAmount 为 0–99999.99 CAD，0 表示不报保障。API 的 signatureRequired 默认 false，传 true 可匹配界面默认。carriers 默认包含所有支持的承运商且不可重复。可选 ship_from_profile_id 必须是自己的地址 UUID；明确输入的地址优先。"
+  ]
+}

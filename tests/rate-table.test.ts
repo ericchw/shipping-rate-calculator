@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
-import { buildRateTable, buildApiResult, formatEta } from "../src/lib/rate-table";
+import { buildRateTable, buildApiResult, buildApiRequest, formatEta } from "../src/lib/rate-table";
+import { shipmentSchema } from "../src/lib/schemas";
 import type { RateRow } from "../src/lib/carriers/types";
 
 const row: RateRow = {
@@ -107,9 +108,9 @@ it("copies shipment details, selected tax basis and coverage as separate heading
     shipDate: "2026-10-14",
     origin: { region: "BC", city: "Richmond", postal_code: "V6V2K9" },
     destination: { region: "ON", city: "Barrie", postal_code: "L4N9R3" },
-    parcel: { weight: 3.1, weightUnit: "lb", length: 6, width: 4, height: 2, dimensionUnit: "in" },
+    parcel: { quantity: 3, weight: 3.1, weightUnit: "lb", length: 6, width: 4, height: 2, dimensionUnit: "in" },
   });
-  const heading = ["Ship From: BC · Richmond · V6V2K9", "Ship To: ON · Barrie · L4N9R3", "Ship Date: 2026-10-14", "Package: 3.1 lb · 6 × 4 × 2 in", "Signature: Required", "Tax: excluded", "Coverage $2,100.00 CAD"];
+  const heading = ["Ship From: BC · Richmond · V6V2K9", "Ship To: ON · Barrie · L4N9R3", "Ship Date: 2026-10-14", "Package: 3 boxes · 3.1 lb each · Total weight 9.30 lb · 6 × 4 × 2 in", "Signature: Required", "Tax: excluded", "Coverage $2,100.00 CAD"];
   expect(table.text.split("\n").slice(0, 7)).toEqual(heading);
   expect(table.html).toContain(`<p>${heading.join("<br>")}</p>`);
   expect(buildRateTable([row], false, true, 0).text).toMatch(/^Signature: Required\nTax: included\nCoverage \$0.00 CAD/);
@@ -121,4 +122,19 @@ it.each(["loomis", "fedex", "canada_post"] as const)("shows %s delivery date bef
   const table = buildRateTable([quote], false);
   expect(table.html).toContain("2026-10-16 · 2 business days");
   expect(table.text).toContain("2026-10-16 · 2 business days");
+});
+
+it("copies the submitted shipment for one carrier without mutating the saved comparison request", () => {
+  const shipment = shipmentSchema.parse({
+    ship_from: { city:"Richmond",region:"BC",postal_code:"V6V2K9" },
+    ship_to: { city:"Toronto",region:"ON",postal_code:"M5V2T6" }, shipDate:"2026-10-15",
+    packages:[{quantity:3,weight:2,weightUnit:"lb",length:0,width:0,height:0,dimensionUnit:"in"}],
+    carriers:["fedex","purolator"],carrierMode:"sandbox",coverageAmount:500,signatureRequired:true,
+  });
+  const saved = JSON.stringify(shipment);
+  const request = JSON.parse(buildApiRequest(shipment,"purolator"));
+  expect(request).toEqual({...shipment,carriers:["purolator"]});
+  expect(JSON.stringify(shipment)).toBe(saved);
+  expect(JSON.parse(buildApiRequest(shipment))).toEqual(shipment);
+  expect(() => buildApiRequest(shipment,"loomis")).toThrow("unavailable");
 });

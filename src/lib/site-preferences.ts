@@ -1,7 +1,7 @@
 export type SitePreferences = { timeZone: string; locale: string; hour12: boolean };
 export const defaultSitePreferences: SitePreferences = { timeZone: "America/Vancouver", locale: "en-CA", hour12: false };
 export const sitePreferencesKey = "shipping:location-time";
-export const dateLocales = ["en-CA", "fr-CA", "en-US", "en-GB", "en-AU"] as const;
+export const dateLocales = ["en-CA", "fr-CA", "en-US", "en-GB", "en-AU", "zh-TW", "zh-CN"] as const;
 export function validTimeZone(value: unknown): value is string {
   if (typeof value !== "string") return false;
   try { new Intl.DateTimeFormat("en-CA", { timeZone: value }); return true; } catch { return false; }

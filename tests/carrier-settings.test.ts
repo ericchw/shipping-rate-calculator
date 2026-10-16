@@ -26,6 +26,26 @@ beforeEach(async () => {
 });
 afterEach(async () => { vi.restoreAllMocks(); vi.unstubAllGlobals(); vi.unstubAllEnvs(); await store.close(); rmSync(directory, { recursive: true, force: true }); });
 describe("company carrier settings", () => {
+  it("allows Purolator UAT settings without an issued API key but requires it in production", async () => {
+    const fields = { CLIENT_ID: "sandbox-client", CLIENT_SECRET: "sandbox-password", SENDER_ACCOUNT: "sender" };
+    const saved = await settings.save(owner, "purolator", "sandbox", { enabled: true, baseUrl: defaultCarrierUrl("purolator", "sandbox"), fields });
+    expect(saved).toMatchObject({ configured: true, savedSecrets: { API_KEY: false, CLIENT_ID: true, CLIENT_SECRET: true } });
+    await expect(settings.save(owner, "purolator", "production", { enabled: true, baseUrl: defaultCarrierUrl("purolator", "production"), fields })).rejects.toMatchObject({ code: "CREDENTIALS_REQUIRED" });
+  });
+  it("encrypts separate Purolator REST credentials per environment and preserves all accounts across migrations", async () => {
+    const fields = { API_KEY: "private-rest-key", CLIENT_ID: "private-client", CLIENT_SECRET: "private-password", SENDER_ACCOUNT: "sender", RECEIVER_ACCOUNT: "receiver", FREIGHT_ACCOUNT: "freight" };
+    const saved = await settings.save(owner, "purolator", "sandbox", { enabled: true, baseUrl: defaultCarrierUrl("purolator", "sandbox"), fields });
+    expect(saved).toMatchObject({ configured: true, fields: { SENDER_ACCOUNT: "sender", RECEIVER_ACCOUNT: "receiver", FREIGHT_ACCOUNT: "freight" }, savedSecrets: { API_KEY: true, CLIENT_ID: true, CLIENT_SECRET: true } });
+    expect(JSON.stringify(saved)).not.toContain("private-");
+    await settings.save(owner, "purolator", "production", { enabled: true, baseUrl: defaultCarrierUrl("purolator", "production"), fields: { ...fields, API_KEY: "private-prod", SENDER_ACCOUNT: "prod-sender" } });
+    await store.migrate(); await store.migrate();
+    expect((await settings.config(owner, "purolator", "sandbox")).get("API_KEY")).toBe("private-rest-key");
+    expect((await settings.config(owner, "purolator", "production")).get("API_KEY")).toBe("private-prod");
+    expect((await settings.get(other, "purolator", "sandbox")).configured).toBe(false);
+    await settings.save(owner, "purolator", "sandbox", { enabled: true, baseUrl: defaultCarrierUrl("purolator", "sandbox"), fields: { API_KEY: "", CLIENT_ID: "", CLIENT_SECRET: "", SENDER_ACCOUNT: "updated-sender", RECEIVER_ACCOUNT: "", FREIGHT_ACCOUNT: "" } });
+    expect((await settings.config(owner, "purolator", "sandbox")).get("CLIENT_SECRET")).toBe("private-password");
+    await expect(settings.save(owner, "purolator", "sandbox", { enabled: true, baseUrl: defaultCarrierUrl("purolator", "production"), fields })).rejects.toMatchObject({ code: "INVALID_CARRIER_URL" });
+  });
   it("encrypts credentials, masks secret responses and isolates accounts and modes", async () => {
     const saved = await settings.save(owner, "fedex", "sandbox", credentials);
     expect(saved.savedSecrets).toEqual({ CLIENT_ID: true, CLIENT_SECRET: true });

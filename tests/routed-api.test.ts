@@ -33,6 +33,25 @@ async function call(area: string, route: string, method = "GET", value?: unknown
   return { status: response.status, data: response.status === 204 ? null : await response.json() };
 }
 describe("routed credentials and connections", () => {
+  it("saves Purolator credentials, tests the connection, and records real-format rates in company history", async () => {
+    const fields = { API_KEY: "puro-api-key", CLIENT_ID: "puro-client", CLIENT_SECRET: "puro-secret", SENDER_ACCOUNT: "puro-sender", RECEIVER_ACCOUNT: "puro-receiver", FREIGHT_ACCOUNT: "puro-freight" };
+    const saved = await call("/sandbox", "carrier-settings/sandbox/purolator", "PUT", { enabled: true, baseUrl: defaultCarrierUrl("purolator", "sandbox"), fields });
+    expect(saved.status).toBe(200); expect(saved.data.configured).toBe(true);
+    expect(saved.data.fields).toEqual({ SENDER_ACCOUNT: "puro-sender", RECEIVER_ACCOUNT: "puro-receiver", FREIGHT_ACCOUNT: "puro-freight" });
+    expect(JSON.stringify(saved.data)).not.toContain("puro-secret");
+    expect((await call("", "carrier-settings")).data.settings.find((setting: {carrier: string}) => setting.carrier === "purolator").enabled).toBe(false);
+    const fetch = vi.fn(async (url: string) => new Response(JSON.stringify(url.endsWith("/auth/v1/token")
+      ? { token_type: "Bearer", access_token: "synthetic", expires_in: 3600 }
+      : { outboundShipmentEstimates: { shipmentEstimate: [{ serviceId: "PurolatorGround", totalPrice: 12.6, subTotal: 12, taxes: [{ type: "GST", amount: 0.6 }], expectedDeliveryDate: "2026-10-19", estimatedTransitDays: 2 }] } })));
+    vi.stubGlobal("fetch", fetch);
+    expect((await call("/sandbox", "carrier-settings/sandbox/purolator/test", "POST")).data.status).toBe("success");
+    const shipment = { ship_from: { city: "Richmond", region: "BC", postal_code: "V6V2K9" }, ship_to: { city: "Toronto", region: "ON", postal_code: "M5V2T6" }, shipDate: "2026-10-15", packages: [{ weight: 1, weightUnit: "lb", length: 0, width: 0, height: 0, dimensionUnit: "in" }], carriers: ["purolator"], carrierMode: "sandbox" };
+    const result = await call("/sandbox", "rates", "POST", { ...shipment, comparisonId: randomUUID(), comparisonCarriers: ["canada_post", "loomis", "fedex", "purolator"] });
+    expect(result.status).toBe(200); expect(result.data.results[0]).toMatchObject({ carrier: "purolator", withoutCoverage: { total: "12.60", preTaxTotal: "12.00" } });
+    const log = await call("/sandbox", `rate-logs/${result.data.quoteLogId}`);
+    expect(log.status).toBe(200); expect(log.data.comparison.results[0].carrier).toBe("purolator");
+    expect(fetch.mock.calls.every(([url]) => url.startsWith("https://shipapi-sandbox.purolator.com/"))).toBe(true);
+  });
   it("enforces environment grants for both Web and API sessions across data and settings routes", async () => {
     await store.query("INSERT INTO account_environment_access VALUES (?,?,?)", [owner, 0, 1]);
     for (const channel of ["web", "api"] as const) {

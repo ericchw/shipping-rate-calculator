@@ -17,6 +17,7 @@ export function labelResponse(text: string, operation: string): Return {
   return result;
 }
 export function sandboxLabelShipment(s: Shipment): Shipment {
+  if ((s.packages[0].quantity ?? 1) !== 1) throw new AppError(400, "UNSUPPORTED_LABEL", "Loomis label generation currently supports one box only.");
   const defaults = (a: Shipment["ship_from"], name: string) => ({ ...a,
     address_line1: a.address_line1.trim() || "1 Test Street",
     contact_name: a.contact_name.trim() || a.company.trim() || name,

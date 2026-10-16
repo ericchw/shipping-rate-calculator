@@ -224,7 +224,7 @@ async function handle(req: Request, ctx: Context) {
     }
     if (route === "rates" && req.method === "POST") {
       if (!user) throw new AppError(403, "USER_REQUIRED", "Sign in to use your account's carrier credentials");
-      const input = shipmentSchema.extend({ carrierMode: z.enum(["sandbox", "production"]).default(areaMode), comparisonId: z.string().uuid().optional(), comparisonCarriers: z.array(z.enum(carrierIds)).min(1).max(3).refine(value => new Set(value).size === value.length, "Duplicate carriers").optional() }).parse(await body(req));
+      const input = shipmentSchema.extend({ carrierMode: z.enum(["sandbox", "production"]).default(areaMode), comparisonId: z.string().uuid().optional(), comparisonCarriers: z.array(z.enum(carrierIds)).min(1).max(carrierIds.length).refine(value => new Set(value).size === value.length, "Duplicate carriers").optional() }).parse(await body(req));
       const { comparisonId, comparisonCarriers, ...s } = input;
       if (!!comparisonId !== !!comparisonCarriers || comparisonCarriers && s.carriers.some(carrier => !comparisonCarriers.includes(carrier))) throw new AppError(400, "INVALID_COMPARISON", "Provide a comparison ID and all selected carriers together.");
       assertArea(s.carrierMode);

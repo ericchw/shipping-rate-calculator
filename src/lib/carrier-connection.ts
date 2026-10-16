@@ -3,6 +3,7 @@ import { CarrierSettings } from "./carrier-settings";
 import { credentialsConfigured, type Carrier, type Mode } from "./config";
 import { fedex } from "./carriers/fedex";
 import { canadaPost } from "./carriers/canada-post";
+import { purolator } from "./carriers/purolator";
 import { loomis } from "./carriers/loomis";
 import { CarrierApiError, CarrierResponseError } from "./carriers/transport";
 import { shipmentSchema } from "./schemas";
@@ -12,7 +13,7 @@ export async function testCarrierConnection(owner: string, carrier: Carrier, mod
   if (!credentialsConfigured(carrier, mode, config)) return {
     status: "unconfigured", message: "Save the required API URL and credentials before testing.",
   };
-  const adapter = carrier === "fedex" ? fedex(mode, config) : carrier === "canada_post" ? canadaPost(mode, config) : loomis(mode, config);
+  const adapter = carrier === "fedex" ? fedex(mode, config) : carrier === "canada_post" ? canadaPost(mode, config) : carrier === "purolator" ? purolator(mode, config) : loomis(mode, config);
   const controller = new AbortController();
   const timer = setTimeout(() => controller.abort(), 30000);
   const started = Date.now();

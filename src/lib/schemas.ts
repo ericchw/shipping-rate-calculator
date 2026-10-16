@@ -1,5 +1,5 @@
 import { z } from "zod";
-export const carrierIds = ["canada_post", "loomis", "fedex"] as const;
+export const carrierIds = ["canada_post", "loomis", "fedex", "purolator"] as const;
 export const addressSchema = z
   .object({
     contact_name: z.string().trim().max(100).default(""),
@@ -75,6 +75,7 @@ export const shipmentSchema = z
             dimensionUnit: z.enum(["cm", "in"]),
             weight: z.number().positive().max(1000),
             weightUnit: z.enum(["kg", "lb"]),
+            quantity: z.number().int().min(1).max(100).optional(),
           })
           .strict()
           .refine((p) => [p.length, p.width, p.height].every((value) => value === 0) || [p.length, p.width, p.height].every((value) => value > 0), "Enter all three dimensions, or leave all three at 0"),
@@ -86,7 +87,7 @@ export const shipmentSchema = z
     carriers: z
       .array(z.enum(carrierIds))
       .min(1)
-      .max(3)
+      .max(carrierIds.length)
       .refine((a) => new Set(a).size === a.length, "Duplicate carriers")
       .default([...carrierIds]),
     carrierMode: z.enum(["sandbox", "production"]).default("sandbox"),

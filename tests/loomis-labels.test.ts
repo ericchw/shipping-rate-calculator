@@ -41,3 +41,7 @@ it("does not retry shipment creation on HTTP 500", async () => {
   await expect(generateLoomisLabel("owner", shipment, "DD")).rejects.toThrow("may have been created");
   expect(fetchMock).toHaveBeenCalledTimes(1);
 });
+
+it("rejects multiple boxes before creating a single Loomis label", () => {
+  expect(() => shipmentLabelRequest({ ...shipment, packages: [{ ...shipment.packages[0], quantity: 2 }] }, "DD", "user", "secret", "account")).toThrow("one box only");
+});

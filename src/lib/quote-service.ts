@@ -34,6 +34,10 @@ export async function compare(s: Shipment, owner?: string, groupId?: string): Pr
   };
   await Promise.all(
     s.carriers.map(async (carrier: Carrier) => {
+      if ((s.packages[0].quantity ?? 1) > 1 && carrier !== "purolator") {
+        output.carrierStatuses.push({ carrier, mode, source, status: "unavailable", message: "Multiple boxes are currently supported by Purolator only. Set Boxes to 1 to compare this carrier." });
+        return;
+      }
       const saved = owner ? await new CarrierSettings(undefined, undefined, groupId).config(owner, carrier, mode) : undefined;
       if (saved && !saved.enabled) {
         output.carrierStatuses.push({ carrier, mode, source, status: "disabled", message: "Disabled in your company group’s carrier settings." });
@@ -47,7 +51,9 @@ export async function compare(s: Shipment, owner?: string, groupId?: string): Pr
             ? (await import("./carriers/canada-post")).canadaPost(mode, saved)
             : carrier === "fedex"
               ? (await import("./carriers/fedex")).fedex(mode, saved)
-              : loomis(mode, saved);
+              : carrier === "purolator"
+                ? (await import("./carriers/purolator")).purolator(mode, saved)
+                : loomis(mode, saved);
       if (status !== "configured" || !adapter.isConfigured()) {
         output.carrierStatuses.push({
           carrier,

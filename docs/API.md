@@ -44,7 +44,7 @@ POST `/api/v1/rates` accepts:
   "signatureRequired": true,
   "coverageAmount": 500,
   "coverageCurrency": "CAD",
-  "carriers": ["canada_post", "loomis", "fedex"],
+  "carriers": ["canada_post", "loomis", "fedex", "purolator"],
   "carrierMode": "production"
 }
 ```
@@ -141,3 +141,9 @@ DELETE `/api/v1/rate-logs/{id}` removes one comparison in the current company an
 ### User environment access
 
 Administrators manage `productionAccess` and `uatAccess` separately from `webAccess` and `apiAccess` in account create/update requests. New accounts default to Production disabled and UAT enabled. Existing accounts retain both environments on migration. Both browser and integration sessions are subject to these grants; unauthorized environment requests return HTTP 403 `MODE_NOT_ALLOWED`. `auth/session` reports the permitted `modes` so clients can select an authorized area. Account edits revoke existing sessions. Carrier credentials remain company scoped, and label generation still requires the separate administrator setting.
+
+### Purolator REST configuration
+
+Carrier ID: `purolator`. Admin-only carrier settings support `API_KEY` (x-api-key), `CLIENT_ID`, `CLIENT_SECRET`, `SENDER_ACCOUNT`, optional `RECEIVER_ACCOUNT` and optional `FREIGHT_ACCOUNT`. Required secret fields are masked and blank secrets preserve saved values. The base URL is `https://shipapi-sandbox.purolator.com` for sandbox or `https://shipapi.purolator.com` for production. The sender account, client ID and client secret are required for enabled Courier estimates. Production additionally requires `API_KEY`. In sandbox, an unissued API key may be left blank; the request omits `x-api-key` rather than sending an empty value. The published REST schema marks this header required, so acceptance of a keyless UAT request must be verified using the actual account. Accounts are company/environment scoped; receiver/freight accounts are stored for future use. All four carrier IDs may be included in a comparison and `comparisonCarriers`.
+
+Package `quantity` is optional and defaults to 1. Accepted values are integers 1–100. Weight and dimensions apply to each identical box; Purolator sends one piece per box and sums rounded piece weights into totalWeight. Other carriers currently return unavailable for multiple boxes, and Loomis label generation rejects them. Rate logs save and restore quantity; older logs without it use 1.
