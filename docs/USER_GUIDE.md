@@ -1,70 +1,186 @@
-# Shipping Rate Calculator user guide
+# Shipping Rate Calculator · Product walkthrough
 
-Use the calculator to compare Canada Post, Loomis Express and FedEx services for your shipment. Sign in, configure your carrier accounts, enter the shipment and compare the returned rates.
+A shared shipping workspace for comparing carrier services, revisiting past quotes, and verifying sandbox labels. Company connections, account permissions, and carrier environments are managed separately so daily users can focus on preparing shipments.
 
-The screenshots and animation below use a fictional account, example addresses and **mock rates**. These prices are samples, not live carrier quotes. Sandbox is for testing; production uses your separately saved production carrier settings.
+**Start here:** sign in → enter a shipment → compare services → share or revisit the comparison.
 
-## Animated rate walkthrough
+> **Demo data:** Every screenshot and animation in this guide uses an isolated Sandbox environment, fictional accounts and addresses, and synthetic rates. Prices and delivery estimates are illustrative, not carrier commitments. The label list contains a seeded demonstration record; no production waybill is created for this guide.
 
-![Eight steps showing address entry, parcel measurements, optional coverage and rate comparison](images/user-guide/rate-walkthrough.gif)
+## Watch the workflow
 
-## Sign in and choose your area
+The animation walks through address entry, package measurements, signature and declared value, rate comparison, and sharing controls.
 
-Open the app and sign in with the account provided by your administrator. Production pages use `/login`, `/rate` and `/setting`; sandbox pages use `/sandbox/login`, `/sandbox/rate` and `/sandbox/setting`. If your session expires, sign in again.
+![Animated walkthrough of the current sandbox rate calculator, using fictional shipment details and sample prices](images/user-guide/rate-walkthrough.gif)
 
-![Sandbox sign in](images/user-guide/01-sign-in.png)
+## 1. Sign in and choose an environment
 
-## Set up your carriers
+Use the account created by your administrator. There is no public registration. When signing in after a session expires, the app returns you to the protected page you requested.
 
-Open **Settings** in the area you want to use. Each carrier has its own account settings.
+- **Sandbox / UAT** is the test area. Its pages display a full-width Sandbox banner.
+- **Production** uses separately configured live carrier credentials.
+- The environment switch shows only the areas your account can access. Switching areas does not copy carrier credentials.
 
-1. Enter the carrier API URL and the credentials issued for that environment. Use your carrier account details, not the calculator login.
-2. Select the rate type for Canada Post: counter retail or commercial account, as appropriate for your account.
-3. Enable the carrier and click **Save settings** on its card.
-4. Click **Test connection** after saving. Review the result and correct any configuration errors before quoting.
+![Sandbox sign-in screen with language and theme controls](images/user-guide/01-sign-in.png)
 
-Blank secret fields keep previously saved secrets. **Clear settings** edits the form; click **Save settings** to remove the stored settings. Save each changed card before leaving the page. Sandbox credentials and production credentials are separate.
+| Destination | Production | Sandbox / UAT |
+| --- | --- | --- |
+| Home | `/home` | `/sandbox/home` |
+| Compare rates | `/rate` | `/sandbox/rate` |
+| Saved labels | `/labels` | `/sandbox/labels` |
+| Settings | `/setting` | `/sandbox/setting` |
+| API documentation | `/docs` | `/sandbox/docs` |
 
-![Three carrier settings cards with empty credentials](images/user-guide/02-carrier-settings.png)
+The upper header groups environment selection, language, theme, and sign out. Page navigation sits beneath it, with the current page underlined.
 
-## Enter addresses and save an origin
+## 2. Prepare a shipment
 
-Open **Rates**. Enter the origin and destination city, province and postal code in their respective sections. Add contact and street details when required for your shipment.
+Open **Rates**. Your company’s enabled carriers appear under **Carriers to quote**; select the carriers you want to compare. If the list is empty, ask your administrator to configure and enable a connection.
 
-For an origin you use often, expand **Save or manage origin profiles**, enter a **Profile name**, then click **Save as profile**. Select it from **Saved Ship From Profile** on later shipments. **Set default** makes a saved origin load automatically. Destination details remain independent.
+### Addresses and reusable origins
 
-![Origin address and profile controls](images/user-guide/03-origin-profile.png)
+Enter **Ship From** and **Ship To** independently. Canadian postal-code suggestions automatically populate city and province when available; you can correct either field. The collapsed address summary shows province, city, and postal code. Suggestions do not verify the complete delivery address.
 
-## Enter the package
+Use the map icon beside **Ship To** to open the current destination fields in Google Maps. It does not create a shipment or booking.
 
-Choose **Imperial · lb / in** or **Metric · kg / cm**, then enter weight, length, width and height. Switching units converts the existing measurements. Enter accurate measurements: blank or zero fields use 1 in the selected units when quoting.
+For a recurring origin, open **Save profile**, enter a profile name, and choose **Save profile**. Choose it from **Saved Ship From Profile** on future shipments. **Set default** loads that origin automatically. Origin profiles belong to your account; company carrier connections are shared.
 
-Choose the ship date. Select **Signature required** if needed and enter a **Coverage / declared value (CAD)** amount to compare covered and uncovered rates. Declared value does not guarantee insurance coverage; carrier terms apply.
+![Ship From address fields and reusable origin profile controls](images/user-guide/03-origin-profile.png)
 
-Click **Compare rates** and wait for the carrier responses.
+### Boxes, measurements, and options
 
-![Shipment addresses and package options](images/user-guide/04-shipment.png)
+| Field | Default | How it is used |
+| --- | --- | --- |
+| Boxes | 1 | Number of identical boxes; current multi-box support is limited to Purolator |
+| Weight | 1 lb | Weight of each box; Purolator receives the combined shipment weight |
+| Length, width, height | 0 in | All zero omits dimensions; otherwise enter a positive value for all three |
+| Units | Imperial | Switching to Metric converts the entered measurements |
+| Signature | Selected | Requests signature where supported by the carrier |
+| Declared value | Empty | Enter a CAD amount to compare eligible covered and uncovered rates |
 
-## Compare and share rates
+Boxes and weight share one row; dimensions occupy the next. Use accurate measurements: omitted dimensions may change the final charge. The web form substitutes 1 for blank or zero weight when quoting; the JSON API requires positive weight. Values round upward to two decimal places.
 
-Review the carrier status cards first. A failed carrier may return no services while other carriers still succeed. Correct settings or shipment details and retry as needed.
+Choose the ship date and review signature and declared value before clicking **Compare rates**. Declared value does not guarantee insurance coverage; carrier terms apply. Integrations without multi-box support return unavailable for multiple boxes.
 
-Use the sorting control to order the services and **Include tax** to change the displayed tax setting. Compare delivery estimates, prices without and with coverage, and signature availability. Expand **Quote details** for more information. **Show / hide services** controls which services appear.
+<img src="images/user-guide/04-shipment.png" alt="Shipment form with collapsed address summaries, box count, measurements, and additional options" width="450" />
 
-Click **Copy table** to paste the displayed comparison into a message or document. **Copy API result** copies an individual service's carrier response when available. Changing the shipment clears stale results; click **Compare rates** again.
+## 3. Compare services and share the result
 
-Quotes are estimates. Final charges and coverage terms may differ. The calculator compares rates; it does not purchase shipping labels. Quote results are not saved.
+Review carrier statuses before choosing a service. One carrier can fail while others return usable quotes. No synthetic price is substituted for a failed live API request.
 
-![Sample comparison with carrier statuses, coverage columns and copying controls](images/user-guide/05-rate-comparison.png)
+The comparison shows service names, delivery estimates, signature information, and eligible coverage prices. Use **Sort rates**, **Include tax**, **Quote details**, and **Show / hide services** to focus the comparison.
 
-## Use the calculator on a phone
+![Sample rate comparison with carrier statuses, service prices, delivery estimates, and sharing controls](images/user-guide/05-rate-comparison.png)
 
-Use the same steps on mobile. Package fields stack vertically; scroll down to compare the results.
+| Action | Result |
+| --- | --- |
+| **Copy table** | Copies the visible comparison for pasting into a message or document |
+| **Copy image** | Downloads the complete page as a JPG |
+| **Copy request** | Copies the submitted calculator shipment JSON for the comparison or a service’s carrier |
+| **Copy API result** | Copies the available original per-service response as JSON |
 
-![Mobile shipment and rate comparison](images/user-guide/06-mobile.png)
+Copy feedback appears in a toast. Request copies use the submitted shipment snapshot, so editing the form does not silently change the request being shared. Authentication secrets and headers are excluded.
 
-## Manage accounts as an administrator
+**Editing shipment fields keeps the existing comparison visible.** Click **Compare rates** again to obtain prices for the updated details. Labels can only be generated from shipment details matching the quoted request.
 
-Administrators can open `/admin` or `/sandbox/admin` to create accounts, change roles, reset passwords and grant Web or API access independently. Enable Web access for people using the calculator in a browser. Account changes revoke existing sessions, so affected users must sign in again.
+## 4. Reopen a saved comparison
 
-![Administrator account controls using a fictional account](images/user-guide/07-admin-accounts.png)
+Each valid rate comparison is recorded in your company’s **Rate logs**. Open the dialog from the Rates page and select a record to review its route, package, returned prices, and carrier statuses.
+
+Choose **Load shipping details** to restore the shipment and compare current rates. A past ship date moves to today; disabled carriers and personal profile access are respected. Loading a record does not promise the historical price is still available.
+
+![Rate log dialog showing a saved shipment, carrier results, and the action to reload shipping details](images/user-guide/09-rate-history.png)
+
+You can delete an individual log after confirmation. This removes the saved comparison for the company and leaves shipping labels intact. Rate logs remain with the company when an account is removed or reassigned.
+
+## 5. Generate and revisit a sandbox label
+
+Label generation is **disabled by default**. An administrator must enable it for the company and carrier environment. Current generation supports **Loomis Sandbox only**.
+
+1. Obtain a successful live Loomis sandbox quote using complete shipment details.
+2. Choose **Generate label** on the relevant service and confirm the action.
+3. Only that row shows generation progress. The PNG downloads and is saved to the company’s label history.
+4. Open **Labels**, then select the shipment row or its view link to open the detail page.
+5. Review shipment details, view the label, or download it again.
+
+The Labels table supports 10, 20, 50, or 100 rows per page. Labels appear on their dedicated page rather than below the rate table.
+
+![Generated labels list with a fictional seeded shipment and pagination controls](images/user-guide/10-generated-labels.png)
+
+The record above demonstrates label history navigation only. Its image is a fixture, not a printable carrier waybill. The guide capture blocks waybill creation and production API calls.
+
+## 6. Manage the company workspace
+
+Administrators use **Settings → Company groups** and **Settings → Users and access**. Ordinary users see personal settings and their company membership; they cannot edit carrier credentials or create accounts.
+
+| Setting | Scope |
+| --- | --- |
+| Carrier connections | Shared by the company, separately for each environment |
+| Generation permission | Company and environment; disabled initially |
+| Labels and rate logs | Shared company history |
+| Origin profiles | Personal to the user |
+| Language and theme | Browser preference, shared across the two carrier areas |
+
+<details>
+<summary><strong>Company groups and carrier setup</strong></summary>
+
+Select or create a company, then use its tabs to manage members, connections, and permissions. A user belongs to one company; changing membership revokes that user’s sessions. Existing labels, logs, and credentials stay with the original company.
+
+![Company directory and selected company overview](images/user-guide/08-company-workspace.png)
+
+In **API connections**:
+
+1. Enter the credentials issued for the selected carrier environment.
+2. For Canada Post, choose the appropriate counter/retail or commercial account rate type.
+3. Enable the carrier and choose **Save settings**.
+4. Use **Test connection** to inspect status, response time, and errors. This check requests rates; it does not purchase a label.
+
+Blank secret fields preserve stored secrets. **Clear settings** changes the draft; save to persist it. Unsaved changes trigger a leave-page prompt. Disabled but configured carriers can still be tested.
+
+![Administrator carrier connection cards with synthetic saved credentials](images/user-guide/02-carrier-settings.png)
+
+Purolator fields follow the issued credential order: Client ID, Client Secret, Key, Sender Account, Receiver Account, and Freight Account. Production requires `x-api-key`; UAT can omit it if none was issued, subject to carrier acceptance. Current Courier estimates bill the sender; receiver billing and freight quoting are not implemented.
+
+![Purolator sandbox credential fields and connection actions](images/user-guide/13-purolator-settings.png)
+
+</details>
+
+<details>
+<summary><strong>Users, roles, and access</strong></summary>
+
+Create accounts, assign a company, set a role, reset passwords, and independently grant Web/API and Production/Sandbox access. Enable Web access for browser users. Account access changes revoke existing sessions; affected users sign in again. The last web-enabled administrator is protected.
+
+![User management with fictional accounts, company assignment, and access controls](images/user-guide/07-admin-accounts.png)
+
+</details>
+
+## 7. Use your preferred language, theme, and device
+
+Choose **EN**, **FR**, **繁體中文**, or **简体中文** from the header. Switching language preserves shipment inputs and the current comparison. Carrier responses, service names, addresses, and copied API JSON retain their original values. Date/time region is configured separately in **My settings**.
+
+Theme defaults to the operating system preference. The icon button cycles **System → Dark → Light → System**. Preferences persist in the browser and synchronize across tabs.
+
+<details>
+<summary><strong>Preview dark mode and Traditional Chinese</strong></summary>
+
+![Rates page in dark mode with grouped navigation controls](images/user-guide/11-dark-mode.png)
+
+![Traditional Chinese interface in dark mode](images/user-guide/12-traditional-chinese.png)
+
+</details>
+
+On a phone, workspace controls stay grouped, sign out uses an icon, and page navigation can scroll horizontally. Address sections can collapse; the comparison table can scroll to show additional columns.
+
+<img src="images/user-guide/06-mobile.png" alt="Mobile sandbox calculator showing responsive navigation and shipment sections" width="390" />
+
+## If something needs attention
+
+| Situation | Next step |
+| --- | --- |
+| No carrier choices | Ask an administrator to enable company connections in the current environment |
+| A carrier fails | Review its status and connection test; correct credentials or shipment fields and retry |
+| Multi-box rates unavailable | Use a supported integration or quote one box; unsupported carriers do not quote a single-box substitute |
+| Generate label is missing | Check company permission, Sandbox mode, live Loomis success, and unchanged shipment details |
+| A quote looks out of date | Compare again; historical and displayed rates are estimates |
+| Session expired | Sign in again; account changes can also revoke sessions |
+
+For implementation and setup details, see the [README](../README.md), [API reference](API.md), [carrier mapping](CARRIER_MAPPING.md), and [testing guide](TESTING.md).
